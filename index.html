@@ -43,6 +43,7 @@ button{font-family:Arial,sans-serif;border:0;border-radius:9px;padding:10px 13px
 .btn.secondary{background:#eaf1f5;color:#34546a}
 .btn.ghost{background:white;border:1px solid #cbd8df;color:#34546a}
 .btn:disabled{opacity:.45;cursor:not-allowed}
+.admin-link{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap}
 .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
 .metric-card{padding:16px;min-height:174px}
 .metric-card.primary{border-top:4px solid var(--blue)}
@@ -135,6 +136,7 @@ details .details-body{padding:0 16px 16px}
     </div>
     <div class="source" id="sourceMeta"></div>
   </div>
+  <a class="btn ghost admin-link" href="https://drive.google.com/drive/folders/1p0oQwttvkAw8rL73B-qWD7sfnVLH9HBm" target="_blank" rel="noopener noreferrer">Admin</a>
 </header>
 
 <section class="panel">
@@ -149,7 +151,7 @@ details .details-body{padding:0 16px 16px}
 </section>
 
 <section class="section">
-  <div class="section-head"><h2>Ringkasan Anggaran</h2><div class="note" id="summaryNote"></div></div>
+  <div class="section-head"><h2>Ringkasan Anggaran</h2></div>
   <div class="summary-grid" id="summaryCards"></div>
 </section>
 
@@ -410,7 +412,6 @@ function renderSummary(){
     metricCard("Jaldis",typeData["Jaldis"],false,"Akun berawalan 524 di luar EBA.994")+
     metricCard("Non-Jaldis",typeData["Non-Jaldis"],false,"Akun selain 524 di luar EBA.994")+
     (showBBO?metricCard("BBO",typeData["BBO"],false,"Seluruh Akun di bawah EBA.994"):"");
-  document.getElementById("summaryNote").textContent=official?"Total utama memakai angka resmi Laporan FA.":"Total terfilter dihitung dari rincian Akun.";
 }
 function unitOfficial(unit){
   if(unit==="SDJ") return state.current.programs.find(x=>x.code==="WA.1318") || null;
@@ -555,7 +556,7 @@ async function loadPublicLatest(){
   }
   footer.textContent="Memuat data terbaru dari Google Drive…";
   try{
-    const resp=await jsonp("latest");
+    const resp=await jsonp("latest",{force:"1"});
     if(!resp||resp.ok===false) throw new Error((resp&&resp.error)||"Backend mengembalikan error.");
     if(resp.data){
       state.current=resp.data;
@@ -571,7 +572,7 @@ async function loadPublicLatest(){
         footer.textContent="Data dimuat otomatis dari Laporan FA di Google Drive"+suffix+".";
       }
     }else{
-      footer.textContent="Belum ada snapshot data yang dapat ditampilkan dari Google Drive.";
+      footer.textContent="Backend aktif"+(resp.backendVersion?" (v"+resp.backendVersion+")":"")+", tetapi belum menghasilkan data. Periksa sumber Laporan FA dan deployment backend.";
     }
   }catch(err){
     footer.textContent="Data live belum dapat dimuat ("+(err.message||String(err))+"); menampilkan data prototipe lokal.";
