@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Monitoring Anggaran</title>
-<script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="./config.js"></script>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 :root{
   --bg:#f5f8fa; --card:#fff; --ink:#163047; --muted:#66788a; --line:#dbe4ea;
@@ -137,13 +135,6 @@ details .details-body{padding:0 16px 16px}
     </div>
     <div class="source" id="sourceMeta"></div>
   </div>
-  <div class="header-actions">
-    <span class="archive-mode" id="archiveMode">Mode Arsip</span>
-    <button class="btn ghost" id="returnLatest" style="display:none">Kembali ke Data Terbaru</button>
-    <button class="btn ghost" id="loginButton">Admin</button>
-    <div class="auth-user" id="authUser"><span id="authEmail"></span><button class="btn secondary" id="logoutButton">Keluar</button></div>
-    <div class="operator-badge" id="operatorBadge"></div>
-  </div>
 </header>
 
 <section class="panel">
@@ -196,31 +187,7 @@ details .details-body{padding:0 16px 16px}
   </details>
 </section>
 
-<section class="operator" id="operatorSection">
-  <div class="section-head">
-    <h2>Perbarui Laporan FA</h2>
-    <div class="note">Pratinjau → Validasi → Terapkan</div>
-  </div>
-  <div class="panel" id="operatorPanel">
-    <div class="operator-grid">
-      <div><label class="small">Laporan FA (.xlsx)</label><input type="file" id="uploadFile" accept=".xlsx"></div>
-      <div><label class="small">Data per</label><input type="date" id="uploadDate"></div>
-      <button class="btn secondary" id="previewUpload">Pratinjau & Validasi</button>
-      <button class="btn ghost" id="cancelPreview">Batalkan</button>
-      <button class="btn" id="applyPreview" disabled>Terapkan</button>
-    </div>
-    <div class="preview" id="previewArea"><div class="small-muted">Pilih file dan isi Data per, lalu jalankan Pratinjau & Validasi.</div></div>
-  </div>
-</section>
-
-<section class="operator" id="archiveSection">
-  <details class="panel">
-    <summary>Arsip Laporan</summary>
-    <div class="details-body" id="archiveBody"><div class="empty">Arsip akan dimuat setelah login.</div></div>
-  </details>
-</section>
-
-<div class="footer-note" id="footerNote">Dashboard publik. Pembaruan laporan dan arsip hanya tersedia bagi pengguna berwenang.</div>
+<div class="footer-note" id="footerNote">Data dimuat otomatis dari Laporan FA di Google Drive.</div>
 </div>
 
 <script>
@@ -228,11 +195,10 @@ const EMBEDDED_DATA = {"meta":{"title":"Monitoring Anggaran","sourceFile":"Lapor
 const UNIT_ORDER = ["Amerika I","Amerika II","Eropa I","Eropa II","KSIA","SDJ"];
 const TYPE_ORDER = ["Jaldis","Non-Jaldis","BBO"];
 const UNIT_SUB = {"Amerika I":"AEC.001","Amerika II":"AEC.002","Eropa I":"AEC.003","Eropa II":"AEC.004","KSIA":"AEB.001"};
-const APP_CONFIG = window.MONITORING_ANGGARAN_CONFIG || {apiUrl:"",googleClientId:""};
+const APP_CONFIG = window.MONITORING_ANGGARAN_CONFIG || {apiUrl:""};
 const state = {
-  current: structuredClone(EMBEDDED_DATA), previous:null, activeUnit:"Amerika I", preview:null,
-  draftId:null, accessToken:null, tokenExpiresAt:0, user:null,
-  liveCurrent:structuredClone(EMBEDDED_DATA), livePrevious:null, archiveMode:false
+  current: structuredClone(EMBEDDED_DATA), previous:null, activeUnit:"Amerika I",
+  liveCurrent:structuredClone(EMBEDDED_DATA), livePrevious:null
 };
 
 function val(row,idx){ return row && row[idx] !== undefined ? row[idx] : null; }
@@ -364,8 +330,10 @@ function pct(real,pagu){return pagu ? real/pagu : null;}
 function fmtPct(v){return v===null||!Number.isFinite(v)?"–":new Intl.NumberFormat("id-ID",{style:"percent",maximumFractionDigits:1}).format(v);}
 function fmtDateISO(s){
   if(!s) return "Belum ditetapkan";
-  const d=new Date(s+"T00:00:00");
-  return new Intl.DateTimeFormat("id-ID",{day:"numeric",month:"long",year:"numeric"}).format(d);
+  const raw=String(s).trim();
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+  const d=new Date(raw+"T00:00:00");
+  return Number.isNaN(d.getTime())?raw:new Intl.DateTimeFormat("id-ID",{day:"numeric",month:"long",year:"numeric"}).format(d);
 }
 function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
 
@@ -564,17 +532,13 @@ function bindFilters(){
     ["fUnit","fProgram","fOutput","fSuboutput","fType"].forEach(id=>document.getElementById(id).value="ALL");renderAll();
   });
 }
-function configReady(){return !!(APP_CONFIG.apiUrl&&APP_CONFIG.googleClientId);}
-function setBusy(el,busy){if(!el)return;el.classList.toggle("loading",!!busy);}
-function fileToBase64(file){
-  return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(String(r.result).split(",")[1]||"");r.onerror=()=>reject(r.error||new Error("File gagal dibaca."));r.readAsDataURL(file);});
-}
+function configReady(){return !!APP_CONFIG.apiUrl;}
 function jsonp(action,params={}){
   return new Promise((resolve,reject)=>{
     if(!APP_CONFIG.apiUrl){reject(new Error("API backend belum dikonfigurasi."));return;}
     const cb="__ma_jsonp_"+Date.now()+"_"+Math.random().toString(36).slice(2);
     const script=document.createElement("script");
-    const timer=setTimeout(()=>cleanup(new Error("Backend tidak merespons.")),20000);
+    const timer=setTimeout(()=>cleanup(new Error("Backend tidak merespons.")),60000);
     function cleanup(err,data){clearTimeout(timer);delete window[cb];script.remove();err?reject(err):resolve(data);}
     window[cb]=(data)=>cleanup(null,data);
     const q=new URLSearchParams({action,callback:cb,...params});
@@ -583,94 +547,39 @@ function jsonp(action,params={}){
     document.head.appendChild(script);
   });
 }
-function rpc(action,payload={}){
-  return new Promise((resolve,reject)=>{
-    if(!APP_CONFIG.apiUrl){reject(new Error("API backend belum dikonfigurasi."));return;}
-    const nonce=crypto.randomUUID?crypto.randomUUID():(Date.now()+"-"+Math.random());
-    const frame=document.createElement("iframe");frame.name="ma_rpc_"+nonce.replace(/[^A-Za-z0-9]/g,"");frame.style.display="none";
-    const form=document.createElement("form");form.method="POST";form.action=APP_CONFIG.apiUrl;form.target=frame.name;form.style.display="none";
-    const fields={action,nonce,payload:JSON.stringify({...payload,token:state.accessToken})};
-    Object.entries(fields).forEach(([k,v])=>{const i=document.createElement("textarea");i.name=k;i.value=v;form.appendChild(i);});
-    const timer=setTimeout(()=>done(new Error("Backend tidak merespons.")),60000);
-    function onMessage(ev){const d=ev.data;if(!d||d.channel!=="monitoring-anggaran-rpc"||d.nonce!==nonce)return;done(null,d.response);}
-    function done(err,data){clearTimeout(timer);window.removeEventListener("message",onMessage);form.remove();frame.remove();if(err)reject(err);else if(!data||data.ok===false)reject(new Error((data&&data.error)||"Backend mengembalikan error."));else resolve(data);}
-    window.addEventListener("message",onMessage);document.body.appendChild(frame);document.body.appendChild(form);form.submit();
-  });
-}
 async function loadPublicLatest(){
-  if(!APP_CONFIG.apiUrl)return;
+  const footer=document.getElementById("footerNote");
+  if(!configReady()){
+    footer.textContent="Backend belum dikonfigurasi; menampilkan data prototipe lokal.";
+    return;
+  }
+  footer.textContent="Memuat data terbaru dari Google Drive…";
   try{
     const resp=await jsonp("latest");
-    if(resp&&resp.ok&&resp.data){state.current=resp.data;state.previous=resp.previous||null;state.liveCurrent=structuredClone(resp.data);state.livePrevious=resp.previous?structuredClone(resp.previous):null;populateFilters();bindFilterValuesAfterUpdate();renderAll();}
-  }catch(err){document.getElementById("footerNote").textContent="Data backend belum dapat dimuat; menampilkan data prototipe lokal.";}
-}
-function initGoogleLogin(){
-  const btn=document.getElementById("loginButton");
-  if(!configReady()){btn.disabled=true;btn.title="Isi apiUrl dan googleClientId di config.js terlebih dahulu.";return;}
-  btn.addEventListener("click",()=>{
-    if(!window.google||!google.accounts||!google.accounts.oauth2){alert("Google Identity Services belum selesai dimuat. Coba beberapa detik lagi.");return;}
-    const client=google.accounts.oauth2.initTokenClient({client_id:APP_CONFIG.googleClientId,scope:"openid email profile",callback:async resp=>{
-      if(resp.error){alert("Login Google gagal: "+resp.error);return;}
-      state.accessToken=resp.access_token;state.tokenExpiresAt=Date.now()+Number(resp.expires_in||3000)*1000;
-      try{const auth=await rpc("auth");state.user=auth.user;showAuthorizedUi();await loadArchive();}catch(err){state.accessToken=null;state.user=null;alert(err.message);}
-    }});
-    client.requestAccessToken({prompt:"select_account"});
-  });
-  document.getElementById("logoutButton").addEventListener("click",logoutUser);
-}
-function showAuthorizedUi(){
-  document.getElementById("loginButton").style.display="none";
-  document.getElementById("authEmail").textContent=state.user.email;
-  document.getElementById("authUser").classList.add("visible");
-  const badge=document.getElementById("operatorBadge");badge.textContent=state.user.isAdmin?"Admin":"Operator";badge.style.display="block";
-  document.getElementById("operatorSection").classList.add("visible");document.getElementById("archiveSection").classList.add("visible");
-}
-function logoutUser(){
-  const token=state.accessToken;if(token&&window.google&&google.accounts&&google.accounts.oauth2)google.accounts.oauth2.revoke(token,()=>{});
-  state.accessToken=null;state.user=null;state.draftId=null;state.preview=null;
-  document.getElementById("loginButton").style.display="";document.getElementById("authUser").classList.remove("visible");document.getElementById("operatorBadge").style.display="none";
-  document.getElementById("operatorSection").classList.remove("visible");document.getElementById("archiveSection").classList.remove("visible");
-}
-function ensureSession(){if(!state.accessToken||Date.now()>state.tokenExpiresAt-30000)throw new Error("Sesi Google sudah kedaluwarsa. Silakan keluar lalu masuk kembali.");}
-async function runPreviewUpload(){
-  const file=document.getElementById("uploadFile").files[0],date=document.getElementById("uploadDate").value,preview=document.getElementById("previewArea");
-  const panel=document.getElementById("operatorPanel");document.getElementById("applyPreview").disabled=true;state.preview=null;
-  if(!file){preview.innerHTML='<div class="status err">Pilih file .xlsx terlebih dahulu.</div>';return;}
-  if(!/\.xlsx$/i.test(file.name)){preview.innerHTML='<div class="status err">File harus berformat .xlsx.</div>';return;}
-  if(!date){preview.innerHTML='<div class="status warn">Isi <strong>Data per</strong> terlebih dahulu.</div>';return;}
-  try{
-    ensureSession();setBusy(panel,true);preview.innerHTML='<div class="small-muted">Mengunggah draft dan menjalankan validasi backend…</div>';
-    if(state.draftId){try{await rpc("cancel",{draftId:state.draftId});}catch(_){}}
-    const fileBase64=await fileToBase64(file);const resp=await rpc("preview",{fileName:file.name,fileBase64,dataAsOf:date});
-    state.draftId=resp.draftId;state.preview=resp.preview;
-    const e=resp.errorCount||0,w=resp.warningCount||0,p=resp.preview;
-    preview.innerHTML=`<div class="status ${e?"err":w?"warn":"ok"}"><strong>${e?`${e} Error`:w?`${w} Peringatan`:"Validasi bersih"}</strong><br>${escapeHtml(p.meta.period||"Periode tidak ditemukan")} · ${p.meta.accountRows} baris Akun · Pagu ${fmtFull(p.grandTotal.pagu)} · Realisasi ${fmtFull(p.grandTotal.realisasi)} · Sisa ${fmtFull(p.grandTotal.sisa)}${w?`<ul class="warning-list">${(p.validation.warnings||[]).slice(0,12).map(x=>`<li>${escapeHtml(x.message||String(x))}</li>`).join("")}${w>12?`<li>+ ${w-12} peringatan lainnya</li>`:""}</ul>`:""}</div>`;
-    document.getElementById("applyPreview").disabled=!!e;
-  }catch(err){preview.innerHTML=`<div class="status err">${escapeHtml(err.message||String(err))}</div>`;}finally{setBusy(panel,false);}
-}
-async function cancelDraft(){
-  const preview=document.getElementById("previewArea");try{if(state.draftId&&state.accessToken)await rpc("cancel",{draftId:state.draftId});}catch(err){preview.innerHTML=`<div class="status warn">Draft lokal dibersihkan, tetapi backend melaporkan: ${escapeHtml(err.message)}</div>`;}
-  state.draftId=null;state.preview=null;document.getElementById("uploadFile").value="";document.getElementById("uploadDate").value="";document.getElementById("applyPreview").disabled=true;if(!preview.innerHTML.includes("backend melaporkan"))preview.innerHTML='<div class="small-muted">Draft dibatalkan.</div>';
-}
-async function applyDraft(){
-  if(!state.draftId)return;const panel=document.getElementById("operatorPanel"),preview=document.getElementById("previewArea");
-  try{ensureSession();setBusy(panel,true);const resp=await rpc("apply",{draftId:state.draftId});state.current=resp.current;state.previous=resp.previous||null;state.liveCurrent=structuredClone(resp.current);state.livePrevious=resp.previous?structuredClone(resp.previous):null;state.draftId=null;state.preview=null;populateFilters();bindFilterValuesAfterUpdate();state.activeUnit="Amerika I";renderAll();preview.innerHTML='<div class="status ok"><strong>Diterapkan.</strong> Laporan menjadi data terbaru dan versi sebelumnya tetap tersimpan di Arsip.</div>';document.getElementById("applyPreview").disabled=true;document.getElementById("uploadFile").value="";document.getElementById("uploadDate").value="";await loadArchive();}catch(err){preview.innerHTML=`<div class="status err">${escapeHtml(err.message||String(err))}</div>`;}finally{setBusy(panel,false);}
-}
-async function loadArchive(){
-  const body=document.getElementById("archiveBody");if(!state.accessToken)return;body.innerHTML='<div class="empty">Memuat arsip…</div>';
-  try{const resp=await rpc("archiveList");const items=resp.items||[];if(!items.length){body.innerHTML='<div class="empty">Belum ada laporan yang diterapkan.</div>';return;}body.innerHTML=`<div class="archive-list">${items.map(x=>`<div class="archive-item"><div><strong>${escapeHtml(x.dataAsOf||"Data per belum diisi")}</strong> · ${escapeHtml(x.period||"–")}<div class="archive-meta">${escapeHtml(x.fileName)} · ${escapeHtml(x.email)} · ${escapeHtml(x.status)}${x.warningCount?` · ${x.warningCount} peringatan`:""}</div></div><button class="btn ghost archive-view" data-version="${escapeHtml(x.versionId)}">Lihat versi ini</button></div>`).join("")}</div>`;document.querySelectorAll(".archive-view").forEach(b=>b.addEventListener("click",()=>openArchive(b.dataset.version)));}catch(err){body.innerHTML=`<div class="status err">${escapeHtml(err.message)}</div>`;}
-}
-async function openArchive(versionId){
-  try{ensureSession();const resp=await rpc("archiveSnapshot",{versionId});state.current=resp.snapshot;state.previous=null;state.archiveMode=true;document.getElementById("archiveMode").classList.add("visible");document.getElementById("returnLatest").style.display="";populateFilters();bindFilterValuesAfterUpdate();renderAll();window.scrollTo({top:0,behavior:"smooth"});}catch(err){alert(err.message);}
-}
-function returnToLatest(){state.current=structuredClone(state.liveCurrent);state.previous=state.livePrevious?structuredClone(state.livePrevious):null;state.archiveMode=false;document.getElementById("archiveMode").classList.remove("visible");document.getElementById("returnLatest").style.display="none";populateFilters();bindFilterValuesAfterUpdate();renderAll();}
-function setupBackendIntegration(){
-  initGoogleLogin();document.getElementById("previewUpload").addEventListener("click",runPreviewUpload);document.getElementById("cancelPreview").addEventListener("click",cancelDraft);document.getElementById("applyPreview").addEventListener("click",applyDraft);document.getElementById("returnLatest").addEventListener("click",returnToLatest);
-  if(!configReady())document.getElementById("footerNote").textContent="Backend belum dikonfigurasi. Isi config.js; sementara dashboard menampilkan data prototipe lokal.";
+    if(!resp||resp.ok===false) throw new Error((resp&&resp.error)||"Backend mengembalikan error.");
+    if(resp.data){
+      state.current=resp.data;
+      state.previous=resp.previous||null;
+      state.liveCurrent=structuredClone(resp.data);
+      state.livePrevious=resp.previous?structuredClone(resp.previous):null;
+      populateFilters();bindFilterValuesAfterUpdate();renderAll();
+      if(resp.refreshError){
+        footer.textContent="Peringatan pembaruan sumber: "+resp.refreshError+" Menampilkan snapshot terakhir yang valid.";
+      }else{
+        const mod=resp.source&&resp.source.modifiedAt?new Date(resp.source.modifiedAt):null;
+        const suffix=mod&&!Number.isNaN(mod.getTime())?" · File terakhir diperbarui "+new Intl.DateTimeFormat("id-ID",{day:"numeric",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit"}).format(mod):"";
+        footer.textContent="Data dimuat otomatis dari Laporan FA di Google Drive"+suffix+".";
+      }
+    }else{
+      footer.textContent="Belum ada snapshot data yang dapat ditampilkan dari Google Drive.";
+    }
+  }catch(err){
+    footer.textContent="Data live belum dapat dimuat ("+(err.message||String(err))+"); menampilkan data prototipe lokal.";
+  }
 }
 function bindFilterValuesAfterUpdate(){["fUnit","fProgram","fOutput","fSuboutput","fType"].forEach(id=>document.getElementById(id).value="ALL");}
 
-populateFilters(); bindFilters(); setupBackendIntegration(); renderAll(); loadPublicLatest();
+populateFilters(); bindFilters(); renderAll(); loadPublicLatest();
 </script>
 </body>
 </html>
