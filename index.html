@@ -8,121 +8,26 @@
 <script src="./config.js"></script>
 <style>
 :root{
-  --bg:#f5f8fa; --card:#fff; --ink:#163047; --muted:#66788a; --line:#dbe4ea;
-  --blue:#176b87; --teal:#168c92; --soft:#e8f3f5; --soft2:#edf4f8;
-  --warning:#9a6700; --warning-bg:#fff7db; --danger:#a13b3b; --danger-bg:#fff0f0;
-  --ok:#267451; --ok-bg:#edf8f2; --shadow:0 7px 22px rgba(33,69,87,.07);
+  --bg:#f5f8fa;--card:#fff;--ink:#163047;--muted:#66788a;--line:#dbe4ea;
+  --blue:#176b87;--teal:#168c92;--soft:#e8f3f5;--summary:#eaf2f7;--summary-primary:#dcebf3;
+  --unit:#fff;--unit-detail:#f5f8fa;--warning:#9a6700;--warning-bg:#fff7db;--danger:#a13b3b;--danger-bg:#fff0f0;
+  --ok:#267451;--ok-bg:#edf8f2;--shadow:0 7px 22px rgba(33,69,87,.07)
 }
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif}
-body{min-height:100vh}
-.container{max-width:1440px;margin:0 auto;padding:26px 28px 56px}
-header{display:flex;gap:20px;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
-h1{margin:0;font-size:30px;letter-spacing:-.4px}
-.subtitle{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.pill{background:var(--soft2);border:1px solid var(--line);border-radius:999px;padding:7px 10px;font-size:12px;color:#415d70}
-.pill strong{color:var(--ink)}
-.source{font-size:11px;color:var(--muted);margin-top:8px}
-.operator-badge{display:none;border:1px solid #b9d7dc;background:#eff9fa;color:#24646c;padding:7px 10px;border-radius:10px;font-size:12px}
-.header-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
-.auth-user{display:none;align-items:center;gap:8px;font-size:12px;color:#496477}
-.auth-user.visible{display:flex}
-.archive-mode{display:none;background:#fff7db;border:1px solid #f0dda1;color:#785600;padding:7px 10px;border-radius:10px;font-size:12px}
-.archive-mode.visible{display:inline-block}
-.loading{opacity:.65;pointer-events:none}
-.section{margin-top:22px}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 10px}
-.section-head h2{font-size:18px;margin:0}
-.note{color:var(--muted);font-size:12px}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
-.filters{display:grid;grid-template-columns:repeat(5,minmax(130px,1fr)) 90px;gap:10px;padding:14px}
-label.small{display:block;font-size:11px;font-weight:700;color:#536879;margin:0 0 5px}
-select,input[type=date],input[type=file]{width:100%;font-family:Arial,sans-serif;border:1px solid #cbd8df;border-radius:9px;background:white;padding:9px 10px;color:var(--ink)}
-button{font-family:Arial,sans-serif;border:0;border-radius:9px;padding:10px 13px;cursor:pointer;font-weight:700}
-.btn{background:var(--blue);color:white}
-.btn.secondary{background:#eaf1f5;color:#34546a}
-.btn.ghost{background:white;border:1px solid #cbd8df;color:#34546a}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.admin-link{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap}
-.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.metric-card{padding:16px;min-height:174px}
-.metric-card.primary{border-top:4px solid var(--blue)}
-.metric-card h3{font-size:13px;margin:0 0 10px;color:#3e5c70}
-.metric-big{font-size:23px;font-weight:700;letter-spacing:-.25px;margin-bottom:4px}
-.metric-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
-.kv{background:#f8fafb;border:1px solid #edf1f4;border-radius:10px;padding:9px}
-.kv span{display:block;font-size:10px;color:var(--muted);margin-bottom:3px}
-.kv strong{font-size:13px}
-.progress-wrap{margin-top:10px}
-.progress-label{display:flex;justify-content:space-between;font-size:11px;color:#557083;margin-bottom:5px}
-.progress{height:8px;background:#e7edf1;border-radius:999px;overflow:hidden}
-.progress > div{height:100%;background:linear-gradient(90deg,var(--blue),var(--teal));border-radius:999px}
-.units-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.unit-card{padding:15px;cursor:pointer;transition:.15s ease;outline:none}
-.unit-card:hover,.unit-card.active{border-color:#84b9c2;transform:translateY(-1px);box-shadow:0 9px 26px rgba(33,69,87,.11)}
-.unit-title{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-.unit-title h3{margin:0;font-size:16px}
-.unit-title .pct{font-size:18px;font-weight:700;color:var(--blue)}
-.unit-total{font-size:12px;color:var(--muted);margin:7px 0 10px}
-.type-chips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:10px}
-.type-chip{background:#f2f6f8;border:1px solid #e0e8ed;padding:7px 9px;border-radius:9px;font-size:10px;color:#486377;min-width:0}
-.type-chip-title{font-size:10px;color:#486377;margin-bottom:5px}
-.type-chip-row{display:grid;grid-template-columns:58px minmax(0,1fr);gap:5px;align-items:baseline;margin-top:2px}
-.type-chip-row span{font-size:9px;color:var(--muted)}
-.type-chip-row strong{font-size:10px;color:var(--ink);font-weight:700;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
-.unit-card[data-unit="SDJ"] .type-chips{grid-template-columns:repeat(2,minmax(0,1fr))}
-.unit-card[data-unit="SDJ"] .type-chip:last-child{grid-column:1 / -1}
-.table-panel{overflow:hidden}
-.table-scroll{overflow:auto}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th{position:sticky;top:0;background:#eef4f7;color:#3f5a6b;text-align:left;font-size:11px;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}
-td{padding:10px;border-bottom:1px solid #edf1f4;vertical-align:top}
-td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-tr:last-child td{border-bottom:0}
-.hier-label{display:flex;gap:7px;align-items:flex-start}
-.hier-code{font-weight:700;min-width:66px}
-.level-program td{background:#f5f9fb;font-weight:700}
-.level-output td{background:#fbfcfd;font-weight:700}
-.level-suboutput td:first-child{padding-left:34px}
-.level-output td:first-child{padding-left:20px}
-.tag{display:inline-block;border-radius:999px;padding:4px 7px;font-size:10px;border:1px solid #dce6eb;background:#f6f9fa;color:#536c7c}
-.status{padding:12px 14px;border-radius:11px;font-size:12px}
-.status.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #cfeada}
-.status.warn{background:var(--warning-bg);color:var(--warning);border:1px solid #f0dda1}
-.status.err{background:var(--danger-bg);color:var(--danger);border:1px solid #efcccc}
-details.panel{padding:0}
-details summary{cursor:pointer;padding:14px 16px;font-weight:700;font-size:13px}
-details .details-body{padding:0 16px 16px}
-.empty{padding:26px;text-align:center;color:var(--muted);font-size:12px}
-.account-heading{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 15px;border-bottom:1px solid var(--line)}
-.account-heading h3{margin:0;font-size:14px}
-.small-muted{font-size:11px;color:var(--muted)}
-.operator{display:none;margin-top:20px}
-.operator.visible{display:block}
-.operator-grid{display:grid;grid-template-columns:1.3fr .7fr auto auto auto;gap:10px;align-items:end;padding:14px}
-.archive-list{display:grid;gap:8px}
-.archive-item{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #edf1f4}
-.archive-item:last-child{border-bottom:0}
-.archive-meta{font-size:11px;color:var(--muted);margin-top:3px}
-.preview{padding:0 14px 14px}
-.warning-list{margin:8px 0 0;padding-left:18px;color:#6f5416;font-size:12px}
-.footer-note{margin-top:18px;color:#718291;font-size:11px}
-@media(max-width:1000px){
-  .summary-grid{grid-template-columns:repeat(2,1fr)}
-  .units-grid{grid-template-columns:repeat(2,1fr)}
-  .filters{grid-template-columns:repeat(2,1fr)}
-  .operator-grid{grid-template-columns:1fr 1fr}
-}
-@media(max-width:650px){
-  .container{padding:18px 14px 40px}
-  header{display:block}
-  .summary-grid,.units-grid,.filters,.operator-grid{grid-template-columns:1fr}
-  .type-chips,.unit-card[data-unit="SDJ"] .type-chips{grid-template-columns:1fr}
-  .unit-card[data-unit="SDJ"] .type-chip:last-child{grid-column:auto}
-  h1{font-size:25px}
-  .metric-card{min-height:auto}
-  td,th{padding:9px 8px}
-}
+*{box-sizing:border-box}html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif}body{min-height:100vh}
+.container{max-width:1440px;margin:0 auto;padding:26px 28px 56px}header{display:flex;gap:20px;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
+h1{margin:0;font-size:30px;letter-spacing:-.4px}.subtitle{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.pill{background:#edf4f8;border:1px solid var(--line);border-radius:999px;padding:7px 10px;font-size:12px;color:#415d70}.pill strong{color:var(--ink)}
+.source{font-size:11px;color:var(--muted);margin-top:8px}.section{margin-top:22px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 10px}.section-head h2{font-size:18px;margin:0}.note,.small-muted{color:var(--muted);font-size:11px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}.filters{display:grid;grid-template-columns:repeat(5,minmax(130px,1fr)) 110px;gap:10px;padding:14px}label.small{display:block;font-size:11px;font-weight:700;color:#536879;margin:0 0 5px}
+select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid #cbd8df;border-radius:9px;background:#fff;padding:9px 10px;color:var(--ink)}button{font-family:Arial,sans-serif;border:0;border-radius:9px;padding:10px 13px;cursor:pointer;font-weight:700}.btn{background:var(--blue);color:#fff}.btn.secondary{background:#eaf1f5;color:#34546a}.btn.ghost{background:#fff;border:1px solid #cbd8df;color:#34546a}.btn:disabled{opacity:.45;cursor:not-allowed}
+.admin-link{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;font-size:10px;font-weight:600;padding:7px 10px}
+.summary-grid{display:grid;grid-template-columns:1.65fr repeat(3,1fr);gap:12px;align-items:stretch}.metric-card{border:1px solid #ccdbe4;border-radius:16px;background:var(--summary);box-shadow:var(--shadow);padding:14px;min-width:0}.metric-card.primary{background:var(--summary-primary);border-color:#b7cfdd;padding:17px}.metric-card h3{font-size:12px;margin:0 0 9px;color:#3e5c70}.metric-card.primary h3{font-size:14px}.metric-big{font-size:20px;font-weight:700;letter-spacing:-.2px;margin-bottom:10px}.primary .metric-big{font-size:26px}.metric-kv-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.primary .metric-kv-grid{grid-template-columns:repeat(2,1fr)}.kv{background:rgba(255,255,255,.62);border:1px solid rgba(208,221,229,.9);border-radius:10px;padding:8px}.kv span{display:block;font-size:9px;color:var(--muted);margin-bottom:3px}.kv strong{display:block;font-size:12px;word-break:break-word}.primary .kv strong{font-size:13px}.progress-wrap{margin-top:10px}.progress-label{display:flex;justify-content:space-between;font-size:10px;color:#557083;margin-bottom:5px}.progress{height:7px;background:#dce6ec;border-radius:999px;overflow:hidden}.progress>div{height:100%;background:linear-gradient(90deg,var(--blue),var(--teal));border-radius:999px}
+.units-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.unit-card{background:var(--unit);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:14px;cursor:pointer;transition:.15s ease;outline:none}.unit-card:hover,.unit-card.active{border-color:#84b9c2;box-shadow:0 9px 26px rgba(33,69,87,.11)}.unit-card.active{outline:2px solid rgba(23,107,135,.09)}.unit-title{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.unit-title h3{margin:0;font-size:16px}.unit-title .pct{font-size:18px;font-weight:700;color:var(--blue)}.unit-total{font-size:11px;color:var(--muted);margin:7px 0 0}.unit-detail{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:grid;gap:8px}.type-detail{background:var(--unit-detail);border:1px solid #e0e8ed;padding:9px;border-radius:10px}.type-detail-title{font-size:11px;font-weight:700;color:#486377;margin-bottom:6px}.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.detail-kv span{font-size:9px;color:var(--muted);display:block}.detail-kv strong{font-size:10px;display:block;margin-top:2px;word-break:break-word}.money-label{font-size:9px;color:var(--muted);margin:7px 0 3px}.money-input-wrap{display:flex;align-items:center;gap:6px}.money-input{font-size:11px;padding:7px 8px!important;font-variant-numeric:tabular-nums}.saving{font-size:9px;color:var(--muted);min-height:11px}.unit-projection{margin-top:8px;background:#eef6f7;border-radius:9px;padding:8px;font-size:10px;color:#486377}.unit-projection strong{font-size:11px;color:var(--ink)}
+.table-panel{overflow:hidden}.table-scroll{overflow:auto}table{width:100%;border-collapse:collapse;font-size:12px}th{position:sticky;top:0;background:#eef4f7;color:#3f5a6b;text-align:left;font-size:11px;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}td{padding:10px;border-bottom:1px solid #edf1f4;vertical-align:top}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}tr:last-child td{border-bottom:0}.account-heading{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 15px;border-bottom:1px solid var(--line)}.account-heading h3{margin:0;font-size:14px}
+.hier-label{display:flex;gap:7px;align-items:flex-start}.hier-code{font-weight:700;min-width:66px}.level-program td{background:#f5f9fb;font-weight:700}.level-output td{background:#fbfcfd;font-weight:700}.level-suboutput td:first-child{padding-left:34px}.level-output td:first-child{padding-left:20px}
+.period-panel{padding:14px}.period-top{display:grid;grid-template-columns:2fr 1fr;gap:12px;align-items:stretch}.period-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.period-metric{background:#f6f9fb;border:1px solid #e0e8ed;border-radius:11px;padding:11px}.period-metric span{display:block;font-size:10px;color:var(--muted);margin-bottom:4px}.period-metric strong{font-size:16px}.rpd-box{background:#eef5f8;border:1px solid #d2e1e9;border-radius:12px;padding:11px}.rpd-box label{display:block;font-weight:700;font-size:11px;margin-bottom:6px}.rpd-box .money-input{font-size:13px}.period-table{margin-top:12px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.status{padding:12px 14px;border-radius:11px;font-size:12px}.status.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #cfeada}.status.warn{background:var(--warning-bg);color:var(--warning);border:1px solid #f0dda1}.status.err{background:var(--danger-bg);color:var(--danger);border:1px solid #efcccc}.warning-list{margin:8px 0 0;padding-left:18px;color:#6f5416;font-size:12px}details.panel{padding:0}details summary{cursor:pointer;padding:14px 16px;font-weight:700;font-size:13px}details .details-body{padding:0 16px 16px}.footer-note{margin-top:18px;color:#718291;font-size:11px}
+@media(max-width:1100px){.summary-grid{grid-template-columns:1.4fr 1fr 1fr}.metric-card:last-child{grid-column:auto}.units-grid{grid-template-columns:repeat(2,1fr)}.period-top{grid-template-columns:1fr}.filters{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.container{padding:18px 14px 40px}header{display:block}.admin-link{margin-top:10px}.summary-grid,.units-grid,.filters,.period-metrics{grid-template-columns:1fr}.metric-card:last-child{grid-column:auto}.metric-kv-grid,.primary .metric-kv-grid{grid-template-columns:1fr 1fr}.period-top{grid-template-columns:1fr}h1{font-size:25px}td,th{padding:9px 8px}}
 </style>
 </head>
 <body>
@@ -131,10 +36,10 @@ details .details-body{padding:0 16px 16px}
   <div>
     <h1>Monitoring Anggaran</h1>
     <div class="subtitle">
-      <span class="pill"><strong>Data per:</strong> <span id="dataAsOf">Belum ditetapkan</span></span>
-      <span class="pill"><strong>Periode Laporan:</strong> <span id="period"></span></span>
+      <span class="pill"><strong>Data per:</strong> <span id="dataAsOf">[loading...]</span></span>
+      <span class="pill"><strong>Periode Laporan:</strong> <span id="period">[loading...]</span></span>
     </div>
-    <div class="source" id="sourceMeta"></div>
+    <div class="source" id="sourceMeta">Memuat Laporan FA dari Google Drive...</div>
   </div>
   <a class="btn ghost admin-link" href="https://drive.google.com/drive/folders/1p0oQwttvkAw8rL73B-qWD7sfnVLH9HBm" target="_blank" rel="noopener noreferrer">Admin</a>
 </header>
@@ -146,7 +51,7 @@ details .details-body{padding:0 16px 16px}
     <div><label class="small">Output</label><select id="fOutput"></select></div>
     <div><label class="small">Sub-Output</label><select id="fSuboutput"></select></div>
     <div><label class="small">Jenis Anggaran</label><select id="fType"></select></div>
-    <div><label class="small">&nbsp;</label><button class="btn secondary" id="resetFilters">Reset</button></div>
+    <div><label class="small">&nbsp;</label><button class="btn secondary" id="resetUnit">Reset Unit</button></div>
   </div>
 </section>
 
@@ -156,16 +61,13 @@ details .details-body{padding:0 16px 16px}
 </section>
 
 <section class="section">
-  <div class="section-head"><h2>Monitoring per Unit</h2><div class="note">Klik unit untuk melihat rincian Akun</div></div>
+  <div class="section-head"><h2>Monitoring per Unit</h2><div class="note">Klik unit untuk membuka Outstanding dan rincian Akun</div></div>
   <div class="units-grid" id="unitCards"></div>
 </section>
 
 <section class="section panel table-panel">
   <div class="account-heading">
-    <div>
-      <h3 id="accountTitle">Rincian Akun</h3>
-      <div class="small-muted" id="accountSubtitle">Pilih salah satu unit.</div>
-    </div>
+    <div><h3 id="accountTitle">Rincian Akun</h3><div class="small-muted" id="accountSubtitle"></div></div>
   </div>
   <div class="table-scroll" id="accountTable"></div>
 </section>
@@ -176,10 +78,18 @@ details .details-body{padding:0 16px 16px}
 </section>
 
 <section class="section">
-  <details class="panel" id="comparisonPanel">
-    <summary>Perbandingan dengan Laporan Sebelumnya</summary>
-    <div class="details-body" id="comparisonBody"></div>
-  </details>
+  <div class="section-head"><h2 id="periodSectionTitle">Realisasi Periode [loading...]</h2><div class="note">Bersumber dari kolom “Periode Ini”</div></div>
+  <div class="panel period-panel">
+    <div class="period-top">
+      <div class="period-metrics" id="periodMetrics"></div>
+      <div class="rpd-box">
+        <label id="rpdLabel">RPD [loading...]</label>
+        <input class="money-input" type="text" inputmode="numeric" id="rpdInput" value="Rp 0" disabled>
+        <div class="saving" id="rpdStatus"></div>
+      </div>
+    </div>
+    <div class="period-table" id="periodTable"></div>
+  </div>
 </section>
 
 <section class="section">
@@ -189,398 +99,75 @@ details .details-body{padding:0 16px 16px}
   </details>
 </section>
 
-<div class="footer-note" id="footerNote">Data dimuat otomatis dari Laporan FA di Google Drive.</div>
+<div class="footer-note" id="footerNote">Menunggu data Laporan FA dari backend.</div>
 </div>
 
 <script>
-const EMBEDDED_DATA = {"meta":{"title":"Monitoring Anggaran","sourceFile":"Laporan Fa Detail (16 Segmen).xlsx","period":"Juli 2026","dataAsOf":null,"sourceRows":424,"accountRows":273,"aggregatedAccountRows":78,"generatedAt":"2026-07-29"},"grandTotal":{"row":9,"code":"TOTAL","name":"JUMLAH SELURUHNYA","pagu":37326799000,"realisasi":14778811281,"sisa":22547987719},"programs":[{"row":11,"code":"AA.6025","name":"Pemantapan Diplomasi dan Kerja Sama Internasional di Kawasan Amerika dan Eropa","pagu":34146147000,"realisasi":12739139025,"sisa":21407007975},{"row":337,"code":"WA.1318","name":"Pengelolaan Keuangan, BMN, Umum dan Organisasi  Ditjen Amerika dan Eropa","pagu":3180652000,"realisasi":2039672256,"sisa":1140979744}],"outputs":[{"row":12,"code":"AEB","name":"Forum","program":"AA.6025","pagu":3846440000,"realisasi":2168578736,"sisa":1677861264},{"row":46,"code":"AEC","name":"Kerja sama","program":"AA.6025","pagu":30299707000,"realisasi":10570560289,"sisa":19729146711},{"row":338,"code":"EBA","name":"Layanan Dukungan Manajemen Internal","program":"WA.1318","pagu":3180652000,"realisasi":2039672256,"sisa":1140979744}],"suboutputs":[{"row":13,"code":"AEB.001","name":"Prakarsa/rekomendasi pada forum intra kawasan dan antar kawasan Amerika dan Eropa","program":"AA.6025","output":"AEB","pagu":3846440000,"realisasi":2168578736,"sisa":1677861264},{"row":47,"code":"AEC.001","name":"Kesepakatan Kerja Sama yang Dihasilkan dan Ditindaklanjuti dengan negara-negara di Kawasan Amerika I","program":"AA.6025","output":"AEC","pagu":5212619000,"realisasi":1176959524,"sisa":4035659476},{"row":136,"code":"AEC.002","name":"Kesepakatan Kerja Sama yang Dihasilkan dan Ditindaklanjuti dengan negara-negara  di Kawasan Amerika II","program":"AA.6025","output":"AEC","pagu":7215126000,"realisasi":2053847834,"sisa":5161278166},{"row":208,"code":"AEC.003","name":"Kesepakatan Kerja Sama yang Dihasilkan dan Ditindaklanjuti dengan negara-negara  di Kawasan Eropa I","program":"AA.6025","output":"AEC","pagu":8781076000,"realisasi":3862692118,"sisa":4918383882},{"row":284,"code":"AEC.004","name":"Kesepakatan Kerja Sama yang Dihasilkan dan Ditindaklanjuti dengan negara-negara  di Kawasan Eropa II","program":"AA.6025","output":"AEC","pagu":9090886000,"realisasi":3477060813,"sisa":5613825187},{"row":339,"code":"EBA.962","name":"Layanan Umum","program":"WA.1318","output":"EBA","pagu":64600000,"realisasi":35533500,"sisa":29066500},{"row":351,"code":"EBA.994","name":"Layanan Perkantoran","program":"WA.1318","output":"EBA","pagu":2886282000,"realisasi":1834941116,"sisa":1051340884},{"row":382,"code":"EBA.Z08","name":"Layanan Organisasi dan Tata Kelola Internal","program":"WA.1318","output":"EBA","pagu":174384000,"realisasi":120589640,"sisa":53794360},{"row":418,"code":"EBA.Z24","name":"Layanan Pemantauan dan Evaluasi untuk Satker Koordinator Tingkat Unit Eselon 1/Setara atau Tingkat K/L","program":"WA.1318","output":"EBA","pagu":55386000,"realisasi":48608000,"sisa":6778000}],"accounts":[{"program":"AA.6025","output":"AEB","suboutput":"AEB.001","unit":"KSIA","type":"Non-Jaldis","account":"521211","name":"Belanja Bahan","pagu":587684000,"realisasi":446782636,"sisa":140901364,"firstRow":16,"occurrences":4},{"program":"AA.6025","output":"AEB","suboutput":"AEB.001","unit":"KSIA","type":"Non-Jaldis","account":"521219","name":"Belanja Barang Non Operasional Lainnya","pagu":77151000,"realisasi":14406957,"sisa":62744043,"firstRow":17,"occurrences":3},{"program":"AA.6025","output":"AEB","suboutput":"AEB.001","unit":"KSIA","type":"Non-Jaldis","account":"522141","name":"Belanja Sewa","pagu":137037000,"realisasi":65915115,"sisa":71121885,"firstRow":18,"occurrences":4},{"program":"AA.6025","output":"AEB","suboutput":"AEB.001","unit":"KSIA","type":"Non-Jaldis","account":"522151","name":"Belanja Jasa Profesi","pagu":61903000,"realisasi":29800000,"sisa":32103000,"firstRow":19,"occurrences":2},{"program":"AA.6025","output":"AEB","suboutput":"AEB.001","unit":"KSIA","type":"Jaldis","account":"524111","name":"Belanja Perjalanan Dinas Biasa","pagu":1045467000,"realisasi":883414977,"sisa":162052023,"firstRow":20,"occurrences":2},{"program":"AA.6025","output":"AEB","suboutput":"AEB.001","unit":"KSIA","type":"Jaldis","account":"524113","name":"Belanja Perjalanan Dinas Dalam Kota","pagu":32765000,"realisasi":22310000,"sisa":10455000,"firstRow":21,"occurrences":3},{"program":"AA.6025","output":"AEB","suboutput":"AEB.001","unit":"KSIA","type":"Jaldis","account":"524114","name":"Belanja Perjalanan Dinas Paket Meeting Dalam Kota","pagu":108094000,"realisasi":50338450,"sisa":57755550,"firstRow":22,"occurrences":3},{"program":"AA.6025","output":"AEB","suboutput":"AEB.001","unit":"KSIA","type":"Jaldis","account":"524119","name":"Belanja Perjalanan Dinas Paket Meeting Luar Kota","pagu":57533000,"realisasi":12210511,"sisa":45322489,"firstRow":23,"occurrences":2},{"program":"AA.6025","output":"AEB","suboutput":"AEB.001","unit":"KSIA","type":"Jaldis","account":"524219","name":"Belanja Perjalanan Dinas Lainnya - Luar Negeri","pagu":1653806000,"realisasi":643400090,"sisa":1010405910,"firstRow":24,"occurrences":1},{"program":"AA.6025","output":"AEB","suboutput":"AEB.001","unit":"KSIA","type":"Non-Jaldis","account":"522191","name":"Belanja Jasa Lainnya","pagu":85000000,"realisasi":0,"sisa":85000000,"firstRow":28,"occurrences":1},{"program":"AA.6025","output":"AEC","suboutput":"AEC.001","unit":"Amerika I","type":"Non-Jaldis","account":"521211","name":"Belanja Bahan","pagu":167394000,"realisasi":63270133,"sisa":104123867,"firstRow":50,"occurrences":15},{"program":"AA.6025","output":"AEC","suboutput":"AEC.001","unit":"Amerika I","type":"Jaldis","account":"524114","name":"Belanja Perjalanan Dinas Paket Meeting Dalam Kota","pagu":21380000,"realisasi":380000,"sisa":21000000,"firstRow":51,"occurrences":5},{"program":"AA.6025","output":"AEC","suboutput":"AEC.001","unit":"Amerika I","type":"Jaldis","account":"524219","name":"Belanja Perjalanan Dinas Lainnya - Luar Negeri","pagu":4090166000,"realisasi":749817299,"sisa":3340348701,"firstRow":52,"occurrences":14},{"program":"AA.6025","output":"AEC","suboutput":"AEC.001","unit":"Amerika I","type":"Jaldis","account":"524111","name":"Belanja Perjalanan Dinas Biasa","pagu":481186000,"realisasi":306452172,"sisa":174733828,"firstRow":55,"occurrences":14},{"program":"AA.6025","output":"AEC","suboutput":"AEC.001","unit":"Amerika I","type":"Jaldis","account":"524113","name":"Belanja Perjalanan Dinas Dalam Kota","pagu":53096000,"realisasi":33060000,"sisa":20036000,"firstRow":61,"occurrences":2},{"program":"AA.6025","output":"AEC","suboutput":"AEC.001","unit":"Amerika I","type":"Jaldis","account":"524119","name":"Belanja Perjalanan Dinas Paket Meeting Luar Kota","pagu":86972000,"realisasi":5101000,"sisa":81871000,"firstRow":81,"occurrences":5},{"program":"AA.6025","output":"AEC","suboutput":"AEC.001","unit":"Amerika I","type":"Non-Jaldis","account":"521219","name":"Belanja Barang Non Operasional Lainnya","pagu":165075000,"realisasi":1118920,"sisa":163956080,"firstRow":98,"occurrences":3},{"program":"AA.6025","output":"AEC","suboutput":"AEC.001","unit":"Amerika I","type":"Non-Jaldis","account":"522141","name":"Belanja Sewa","pagu":134300000,"realisasi":17760000,"sisa":116540000,"firstRow":99,"occurrences":3},{"program":"AA.6025","output":"AEC","suboutput":"AEC.001","unit":"Amerika I","type":"Non-Jaldis","account":"522151","name":"Belanja Jasa Profesi","pagu":13050000,"realisasi":0,"sisa":13050000,"firstRow":100,"occurrences":2},{"program":"AA.6025","output":"AEC","suboutput":"AEC.002","unit":"Amerika II","type":"Non-Jaldis","account":"521211","name":"Belanja Bahan","pagu":331495000,"realisasi":243611604,"sisa":87883396,"firstRow":140,"occurrences":14},{"program":"AA.6025","output":"AEC","suboutput":"AEC.002","unit":"Amerika II","type":"Jaldis","account":"524219","name":"Belanja Perjalanan Dinas Lainnya - Luar Negeri","pagu":5063001000,"realisasi":1410397760,"sisa":3652603240,"firstRow":141,"occurrences":11},{"program":"AA.6025","output":"AEC","suboutput":"AEC.002","unit":"Amerika II","type":"Non-Jaldis","account":"522141","name":"Belanja Sewa","pagu":126191000,"realisasi":45663939,"sisa":80527061,"firstRow":144,"occurrences":4},{"program":"AA.6025","output":"AEC","suboutput":"AEC.002","unit":"Amerika II","type":"Non-Jaldis","account":"521219","name":"Belanja Barang Non Operasional Lainnya","pagu":229001000,"realisasi":15470000,"sisa":213531000,"firstRow":157,"occurrences":3},{"program":"AA.6025","output":"AEC","suboutput":"AEC.002","unit":"Amerika II","type":"Jaldis","account":"524119","name":"Belanja Perjalanan Dinas Paket Meeting Luar Kota","pagu":130913000,"realisasi":1206000,"sisa":129707000,"firstRow":159,"occurrences":2},{"program":"AA.6025","output":"AEC","suboutput":"AEC.002","unit":"Amerika II","type":"Non-Jaldis","account":"521213","name":"Belanja Honor Output Kegiatan","pagu":70000000,"realisasi":0,"sisa":70000000,"firstRow":167,"occurrences":3},{"program":"AA.6025","output":"AEC","suboutput":"AEC.002","unit":"Amerika II","type":"Non-Jaldis","account":"522191","name":"Belanja Jasa Lainnya","pagu":844732000,"realisasi":0,"sisa":844732000,"firstRow":168,"occurrences":2},{"program":"AA.6025","output":"AEC","suboutput":"AEC.002","unit":"Amerika II","type":"Jaldis","account":"524113","name":"Belanja Perjalanan Dinas Dalam Kota","pagu":18362000,"realisasi":13290000,"sisa":5072000,"firstRow":169,"occurrences":2},{"program":"AA.6025","output":"AEC","suboutput":"AEC.002","unit":"Amerika II","type":"Jaldis","account":"524111","name":"Belanja Perjalanan Dinas Biasa","pagu":280376000,"realisasi":203153531,"sisa":77222469,"firstRow":173,"occurrences":3},{"program":"AA.6025","output":"AEC","suboutput":"AEC.002","unit":"Amerika II","type":"Non-Jaldis","account":"522151","name":"Belanja Jasa Profesi","pagu":10700000,"realisasi":10700000,"sisa":0,"firstRow":195,"occurrences":2},{"program":"AA.6025","output":"AEC","suboutput":"AEC.002","unit":"Amerika II","type":"Jaldis","account":"524114","name":"Belanja Perjalanan Dinas Paket Meeting Dalam Kota","pagu":110355000,"realisasi":110355000,"sisa":0,"firstRow":206,"occurrences":1},{"program":"AA.6025","output":"AEC","suboutput":"AEC.003","unit":"Eropa I","type":"Non-Jaldis","account":"521211","name":"Belanja Bahan","pagu":541485000,"realisasi":288391288,"sisa":253093712,"firstRow":211,"occurrences":11},{"program":"AA.6025","output":"AEC","suboutput":"AEC.003","unit":"Eropa I","type":"Jaldis","account":"524113","name":"Belanja Perjalanan Dinas Dalam Kota","pagu":30170000,"realisasi":30545000,"sisa":-375000,"firstRow":212,"occurrences":4},{"program":"AA.6025","output":"AEC","suboutput":"AEC.003","unit":"Eropa I","type":"Jaldis","account":"524219","name":"Belanja Perjalanan Dinas Lainnya - Luar Negeri","pagu":5591281000,"realisasi":2710788678,"sisa":2880492322,"firstRow":213,"occurrences":9},{"program":"AA.6025","output":"AEC","suboutput":"AEC.003","unit":"Eropa I","type":"Non-Jaldis","account":"521219","name":"Belanja Barang Non Operasional Lainnya","pagu":599899000,"realisasi":189998780,"sisa":409900220,"firstRow":216,"occurrences":8},{"program":"AA.6025","output":"AEC","suboutput":"AEC.003","unit":"Eropa I","type":"Non-Jaldis","account":"522141","name":"Belanja Sewa","pagu":375307000,"realisasi":41350500,"sisa":333956500,"firstRow":218,"occurrences":7},{"program":"AA.6025","output":"AEC","suboutput":"AEC.003","unit":"Eropa I","type":"Jaldis","account":"524111","name":"Belanja Perjalanan Dinas Biasa","pagu":368566000,"realisasi":212996042,"sisa":155569958,"firstRow":219,"occurrences":5},{"program":"AA.6025","output":"AEC","suboutput":"AEC.003","unit":"Eropa I","type":"Jaldis","account":"524114","name":"Belanja Perjalanan Dinas Paket Meeting Dalam Kota","pagu":306359000,"realisasi":46833000,"sisa":259526000,"firstRow":221,"occurrences":2},{"program":"AA.6025","output":"AEC","suboutput":"AEC.003","unit":"Eropa I","type":"Jaldis","account":"524119","name":"Belanja Perjalanan Dinas Paket Meeting Luar Kota","pagu":640922000,"realisasi":277245502,"sisa":363676498,"firstRow":222,"occurrences":3},{"program":"AA.6025","output":"AEC","suboutput":"AEC.003","unit":"Eropa I","type":"Non-Jaldis","account":"521213","name":"Belanja Honor Output Kegiatan","pagu":97900000,"realisasi":37200000,"sisa":60700000,"firstRow":226,"occurrences":1},{"program":"AA.6025","output":"AEC","suboutput":"AEC.003","unit":"Eropa I","type":"Non-Jaldis","account":"522191","name":"Belanja Jasa Lainnya","pagu":19043000,"realisasi":0,"sisa":19043000,"firstRow":251,"occurrences":1},{"program":"AA.6025","output":"AEC","suboutput":"AEC.003","unit":"Eropa I","type":"Non-Jaldis","account":"522131","name":"Belanja Jasa Konsultan","pagu":83000000,"realisasi":0,"sisa":83000000,"firstRow":256,"occurrences":2},{"program":"AA.6025","output":"AEC","suboutput":"AEC.003","unit":"Eropa I","type":"Non-Jaldis","account":"522151","name":"Belanja Jasa Profesi","pagu":127144000,"realisasi":27343328,"sisa":99800672,"firstRow":257,"occurrences":3},{"program":"AA.6025","output":"AEC","suboutput":"AEC.004","unit":"Eropa II","type":"Non-Jaldis","account":"521211","name":"Belanja Bahan","pagu":735739000,"realisasi":273882617,"sisa":461856383,"firstRow":287,"occurrences":8},{"program":"AA.6025","output":"AEC","suboutput":"AEC.004","unit":"Eropa II","type":"Non-Jaldis","account":"521219","name":"Belanja Barang Non Operasional Lainnya","pagu":1006081000,"realisasi":15500000,"sisa":990581000,"firstRow":288,"occurrences":6},{"program":"AA.6025","output":"AEC","suboutput":"AEC.004","unit":"Eropa II","type":"Jaldis","account":"524219","name":"Belanja Perjalanan Dinas Lainnya - Luar Negeri","pagu":4896061000,"realisasi":2417812391,"sisa":2478248609,"firstRow":289,"occurrences":4},{"program":"AA.6025","output":"AEC","suboutput":"AEC.004","unit":"Eropa II","type":"Non-Jaldis","account":"522141","name":"Belanja Sewa","pagu":849535000,"realisasi":23773000,"sisa":825762000,"firstRow":293,"occurrences":4},{"program":"AA.6025","output":"AEC","suboutput":"AEC.004","unit":"Eropa II","type":"Jaldis","account":"524113","name":"Belanja Perjalanan Dinas Dalam Kota","pagu":99973000,"realisasi":27575000,"sisa":72398000,"firstRow":294,"occurrences":3},{"program":"AA.6025","output":"AEC","suboutput":"AEC.004","unit":"Eropa II","type":"Jaldis","account":"524119","name":"Belanja Perjalanan Dinas Paket Meeting Luar Kota","pagu":113031000,"realisasi":34057078,"sisa":78973922,"firstRow":295,"occurrences":3},{"program":"AA.6025","output":"AEC","suboutput":"AEC.004","unit":"Eropa II","type":"Non-Jaldis","account":"521213","name":"Belanja Honor Output Kegiatan","pagu":202468000,"realisasi":128400000,"sisa":74068000,"firstRow":300,"occurrences":1},{"program":"AA.6025","output":"AEC","suboutput":"AEC.004","unit":"Eropa II","type":"Jaldis","account":"524114","name":"Belanja Perjalanan Dinas Paket Meeting Dalam Kota","pagu":224800000,"realisasi":176580000,"sisa":48220000,"firstRow":303,"occurrences":2},{"program":"AA.6025","output":"AEC","suboutput":"AEC.004","unit":"Eropa II","type":"Non-Jaldis","account":"522151","name":"Belanja Jasa Profesi","pagu":140057000,"realisasi":22200000,"sisa":117857000,"firstRow":317,"occurrences":3},{"program":"AA.6025","output":"AEC","suboutput":"AEC.004","unit":"Eropa II","type":"Non-Jaldis","account":"522191","name":"Belanja Jasa Lainnya","pagu":240000000,"realisasi":0,"sisa":240000000,"firstRow":318,"occurrences":1},{"program":"AA.6025","output":"AEC","suboutput":"AEC.004","unit":"Eropa II","type":"Jaldis","account":"524111","name":"Belanja Perjalanan Dinas Biasa","pagu":583141000,"realisasi":357280727,"sisa":225860273,"firstRow":335,"occurrences":1},{"program":"WA.1318","output":"EBA","suboutput":"EBA.962","unit":"SDJ","type":"Non-Jaldis","account":"521219","name":"Belanja Barang Non Operasional Lainnya","pagu":36636000,"realisasi":15818000,"sisa":20818000,"firstRow":342,"occurrences":2},{"program":"WA.1318","output":"EBA","suboutput":"EBA.962","unit":"SDJ","type":"Jaldis","account":"524113","name":"Belanja Perjalanan Dinas Dalam Kota","pagu":9553000,"realisasi":8920000,"sisa":633000,"firstRow":343,"occurrences":1},{"program":"WA.1318","output":"EBA","suboutput":"EBA.962","unit":"SDJ","type":"Non-Jaldis","account":"521211","name":"Belanja Bahan","pagu":9354000,"realisasi":3244500,"sisa":6109500,"firstRow":345,"occurrences":2},{"program":"WA.1318","output":"EBA","suboutput":"EBA.962","unit":"SDJ","type":"Non-Jaldis","account":"522151","name":"Belanja Jasa Profesi","pagu":3600000,"realisasi":3600000,"sisa":0,"firstRow":346,"occurrences":1},{"program":"WA.1318","output":"EBA","suboutput":"EBA.962","unit":"SDJ","type":"Jaldis","account":"524111","name":"Belanja Perjalanan Dinas Biasa","pagu":5457000,"realisasi":3951000,"sisa":1506000,"firstRow":347,"occurrences":1},{"program":"WA.1318","output":"EBA","suboutput":"EBA.994","unit":"SDJ","type":"BBO","account":"521113","name":"Belanja Penambah Daya Tahan Tubuh","pagu":317708000,"realisasi":154391898,"sisa":163316102,"firstRow":355,"occurrences":1},{"program":"WA.1318","output":"EBA","suboutput":"EBA.994","unit":"SDJ","type":"BBO","account":"521114","name":"Belanja Pengiriman Surat Dinas Pos Pusat","pagu":13300000,"realisasi":6517400,"sisa":6782600,"firstRow":357,"occurrences":1},{"program":"WA.1318","output":"EBA","suboutput":"EBA.994","unit":"SDJ","type":"BBO","account":"521111","name":"Belanja Keperluan Perkantoran","pagu":371863000,"realisasi":133792702,"sisa":238070298,"firstRow":359,"occurrences":2},{"program":"WA.1318","output":"EBA","suboutput":"EBA.994","unit":"SDJ","type":"BBO","account":"521119","name":"Belanja Barang Operasional Lainnya","pagu":108000000,"realisasi":30637500,"sisa":77362500,"firstRow":361,"occurrences":1},{"program":"WA.1318","output":"EBA","suboutput":"EBA.994","unit":"SDJ","type":"BBO","account":"523121","name":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":526384000,"realisasi":279636172,"sisa":246747828,"firstRow":363,"occurrences":2},{"program":"WA.1318","output":"EBA","suboutput":"EBA.994","unit":"SDJ","type":"BBO","account":"521252","name":"Belanja Peralatan dan Mesin - Ekstrakomptabel","pagu":54257000,"realisasi":54256100,"sisa":900,"firstRow":366,"occurrences":1},{"program":"WA.1318","output":"EBA","suboutput":"EBA.994","unit":"SDJ","type":"BBO","account":"521811","name":"Belanja Barang Persediaan Barang Konsumsi","pagu":241018000,"realisasi":121236975,"sisa":119781025,"firstRow":367,"occurrences":1},{"program":"WA.1318","output":"EBA","suboutput":"EBA.994","unit":"SDJ","type":"BBO","account":"522112","name":"Belanja Langganan Telepon","pagu":31000000,"realisasi":17291850,"sisa":13708150,"firstRow":371,"occurrences":1},{"program":"WA.1318","output":"EBA","suboutput":"EBA.994","unit":"SDJ","type":"BBO","account":"522119","name":"Belanja Langganan Daya dan Jasa Lainnya","pagu":10876000,"realisasi":10875878,"sisa":122,"firstRow":372,"occurrences":1},{"program":"WA.1318","output":"EBA","suboutput":"EBA.994","unit":"SDJ","type":"BBO","account":"521115","name":"Belanja Honor Operasional Satuan Kerja","pagu":201240000,"realisasi":100620000,"sisa":100620000,"firstRow":374,"occurrences":3},{"program":"WA.1318","output":"EBA","suboutput":"EBA.994","unit":"SDJ","type":"BBO","account":"522141","name":"Belanja Sewa","pagu":1010636000,"realisasi":925684641,"sisa":84951359,"firstRow":381,"occurrences":1},{"program":"WA.1318","output":"EBA","suboutput":"EBA.Z08","unit":"SDJ","type":"Non-Jaldis","account":"521211","name":"Belanja Bahan","pagu":45167000,"realisasi":23919718,"sisa":21247282,"firstRow":385,"occurrences":6},{"program":"WA.1318","output":"EBA","suboutput":"EBA.Z08","unit":"SDJ","type":"Non-Jaldis","account":"522151","name":"Belanja Jasa Profesi","pagu":11300000,"realisasi":8000000,"sisa":3300000,"firstRow":386,"occurrences":4},{"program":"WA.1318","output":"EBA","suboutput":"EBA.Z08","unit":"SDJ","type":"Jaldis","account":"524111","name":"Belanja Perjalanan Dinas Biasa","pagu":78486000,"realisasi":64685922,"sisa":13800078,"firstRow":387,"occurrences":5},{"program":"WA.1318","output":"EBA","suboutput":"EBA.Z08","unit":"SDJ","type":"Jaldis","account":"524113","name":"Belanja Perjalanan Dinas Dalam Kota","pagu":22217000,"realisasi":17372000,"sisa":4845000,"firstRow":388,"occurrences":3},{"program":"WA.1318","output":"EBA","suboutput":"EBA.Z08","unit":"SDJ","type":"Non-Jaldis","account":"522141","name":"Belanja Sewa","pagu":10659000,"realisasi":6057000,"sisa":4602000,"firstRow":401,"occurrences":2},{"program":"WA.1318","output":"EBA","suboutput":"EBA.Z08","unit":"SDJ","type":"Non-Jaldis","account":"521219","name":"Belanja Barang Non Operasional Lainnya","pagu":6555000,"realisasi":555000,"sisa":6000000,"firstRow":406,"occurrences":1},{"program":"WA.1318","output":"EBA","suboutput":"EBA.Z24","unit":"SDJ","type":"Non-Jaldis","account":"521211","name":"Belanja Bahan","pagu":8575000,"realisasi":3408000,"sisa":5167000,"firstRow":421,"occurrences":1},{"program":"WA.1318","output":"EBA","suboutput":"EBA.Z24","unit":"SDJ","type":"Non-Jaldis","account":"521213","name":"Belanja Honor Output Kegiatan","pagu":41400000,"realisasi":41400000,"sisa":0,"firstRow":422,"occurrences":1},{"program":"WA.1318","output":"EBA","suboutput":"EBA.Z24","unit":"SDJ","type":"Jaldis","account":"524113","name":"Belanja Perjalanan Dinas Dalam Kota","pagu":5411000,"realisasi":3800000,"sisa":1611000,"firstRow":423,"occurrences":1}],"validation":{"warnings":[],"reconciliation":[{"level":"Program","code":"AA.6025","difference":{"pagu":0,"realisasi":0,"sisa":0},"official":{"pagu":34146147000,"realisasi":12739139025,"sisa":21407007975},"detail":{"pagu":34146147000,"realisasi":12739139025,"sisa":21407007975}},{"level":"Program","code":"WA.1318","difference":{"pagu":0,"realisasi":0,"sisa":0},"official":{"pagu":3180652000,"realisasi":2039672256,"sisa":1140979744},"detail":{"pagu":3180652000,"realisasi":2039672256,"sisa":1140979744}},{"level":"Output","code":"AEB","difference":{"pagu":0,"realisasi":0,"sisa":0},"official":{"pagu":3846440000,"realisasi":2168578736,"sisa":1677861264},"detail":{"pagu":3846440000,"realisasi":2168578736,"sisa":1677861264}},{"level":"Output","code":"AEC","difference":{"pagu":0,"realisasi":0,"sisa":0},"official":{"pagu":30299707000,"realisasi":10570560289,"sisa":19729146711},"detail":{"pagu":30299707000,"realisasi":10570560289,"sisa":19729146711}},{"level":"Output","code":"EBA","difference":{"pagu":0,"realisasi":0,"sisa":0},"official":{"pagu":3180652000,"realisasi":2039672256,"sisa":1140979744},"detail":{"pagu":3180652000,"realisasi":2039672256,"sisa":1140979744}},{"level":"Sub-Output","code":"AEB.001","difference":{"pagu":0,"realisasi":0,"sisa":0},"official":{"pagu":3846440000,"realisasi":2168578736,"sisa":1677861264},"detail":{"pagu":3846440000,"realisasi":2168578736,"sisa":1677861264}},{"level":"Sub-Output","code":"AEC.001","difference":{"pagu":0,"realisasi":0,"sisa":0},"official":{"pagu":5212619000,"realisasi":1176959524,"sisa":4035659476},"detail":{"pagu":5212619000,"realisasi":1176959524,"sisa":4035659476}},{"level":"Sub-Output","code":"AEC.002","difference":{"pagu":0,"realisasi":0,"sisa":0},"official":{"pagu":7215126000,"realisasi":2053847834,"sisa":5161278166},"detail":{"pagu":7215126000,"realisasi":2053847834,"sisa":5161278166}},{"level":"Sub-Output","code":"AEC.003","difference":{"pagu":0,"realisasi":0,"sisa":0},"official":{"pagu":8781076000,"realisasi":3862692118,"sisa":4918383882},"detail":{"pagu":8781076000,"realisasi":3862692118,"sisa":4918383882}},{"level":"Sub-Output","code":"AEC.004","difference":{"pagu":0,"realisasi":0,"sisa":0},"official":{"pagu":9090886000,"realisasi":3477060813,"sisa":5613825187},"detail":{"pagu":9090886000,"realisasi":3477060813,"sisa":5613825187}},{"level":"Sub-Output","code":"EBA.962","difference":{"pagu":0,"realisasi":0,"sisa":0},"official":{"pagu":64600000,"realisasi":35533500,"sisa":29066500},"detail":{"pagu":64600000,"realisasi":35533500,"sisa":29066500}},{"level":"Sub-Output","code":"EBA.994","difference":{"pagu":0,"realisasi":0,"sisa":0},"official":{"pagu":2886282000,"realisasi":1834941116,"sisa":1051340884},"detail":{"pagu":2886282000,"realisasi":1834941116,"sisa":1051340884}},{"level":"Sub-Output","code":"EBA.Z08","difference":{"pagu":0,"realisasi":0,"sisa":0},"official":{"pagu":174384000,"realisasi":120589640,"sisa":53794360},"detail":{"pagu":174384000,"realisasi":120589640,"sisa":53794360}},{"level":"Sub-Output","code":"EBA.Z24","difference":{"pagu":0,"realisasi":0,"sisa":0},"official":{"pagu":55386000,"realisasi":48608000,"sisa":6778000},"detail":{"pagu":55386000,"realisasi":48608000,"sisa":6778000}}],"grandDifference":{"pagu":0,"realisasi":0,"sisa":0}},"config":{"unitMap":{"AEB.001":"KSIA","AEC.001":"Amerika I","AEC.002":"Amerika II","AEC.003":"Eropa I","AEC.004":"Eropa II"},"programUnitMap":{"WA.1318":"SDJ"},"typeRules":{"BBO":"Semua Akun di bawah EBA.994","Jaldis":"Akun berawalan 524 di luar EBA.994","Non-Jaldis":"Akun selain 524 di luar EBA.994"}}};
-const UNIT_ORDER = ["Amerika I","Amerika II","Eropa I","Eropa II","KSIA","SDJ"];
-const TYPE_ORDER = ["Jaldis","Non-Jaldis","BBO"];
-const UNIT_SUB = {"Amerika I":"AEC.001","Amerika II":"AEC.002","Eropa I":"AEC.003","Eropa II":"AEC.004","KSIA":"AEB.001"};
-const APP_CONFIG = window.MONITORING_ANGGARAN_CONFIG || {apiUrl:""};
-const state = {
-  current: structuredClone(EMBEDDED_DATA), previous:null, activeUnit:"Amerika I",
-  liveCurrent:structuredClone(EMBEDDED_DATA), livePrevious:null
-};
+const APP_CONFIG=window.MONITORING_ANGGARAN_CONFIG||{};
+const UNITS=['Amerika I','Amerika II','Eropa I','Eropa II','KSIA','SDJ'];
+const TYPES=['Jaldis','Non-Jaldis','BBO'];
+const UNIT_SUB={'Amerika I':'AEC.001','Amerika II':'AEC.002','Eropa I':'AEC.003','Eropa II':'AEC.004','KSIA':'AEB.001'};
 
-function val(row,idx){ return row && row[idx] !== undefined ? row[idx] : null; }
-function isNum(v){ return typeof v==="number" && Number.isFinite(v); }
-function toNum(v){ return isNum(v) ? Math.round(v) : 0; }
-function amounts(row,kind){
-  const pagu=toNum(val(row,15));
-  let real=toNum(val(row,24)), sisa=toNum(val(row,29));
-  if(kind==="grand"){
-    if(!isNum(val(row,24)) && isNum(val(row,23))) real=toNum(val(row,23));
-    if(!isNum(val(row,29)) && isNum(val(row,28))) sisa=toNum(val(row,28));
-  } else {
-    if(!isNum(val(row,24)) && isNum(val(row,23))) real=toNum(val(row,23));
-    if(!isNum(val(row,29)) && isNum(val(row,28))) sisa=toNum(val(row,28));
-  }
-  return {pagu,realisasi:real,sisa};
-}
-function plus(rows){
-  return rows.reduce((a,r)=>({pagu:a.pagu+r.pagu,realisasi:a.realisasi+r.realisasi,sisa:a.sisa+r.sisa}),{pagu:0,realisasi:0,sisa:0});
-}
-function diffAmounts(a,b){return {pagu:a.pagu-b.pagu,realisasi:a.realisasi-b.realisasi,sisa:a.sisa-b.sisa};}
-function hasDiff(d){return d.pagu!==0||d.realisasi!==0||d.sisa!==0;}
+function emptyData(){return {meta:{period:'',dataAsOf:'',sourceFile:'',accountRows:0},grandTotal:{pagu:0,realisasi:0,sisa:0},programs:[],outputs:[],suboutputs:[],accounts:[],periodCurrent:{total:0,types:{'Jaldis':0,'Non-Jaldis':0,'BBO':0},units:{}},validation:{warnings:[],errors:[]}}}
+function emptyManual(){const outstanding={};UNITS.forEach(u=>outstanding[u]={'Jaldis':0,'Non-Jaldis':0,'BBO':0});return {outstanding,rpd:0,period:''}}
+const state={current:emptyData(),manual:emptyManual(),loaded:false,source:null,refreshError:null};
 
-function parseRows(rows, fileName){
-  let currentProgram=null,currentOutput=null,currentSub=null,grand=null,period="";
-  const programs=[], outputs=[], suboutputs=[], rawAccounts=[], warnings=[], errors=[];
-  const unitMap={"AEB.001":"KSIA","AEC.001":"Amerika I","AEC.002":"Amerika II","AEC.003":"Eropa I","AEC.004":"Eropa II"};
+const $=id=>document.getElementById(id);
+function esc(v){return String(v==null?'':v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function fmtFull(v){const n=Math.round(Number(v||0));const sign=n<0?'-':'';return sign+'Rp '+Math.abs(n).toLocaleString('id-ID')}
+function fmtCompact(v){const n=Number(v||0),a=Math.abs(n),s=n<0?'-':'';if(a>=1e9)return s+'Rp '+(a/1e9).toLocaleString('id-ID',{maximumFractionDigits:2})+' miliar';if(a>=1e6)return s+'Rp '+(a/1e6).toLocaleString('id-ID',{maximumFractionDigits:1})+' juta';return fmtFull(n)}
+function pct(a,b){return Number(b)?Number(a)/Number(b):0}
+function fmtPct(v){return (Number(v||0)*100).toLocaleString('id-ID',{maximumFractionDigits:1})+'%'}
+function plus(rows){return (rows||[]).reduce((a,r)=>({pagu:a.pagu+Number(r.pagu||0),realisasi:a.realisasi+Number(r.realisasi||0),sisa:a.sisa+Number(r.sisa||0)}),{pagu:0,realisasi:0,sisa:0})}
+function fmtDateISO(v){if(!v)return '[loading...]';const m=String(v).match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${m[3]}/${m[2]}/${m[1]}`:String(v)}
+function moneyFromInput(v){const digits=String(v||'').replace(/[^0-9]/g,'');return digits?Number(digits):0}
+function selected(id){return $(id)&&$(id).value?$(id).value:'ALL'}
+function isBaseFilters(){return ['fProgram','fOutput','fSuboutput','fType'].every(id=>selected(id)==='ALL')}
 
-  for(let i=0;i<rows.length;i++){
-    const row=rows[i], excelRow=i+1;
-    const a=val(row,0),b=val(row,1),c=val(row,2),h=val(row,7);
-    if(typeof a==="string" && /^Periode\s+/i.test(a)) period=a.replace(/^Periode\s+/i,"").trim();
-    if(typeof a==="string" && a.trim()==="JUMLAH SELURUHNYA"){
-      grand={row:excelRow,code:"TOTAL",name:"JUMLAH SELURUHNYA",...amounts(row,"grand")};
-      continue;
-    }
-    if(typeof b==="string" && /^[A-Z]{2}\.\d{4}$/.test(b.trim())){
-      currentProgram=b.trim(); currentOutput=null; currentSub=null;
-      programs.push({row:excelRow,code:currentProgram,name:String(val(row,8)||"").trim(),...amounts(row,"program")});
-      continue;
-    }
-    if(typeof c==="string" && /^[A-Z]{3}$/.test(c.trim())){
-      currentOutput=c.trim(); currentSub=null;
-      outputs.push({row:excelRow,code:currentOutput,name:String(val(row,6)||"").trim(),program:currentProgram,...amounts(row,"output")});
-      continue;
-    }
-    if(typeof c==="string" && /^[A-Z]{3}\.[A-Z0-9]{3}$/.test(c.trim())){
-      currentSub=c.trim();
-      suboutputs.push({row:excelRow,code:currentSub,name:String(val(row,10)||"").trim(),program:currentProgram,output:currentOutput,...amounts(row,"suboutput")});
-      if(currentProgram!=="WA.1318" && !unitMap[currentSub]){
-        warnings.push({kind:"mapping",row:excelRow,message:`Sub-Output ${currentSub} belum dipetakan ke Unit.`});
-      }
-      continue;
-    }
-    let account = null;
-    if(typeof h==="number" && Number.isInteger(h)) account=String(h);
-    else if(typeof h==="string") account=h.trim();
-    if(account && /^\d{6}$/.test(account)){
-      if(!currentProgram || !currentOutput || !currentSub){
-        warnings.push({kind:"structure",row:excelRow,message:`Akun ${account} tidak memiliki konteks Program/Output/Sub-Output yang lengkap.`});
-      }
-      const am=amounts(row,"account");
-      let type,unit;
-      if(currentSub==="EBA.994"){
-        type="BBO";
-        if(account.startsWith("524")) warnings.push({kind:"524_bbo",row:excelRow,message:`Akun ${account} berada di EBA.994; tetap dihitung sebagai BBO.`});
-      } else if(account.startsWith("524")) type="Jaldis";
-      else type="Non-Jaldis";
+function jsonp(action,params={}){return new Promise((resolve,reject)=>{if(!APP_CONFIG.apiUrl){reject(new Error('API backend belum dikonfigurasi.'));return}const cb='__ma_'+Date.now()+'_'+Math.random().toString(36).slice(2);const script=document.createElement('script');const timer=setTimeout(()=>done(new Error('Backend tidak merespons.')),30000);function done(err,data){clearTimeout(timer);delete window[cb];script.remove();err?reject(err):resolve(data)}window[cb]=data=>done(null,data);const q=new URLSearchParams({action,callback:cb,...params});script.onerror=()=>done(new Error('Gagal menghubungi backend.'));script.src=APP_CONFIG.apiUrl+(APP_CONFIG.apiUrl.includes('?')?'&':'?')+q.toString();document.head.appendChild(script)})}
+function rpc(action,payload={}){return new Promise((resolve,reject)=>{if(!APP_CONFIG.apiUrl){reject(new Error('API backend belum dikonfigurasi.'));return}const nonce=(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random());const frame=document.createElement('iframe');frame.name='ma_rpc_'+nonce.replace(/[^A-Za-z0-9]/g,'');frame.style.display='none';const form=document.createElement('form');form.method='POST';form.action=APP_CONFIG.apiUrl;form.target=frame.name;form.style.display='none';const fields={action,nonce,payload:JSON.stringify(payload)};Object.entries(fields).forEach(([k,v])=>{const i=document.createElement('textarea');i.name=k;i.value=v;form.appendChild(i)});const timer=setTimeout(()=>done(new Error('Backend tidak merespons.')),45000);function onMessage(ev){const d=ev.data;if(!d||d.channel!=='monitoring-anggaran-rpc'||d.nonce!==nonce)return;done(null,d.response)}function done(err,data){clearTimeout(timer);window.removeEventListener('message',onMessage);form.remove();frame.remove();if(err)reject(err);else if(!data||data.ok===false)reject(new Error((data&&data.error)||'Backend mengembalikan error.'));else resolve(data)}window.addEventListener('message',onMessage);document.body.appendChild(frame);document.body.appendChild(form);form.submit()})}
 
-      if(currentProgram==="WA.1318") unit="SDJ";
-      else unit=unitMap[currentSub] || "Belum Dipetakan";
-
-      if(am.pagu-am.realisasi!==am.sisa){
-        warnings.push({kind:"sisa",row:excelRow,message:`Akun ${account}: Sisa resmi berbeda dari Pagu − Realisasi sebesar ${fmtFull(Math.abs(am.sisa-(am.pagu-am.realisasi)))}.`});
-      }
-      rawAccounts.push({row:excelRow,program:currentProgram,output:currentOutput,suboutput:currentSub,account,name:String(val(row,12)||"").trim(),type,unit,...am});
-    }
-  }
-
-  if(!grand) errors.push("Total JUMLAH SELURUHNYA tidak ditemukan.");
-  if(programs.length===0) errors.push("Program tidak dapat dikenali.");
-  if(rawAccounts.length===0) errors.push("Baris Akun 6 digit tidak dapat dikenali.");
-  if(!period) warnings.push({kind:"period",message:"Periode Laporan tidak ditemukan di file."});
-
-  const groupAccount=new Map();
-  for(const a of rawAccounts){
-    const key=[a.program,a.output,a.suboutput,a.unit,a.type,a.account,a.name].join("¦");
-    if(!groupAccount.has(key)) groupAccount.set(key,{program:a.program,output:a.output,suboutput:a.suboutput,unit:a.unit,type:a.type,account:a.account,name:a.name,pagu:0,realisasi:0,sisa:0,firstRow:a.row,occurrences:0});
-    const g=groupAccount.get(key);
-    g.pagu+=a.pagu;g.realisasi+=a.realisasi;g.sisa+=a.sisa;g.firstRow=Math.min(g.firstRow,a.row);g.occurrences++;
-  }
-  const accounts=[...groupAccount.values()].sort((x,y)=>x.firstRow-y.firstRow);
-
-  const reconciliation=[];
-  function reconcile(level,nodes,field){
-    for(const node of nodes){
-      const subset=rawAccounts.filter(a=>a[field]===node.code);
-      const calc=plus(subset), difference=diffAmounts(node,calc);
-      reconciliation.push({level,code:node.code,difference,official:{pagu:node.pagu,realisasi:node.realisasi,sisa:node.sisa},detail:calc});
-      if(hasDiff(difference)){
-        warnings.push({kind:"reconciliation",level,code:node.code,message:`${node.code}: subtotal resmi tidak rekonsiliasi dengan rincian Akun.`});
-      }
-    }
-  }
-  reconcile("Program",programs,"program");
-  reconcile("Output",outputs,"output");
-  reconcile("Sub-Output",suboutputs,"suboutput");
-
-  const calcGrand=plus(rawAccounts);
-  const grandDifference=grand?diffAmounts(grand,calcGrand):{pagu:0,realisasi:0,sisa:0};
-  if(grand && hasDiff(grandDifference)) warnings.push({kind:"reconciliation",level:"Total",code:"TOTAL",message:"Total resmi tidak rekonsiliasi dengan rincian Akun."});
-
-  return {
-    meta:{title:"Monitoring Anggaran",sourceFile:fileName||"Laporan FA.xlsx",period,dataAsOf:null,sourceRows:rows.length,accountRows:rawAccounts.length,aggregatedAccountRows:accounts.length},
-    grandTotal:grand||calcGrand, programs, outputs, suboutputs, accounts,
-    validation:{warnings,reconciliation,grandDifference,errors},
-    config:{unitMap,programUnitMap:{"WA.1318":"SDJ"}}
-  };
-}
-
-function fmtFull(v){return "Rp "+new Intl.NumberFormat("id-ID",{maximumFractionDigits:0}).format(Math.round(v||0));}
-function fmtCompact(v){
-  v=Math.round(v||0); const av=Math.abs(v);
-  if(av>=1e9) return "Rp "+new Intl.NumberFormat("id-ID",{maximumFractionDigits:2}).format(v/1e9)+" miliar";
-  if(av>=1e6) return "Rp "+new Intl.NumberFormat("id-ID",{maximumFractionDigits:1}).format(v/1e6)+" juta";
-  return fmtFull(v);
-}
-function pct(real,pagu){return pagu ? real/pagu : null;}
-function fmtPct(v){return v===null||!Number.isFinite(v)?"–":new Intl.NumberFormat("id-ID",{style:"percent",maximumFractionDigits:1}).format(v);}
-function fmtDateISO(s){
-  if(!s) return "Belum ditetapkan";
-  const raw=String(s).trim();
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
-  const d=new Date(raw+"T00:00:00");
-  return Number.isNaN(d.getTime())?raw:new Intl.DateTimeFormat("id-ID",{day:"numeric",month:"long",year:"numeric"}).format(d);
-}
-function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
-
-function selected(id){return document.getElementById(id).value;}
-function filterRows(data, overrides={}){
-  const f={
-    unit:overrides.unit ?? selected("fUnit"),
-    program:overrides.program ?? selected("fProgram"),
-    output:overrides.output ?? selected("fOutput"),
-    suboutput:overrides.suboutput ?? selected("fSuboutput"),
-    type:overrides.type ?? selected("fType")
-  };
-  return data.accounts.filter(a=>
-    (f.unit==="ALL"||a.unit===f.unit) &&
-    (f.program==="ALL"||a.program===f.program) &&
-    (f.output==="ALL"||a.output===f.output) &&
-    (f.suboutput==="ALL"||a.suboutput===f.suboutput) &&
-    (f.type==="ALL"||a.type===f.type)
-  );
-}
-function isUnfiltered(){return ["fUnit","fProgram","fOutput","fSuboutput","fType"].every(id=>selected(id)==="ALL");}
-
-function optionList(select,items,label="Semua"){
-  select.innerHTML=`<option value="ALL">${label}</option>`+items.map(x=>`<option value="${escapeHtml(x.value)}">${escapeHtml(x.label)}</option>`).join("");
-}
 function populateFilters(){
-  const d=state.current;
-  optionList(document.getElementById("fUnit"),UNIT_ORDER.map(x=>({value:x,label:x})));
-  optionList(document.getElementById("fProgram"),d.programs.map(x=>({value:x.code,label:x.code})));
-  optionList(document.getElementById("fOutput"),d.outputs.map(x=>({value:x.code,label:x.code})));
-  optionList(document.getElementById("fSuboutput"),d.suboutputs.map(x=>({value:x.code,label:x.code})));
-  optionList(document.getElementById("fType"),TYPE_ORDER.map(x=>({value:x,label:x})));
+  const old={unit:selected('fUnit'),program:selected('fProgram'),output:selected('fOutput'),sub:selected('fSuboutput'),type:selected('fType')};
+  setOptions('fUnit',[['ALL','Semua'],...UNITS.map(x=>[x,x])],old.unit);
+  setOptions('fProgram',[['ALL','Semua'],...state.current.programs.map(x=>[x.code,x.code+' — '+x.name])],old.program);
+  setOptions('fOutput',[['ALL','Semua'],...state.current.outputs.map(x=>[x.code,x.code+' — '+x.name])],old.output);
+  setOptions('fSuboutput',[['ALL','Semua'],...state.current.suboutputs.map(x=>[x.code,x.code+' — '+x.name])],old.sub);
+  setOptions('fType',[['ALL','Semua'],...TYPES.map(x=>[x,x])],old.type);
 }
-function metricCard(title,am,primary=false,help=""){
-  const r=pct(am.realisasi,am.pagu), s=pct(am.sisa,am.pagu), width=Math.max(0,Math.min(100,(r||0)*100));
-  return `<div class="panel metric-card ${primary?"primary":""}" ${help?`title="${escapeHtml(help)}"`:""}>
-    <h3>${escapeHtml(title)}</h3>
-    <div class="metric-big">${fmtCompact(am.pagu)}</div>
-    <div class="metric-row">
-      <div class="kv"><span>Realisasi</span><strong>${fmtCompact(am.realisasi)}</strong></div>
-      <div class="kv"><span>Sisa Anggaran</span><strong>${fmtCompact(am.sisa)}</strong></div>
-    </div>
-    <div class="progress-wrap">
-      <div class="progress-label"><span>Realisasi ${fmtPct(r)}</span><span>Sisa ${fmtPct(s)}</span></div>
-      <div class="progress"><div style="width:${width}%"></div></div>
-    </div>
-  </div>`;
-}
-function renderHeader(){
-  const m=state.current.meta;
-  document.getElementById("period").textContent=m.period||"–";
-  document.getElementById("dataAsOf").textContent=fmtDateISO(m.dataAsOf);
-  document.getElementById("sourceMeta").textContent=`Sumber: ${m.sourceFile} · ${m.accountRows} baris Akun`;
-}
-function exactOfficialScope(){
-  if(selected("fType")!=="ALL") return null;
-  const u=selected("fUnit"),p=selected("fProgram"),o=selected("fOutput"),s=selected("fSuboutput");
-  if(s!=="ALL") return state.current.suboutputs.find(x=>x.code===s)||null;
-  if(o!=="ALL" && u==="ALL") return state.current.outputs.find(x=>x.code===o)||null;
-  if(p!=="ALL" && o==="ALL" && u==="ALL") return state.current.programs.find(x=>x.code===p)||null;
-  if(u!=="ALL" && p==="ALL" && o==="ALL") return unitOfficial(u);
-  if(isUnfiltered()) return state.current.grandTotal;
-  return null;
-}
-function renderSummary(){
-  const rows=filterRows(state.current);
-  const official=exactOfficialScope();
-  const total=official||plus(rows);
-  const typeData=Object.fromEntries(TYPE_ORDER.map(t=>[t,plus(rows.filter(r=>r.type===t))]));
-  const selectedUnit=selected("fUnit");
-  const showBBO=selectedUnit==="ALL"||selectedUnit==="SDJ";
-  document.getElementById("summaryCards").innerHTML=
-    metricCard("Total Anggaran",total,true)+
-    metricCard("Jaldis",typeData["Jaldis"],false,"Akun berawalan 524 di luar EBA.994")+
-    metricCard("Non-Jaldis",typeData["Non-Jaldis"],false,"Akun selain 524 di luar EBA.994")+
-    (showBBO?metricCard("BBO",typeData["BBO"],false,"Seluruh Akun di bawah EBA.994"):"");
-}
-function unitOfficial(unit){
-  if(unit==="SDJ") return state.current.programs.find(x=>x.code==="WA.1318") || null;
-  const code=UNIT_SUB[unit];
-  return state.current.suboutputs.find(x=>x.code===code)||null;
-}
-function renderUnits(){
-  const globalRows=filterRows(state.current,{unit:"ALL"});
-  const noOtherFilters=["fProgram","fOutput","fSuboutput","fType"].every(id=>selected(id)==="ALL");
-  const chosenUnit=selected("fUnit");
-  document.getElementById("unitCards").innerHTML=UNIT_ORDER.map(unit=>{
-    if(chosenUnit!=="ALL" && chosenUnit!==unit) return "";
-    const rows=globalRows.filter(r=>r.unit===unit);
-    let am=plus(rows);
-    if(chosenUnit==="ALL" && noOtherFilters){
-      const off=unitOfficial(unit); if(off) am=off;
-    }
-    const r=pct(am.realisasi,am.pagu), s=pct(am.sisa,am.pagu), width=Math.max(0,Math.min(100,(r||0)*100));
-    const types=TYPE_ORDER.filter(t=>unit==="SDJ"||t!=="BBO").map(t=>{
-      const x=plus(rows.filter(r=>r.type===t));
-      return `<div class="type-chip"><div class="type-chip-title">${t}</div>
-        <div class="type-chip-row"><span>Pagu</span><strong>${fmtFull(x.pagu)}</strong></div>
-        <div class="type-chip-row"><span>Realisasi</span><strong>${fmtFull(x.realisasi)}</strong></div>
-        <div class="type-chip-row"><span>Sisa</span><strong>${fmtFull(x.sisa)}</strong></div>
-      </div>`;
-    }).join("");
-    return `<div class="panel unit-card ${state.activeUnit===unit?"active":""}" tabindex="0" data-unit="${escapeHtml(unit)}">
-      <div class="unit-title"><h3>${escapeHtml(unit)}</h3><span class="pct">${fmtPct(r)}</span></div>
-      <div class="unit-total">Pagu ${fmtCompact(am.pagu)} · Sisa ${fmtCompact(am.sisa)} (${fmtPct(s)})</div>
-      <div class="progress"><div style="width:${width}%"></div></div>
-      <div class="type-chips">${types}</div>
-    </div>`;
-  }).join("");
-  document.querySelectorAll(".unit-card").forEach(el=>{
-    const go=()=>{state.activeUnit=el.dataset.unit;renderUnits();renderAccountTable();};
-    el.addEventListener("click",go); el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go();}});
-  });
-}
-function renderAccountTable(){
-  const unit=state.activeUnit;
-  const all=filterRows(state.current,{unit:"ALL"}).filter(a=>a.unit===unit);
-  document.getElementById("accountTitle").textContent=`Rincian Akun — ${unit}`;
-  document.getElementById("accountSubtitle").textContent=`${all.length} baris Akun teragregasi setelah filter aktif.`;
-  if(!all.length){document.getElementById("accountTable").innerHTML='<div class="empty">Tidak ada data untuk kombinasi filter ini.</div>';return;}
-  const rows=all.map(a=>{
-    const r=pct(a.realisasi,a.pagu),s=pct(a.sisa,a.pagu);
-    return `<tr><td>${escapeHtml(a.suboutput)}</td><td><strong>${escapeHtml(a.account)}</strong><br><span class="tag">${escapeHtml(a.type)}</span></td><td>${escapeHtml(a.name)}</td>
-      <td class="num">${fmtFull(a.pagu)}</td><td class="num">${fmtFull(a.realisasi)}</td><td class="num">${fmtFull(a.sisa)}</td><td class="num">${fmtPct(r)}</td><td class="num">${fmtPct(s)}</td></tr>`;
-  }).join("");
-  document.getElementById("accountTable").innerHTML=`<table><thead><tr><th>Sub-Output</th><th>Akun</th><th>Uraian Akun</th><th class="num">Pagu</th><th class="num">Realisasi</th><th class="num">Sisa Anggaran</th><th class="num">Realisasi %</th><th class="num">Sisa %</th></tr></thead><tbody>${rows}</tbody></table>`;
-}
-function renderHierarchy(){
-  const filtered=filterRows(state.current);
-  const useOfficial=isUnfiltered();
-  const rows=[];
-  for(const p of state.current.programs){
-    const pa=filtered.filter(a=>a.program===p.code); if(!pa.length) continue;
-    const pam=useOfficial?p:plus(pa);
-    rows.push({level:"program",code:p.code,name:p.name,...pam});
-    for(const o of state.current.outputs.filter(x=>x.program===p.code)){
-      const oa=pa.filter(a=>a.output===o.code); if(!oa.length) continue;
-      const oam=useOfficial?o:plus(oa);
-      rows.push({level:"output",code:o.code,name:o.name,...oam});
-      for(const s of state.current.suboutputs.filter(x=>x.output===o.code&&x.program===p.code)){
-        const sa=oa.filter(a=>a.suboutput===s.code); if(!sa.length) continue;
-        const sam=useOfficial?s:plus(sa);
-        rows.push({level:"suboutput",code:s.code,name:s.name,...sam});
-      }
-    }
-  }
-  if(!rows.length){document.getElementById("hierarchyTable").innerHTML='<div class="empty">Tidak ada data untuk kombinasi filter ini.</div>';return;}
-  document.getElementById("hierarchyTable").innerHTML=`<table><thead><tr><th>Struktur Anggaran</th><th class="num">Pagu</th><th class="num">Realisasi</th><th class="num">Sisa Anggaran</th><th class="num">Realisasi %</th><th class="num">Sisa %</th></tr></thead><tbody>${
-    rows.map(x=>`<tr class="level-${x.level}"><td><div class="hier-label"><span class="hier-code">${escapeHtml(x.code)}</span><span>${escapeHtml(x.name)}</span></div></td><td class="num">${fmtFull(x.pagu)}</td><td class="num">${fmtFull(x.realisasi)}</td><td class="num">${fmtFull(x.sisa)}</td><td class="num">${fmtPct(pct(x.realisasi,x.pagu))}</td><td class="num">${fmtPct(pct(x.sisa,x.pagu))}</td></tr>`).join("")
-  }</tbody></table>`;
-}
-function renderValidation(){
-  const v=state.current.validation||{};
-  const warnings=[...(v.warnings||[])];
-  const recon=(v.reconciliation||[]).filter(r=>hasDiff(r.difference||{pagu:0,realisasi:0,sisa:0}));
-  const gd=v.grandDifference||{pagu:0,realisasi:0,sisa:0};
-  const errors=v.errors||[];
-  let html="";
-  if(errors.length) html+=`<div class="status err"><strong>${errors.length} Error</strong><ul class="warning-list">${errors.map(x=>`<li>${escapeHtml(x)}</li>`).join("")}</ul></div>`;
-  if(!errors.length&&!warnings.length&&!recon.length&&!hasDiff(gd)){
-    html=`<div class="status ok"><strong>Tidak ada peringatan.</strong> Seluruh total Program, Output, Sub-Output, dan total keseluruhan rekonsiliasi dengan rincian Akun pada laporan ini.</div>`;
-  } else {
-    if(warnings.length) html+=`<div class="status warn"><strong>${warnings.length} Peringatan</strong><ul class="warning-list">${warnings.slice(0,30).map(w=>`<li>${escapeHtml(w.message||"Peringatan data")}</li>`).join("")}${warnings.length>30?`<li>+ ${warnings.length-30} peringatan lainnya</li>`:""}</ul></div>`;
-    if(hasDiff(gd)) html+=reconBlock("Total keseluruhan",state.current.grandTotal,plus(state.current.accounts));
-    for(const r of recon) html+=reconBlock(`${r.level} ${r.code}`,r.official,r.detail);
-  }
-  document.getElementById("validationBody").innerHTML=html;
-}
-function reconBlock(label,official,detail){
-  const d=diffAmounts(official,detail);
-  return `<div class="status warn" style="margin-top:8px"><strong>${escapeHtml(label)}</strong><br>
-    Resmi: Pagu ${fmtFull(official.pagu)}, Realisasi ${fmtFull(official.realisasi)}, Sisa ${fmtFull(official.sisa)}<br>
-    Rincian: Pagu ${fmtFull(detail.pagu)}, Realisasi ${fmtFull(detail.realisasi)}, Sisa ${fmtFull(detail.sisa)}<br>
-    Selisih: Pagu ${fmtFull(d.pagu)}, Realisasi ${fmtFull(d.realisasi)}, Sisa ${fmtFull(d.sisa)}</div>`;
-}
-function unitTotals(data,unit){return plus(data.accounts.filter(a=>a.unit===unit));}
-function renderComparison(){
-  const el=document.getElementById("comparisonBody");
-  if(!state.previous){el.innerHTML='<div class="empty">Belum ada laporan sebelumnya pada sesi prototipe ini.</div>';return;}
-  const cur=state.current,prev=state.previous;
-  const rows=[["Total",cur.grandTotal,prev.grandTotal],...UNIT_ORDER.map(u=>[u,unitTotals(cur,u),unitTotals(prev,u)])];
-  el.innerHTML=`<div class="table-scroll"><table><thead><tr><th>Lingkup</th><th class="num">Δ Pagu</th><th class="num">Δ Realisasi</th><th class="num">Δ Sisa</th><th class="num">Δ Realisasi %</th></tr></thead><tbody>${
-    rows.map(([name,c,p])=>`<tr><td>${escapeHtml(name)}</td><td class="num">${fmtFull(c.pagu-p.pagu)}</td><td class="num">${fmtFull(c.realisasi-p.realisasi)}</td><td class="num">${fmtFull(c.sisa-p.sisa)}</td><td class="num">${fmtPct((pct(c.realisasi,c.pagu)||0)-(pct(p.realisasi,p.pagu)||0))}</td></tr>`).join("")
-  }</tbody></table></div>`;
-}
-function renderAll(){
-  renderHeader();renderSummary();renderUnits();renderAccountTable();renderHierarchy();renderValidation();renderComparison();
-}
-function bindFilters(){
-  ["fUnit","fProgram","fOutput","fSuboutput","fType"].forEach(id=>document.getElementById(id).addEventListener("change",()=>{
-    if(id==="fUnit" && selected("fUnit")!=="ALL") state.activeUnit=selected("fUnit");
-    renderAll();
-  }));
-  document.getElementById("resetFilters").addEventListener("click",()=>{
-    ["fUnit","fProgram","fOutput","fSuboutput","fType"].forEach(id=>document.getElementById(id).value="ALL");renderAll();
-  });
-}
-function configReady(){return !!APP_CONFIG.apiUrl;}
-function jsonp(action,params={}){
-  return new Promise((resolve,reject)=>{
-    if(!APP_CONFIG.apiUrl){reject(new Error("API backend belum dikonfigurasi."));return;}
-    const cb="__ma_jsonp_"+Date.now()+"_"+Math.random().toString(36).slice(2);
-    const script=document.createElement("script");
-    const timer=setTimeout(()=>cleanup(new Error("Backend tidak merespons.")),60000);
-    function cleanup(err,data){clearTimeout(timer);delete window[cb];script.remove();err?reject(err):resolve(data);}
-    window[cb]=(data)=>cleanup(null,data);
-    const q=new URLSearchParams({action,callback:cb,...params});
-    script.onerror=()=>cleanup(new Error("Gagal menghubungi backend."));
-    script.src=APP_CONFIG.apiUrl+(APP_CONFIG.apiUrl.includes("?")?"&":"?")+q.toString();
-    document.head.appendChild(script);
-  });
-}
-async function loadPublicLatest(){
-  const footer=document.getElementById("footerNote");
-  if(!configReady()){
-    footer.textContent="Backend belum dikonfigurasi; menampilkan data prototipe lokal.";
-    return;
-  }
-  footer.textContent="Memuat data terbaru dari Google Drive…";
-  try{
-    const resp=await jsonp("latest",{force:"1"});
-    if(!resp||resp.ok===false) throw new Error((resp&&resp.error)||"Backend mengembalikan error.");
-    if(resp.data){
-      state.current=resp.data;
-      state.previous=resp.previous||null;
-      state.liveCurrent=structuredClone(resp.data);
-      state.livePrevious=resp.previous?structuredClone(resp.previous):null;
-      populateFilters();bindFilterValuesAfterUpdate();renderAll();
-      if(resp.refreshError){
-        footer.textContent="Peringatan pembaruan sumber: "+resp.refreshError+" Menampilkan snapshot terakhir yang valid.";
-      }else{
-        const mod=resp.source&&resp.source.modifiedAt?new Date(resp.source.modifiedAt):null;
-        const suffix=mod&&!Number.isNaN(mod.getTime())?" · File terakhir diperbarui "+new Intl.DateTimeFormat("id-ID",{day:"numeric",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit"}).format(mod):"";
-        footer.textContent="Data dimuat otomatis dari Laporan FA di Google Drive"+suffix+".";
-      }
-    }else{
-      footer.textContent="Backend aktif"+(resp.backendVersion?" (v"+resp.backendVersion+")":"")+", tetapi belum menghasilkan data. Periksa sumber Laporan FA dan deployment backend.";
-    }
-  }catch(err){
-    footer.textContent="Data live belum dapat dimuat ("+(err.message||String(err))+"); menampilkan data prototipe lokal.";
-  }
-}
-function bindFilterValuesAfterUpdate(){["fUnit","fProgram","fOutput","fSuboutput","fType"].forEach(id=>document.getElementById(id).value="ALL");}
+function setOptions(id,items,wanted){const el=$(id);el.innerHTML=items.map(([v,t])=>`<option value="${esc(v)}">${esc(t)}</option>`).join('');el.value=items.some(x=>x[0]===wanted)?wanted:'ALL'}
+function filterRows(data,override={}){const u=override.unit!==undefined?override.unit:selected('fUnit'),p=override.program!==undefined?override.program:selected('fProgram'),o=override.output!==undefined?override.output:selected('fOutput'),s=override.suboutput!==undefined?override.suboutput:selected('fSuboutput'),t=override.type!==undefined?override.type:selected('fType');return (data.accounts||[]).filter(r=>(u==='ALL'||r.unit===u)&&(p==='ALL'||r.program===p)&&(o==='ALL'||r.output===o)&&(s==='ALL'||r.suboutput===s)&&(t==='ALL'||r.type===t))}
+function unitOfficial(unit){if(unit==='SDJ')return state.current.programs.find(x=>x.code==='WA.1318')||null;const c=UNIT_SUB[unit];return state.current.suboutputs.find(x=>x.code===c)||null}
+function exactOfficialScope(){if(selected('fType')!=='ALL')return null;const u=selected('fUnit'),p=selected('fProgram'),o=selected('fOutput'),s=selected('fSuboutput');if(s!=='ALL')return state.current.suboutputs.find(x=>x.code===s)||null;if(o!=='ALL'&&u==='ALL')return state.current.outputs.find(x=>x.code===o)||null;if(p!=='ALL'&&o==='ALL'&&u==='ALL')return state.current.programs.find(x=>x.code===p)||null;if(u!=='ALL'&&p==='ALL'&&o==='ALL')return unitOfficial(u);if(u==='ALL'&&p==='ALL'&&o==='ALL'&&s==='ALL')return state.current.grandTotal;return null}
 
-populateFilters(); bindFilters(); renderAll(); loadPublicLatest();
+function outstandingValue(unit,type){return Number(state.manual.outstanding?.[unit]?.[type]||0)}
+function outstandingForType(type){const u=selected('fUnit');if(u!=='ALL')return outstandingValue(u,type);return UNITS.reduce((sum,unit)=>sum+outstandingValue(unit,type),0)}
+function totalOutstanding(){const t=selected('fType');if(t!=='ALL')return outstandingForType(t);return TYPES.reduce((sum,type)=>sum+outstandingForType(type),0)}
+
+function metricCard(title,am,primary,type){const out=primary?totalOutstanding():(type?outstandingForType(type):0);const projection=Number(am.sisa||0)-out;const r=pct(am.realisasi,am.pagu);const width=Math.max(0,Math.min(100,r*100));const kv=primary?`<div class="metric-kv-grid"><div class="kv"><span>Realisasi</span><strong>${fmtCompact(am.realisasi)}</strong></div><div class="kv"><span>Sisa</span><strong>${fmtCompact(am.sisa)}</strong></div><div class="kv"><span>Outstanding</span><strong>${fmtFull(out)}</strong></div><div class="kv"><span>Proyeksi Sisa</span><strong>${fmtCompact(projection)}</strong></div></div>`:`<div class="metric-kv-grid"><div class="kv"><span>Realisasi</span><strong>${fmtCompact(am.realisasi)}</strong></div><div class="kv"><span>Sisa</span><strong>${fmtCompact(am.sisa)}</strong></div><div class="kv"><span>Proyeksi Sisa</span><strong>${fmtCompact(projection)}</strong></div></div>`;return `<div class="metric-card ${primary?'primary':''}"><h3>${esc(title)}</h3><div class="metric-big">${fmtCompact(am.pagu)}</div>${kv}<div class="progress-wrap"><div class="progress-label"><span>Realisasi ${fmtPct(r)}</span><span>Sisa ${fmtPct(pct(am.sisa,am.pagu))}</span></div><div class="progress"><div style="width:${width}%"></div></div></div></div>`}
+function renderSummary(){const rows=filterRows(state.current);const official=exactOfficialScope();const total=official||plus(rows);const typeData=Object.fromEntries(TYPES.map(t=>[t,plus(rows.filter(r=>r.type===t))]));const chosen=selected('fUnit'),chosenType=selected('fType');const visibleTypes=TYPES.filter(t=>(chosen==='ALL'||chosen==='SDJ'||t!=='BBO')&&(chosenType==='ALL'||chosenType===t));$('summaryCards').innerHTML=metricCard('Total Anggaran',total,true)+visibleTypes.map(t=>metricCard(t,typeData[t],false,t)).join('')}
+
+function renderUnits(){const active=selected('fUnit'),chosenType=selected('fType');const globalRows=filterRows(state.current,{unit:'ALL'});$('unitCards').innerHTML=UNITS.map(unit=>{const rows=globalRows.filter(r=>r.unit===unit);let am=plus(rows);if(isBaseFilters()){const off=unitOfficial(unit);if(off)am=off}const r=pct(am.realisasi,am.pagu);const relevantTypes=TYPES.filter(t=>(unit==='SDJ'||t!=='BBO')&&(chosenType==='ALL'||chosenType===t));const unitOut=relevantTypes.reduce((s,t)=>s+outstandingValue(unit,t),0);const unitProj=Number(am.sisa||0)-unitOut;let details='';if(active===unit){const types=relevantTypes;details=`<div class="unit-detail">${types.map(t=>{const x=plus(rows.filter(a=>a.type===t));const out=outstandingValue(unit,t);return `<div class="type-detail"><div class="type-detail-title">${esc(t)}</div><div class="detail-grid"><div class="detail-kv"><span>Pagu</span><strong>${fmtFull(x.pagu)}</strong></div><div class="detail-kv"><span>Realisasi</span><strong>${fmtFull(x.realisasi)}</strong></div><div class="detail-kv"><span>Sisa</span><strong>${fmtFull(x.sisa)}</strong></div><div class="detail-kv"><span>Proyeksi Sisa</span><strong>${fmtFull(x.sisa-out)}</strong></div></div><div class="money-label">Outstanding</div><div class="money-input-wrap"><input class="money-input outstanding-input" type="text" inputmode="numeric" data-unit="${esc(unit)}" data-type="${esc(t)}" value="${esc(fmtFull(out))}"></div><div class="saving" data-status="${esc(unit)}|${esc(t)}"></div></div>`}).join('')}<div class="unit-projection">Total Outstanding <strong>${fmtFull(unitOut)}</strong> · Proyeksi Sisa <strong>${fmtFull(unitProj)}</strong></div></div>`}return `<article class="unit-card ${active===unit?'active':''}" data-unit="${esc(unit)}" tabindex="0"><div class="unit-title"><h3>${esc(unit)}</h3><div class="pct">${fmtPct(r)}</div></div><div class="unit-total">Pagu ${fmtCompact(am.pagu)} · Realisasi ${fmtCompact(am.realisasi)} · Sisa ${fmtCompact(am.sisa)}</div>${details}</article>`}).join('');bindUnitEvents();bindOutstandingInputs()}
+function bindUnitEvents(){document.querySelectorAll('.unit-card').forEach(card=>{const choose=()=>{const unit=card.dataset.unit;$('fUnit').value=selected('fUnit')===unit?'ALL':unit;renderAll()};card.addEventListener('click',e=>{if(e.target.closest('input')||e.target.closest('.unit-detail'))return;choose()});card.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.target.closest('input')){e.preventDefault();choose()}})})}
+function bindOutstandingInputs(){document.querySelectorAll('.outstanding-input').forEach(input=>{input.addEventListener('focus',()=>input.select());input.addEventListener('change',async()=>{const unit=input.dataset.unit,type=input.dataset.type,value=moneyFromInput(input.value),old=outstandingValue(unit,type);input.value=fmtFull(value);state.manual.outstanding[unit][type]=value;renderSummary();renderAccount();const status=document.querySelector(`[data-status="${CSS.escape(unit+'|'+type)}"]`);if(status)status.textContent='Menyimpan...';try{const resp=await rpc('saveOutstanding',{unit,type,value,period:state.current.meta.period||''});if(resp.manual)state.manual=normalizeManual(resp.manual);renderAll()}catch(err){state.manual.outstanding[unit][type]=old;alert(err.message);renderAll()}})})}
+
+function renderAccount(){const unit=selected('fUnit');if(unit==='ALL'){$('accountTitle').textContent='Rincian Akun';$('accountSubtitle').textContent='';$('accountTable').innerHTML='';return}const rows=filterRows(state.current);$('accountTitle').textContent='Rincian Akun — '+unit;$('accountSubtitle').textContent=rows.length+' baris Akun teragregasi setelah filter aktif.';if(!rows.length){$('accountTable').innerHTML='<div style="padding:16px" class="small-muted">Tidak ada data untuk filter ini.</div>';return}$('accountTable').innerHTML=`<table><thead><tr><th>Sub-Output</th><th>Akun</th><th>Jenis</th><th>Uraian Akun</th><th class="num">Pagu</th><th class="num">Realisasi</th><th class="num">Sisa Anggaran</th><th class="num">Realisasi</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.suboutput)}</td><td>${esc(r.account)}</td><td>${esc(r.type)}</td><td>${esc(r.name)}</td><td class="num">${fmtFull(r.pagu)}</td><td class="num">${fmtFull(r.realisasi)}</td><td class="num">${fmtFull(r.sisa)}</td><td class="num">${fmtPct(pct(r.realisasi,r.pagu))}</td></tr>`).join('')}</tbody></table>`}
+
+function renderHierarchy(){if(!state.loaded){$('hierarchyTable').innerHTML='';return}const filtered=filterRows(state.current);const pSet=new Set(filtered.map(x=>x.program)),oSet=new Set(filtered.map(x=>x.output)),sSet=new Set(filtered.map(x=>x.suboutput));const pSel=selected('fProgram'),oSel=selected('fOutput'),sSel=selected('fSuboutput');const body=[];state.current.programs.forEach(p=>{if((pSel!=='ALL'&&p.code!==pSel)||(!pSet.has(p.code)&&filtered.length))return;const pRows=filtered.filter(a=>a.program===p.code);const pAm=isBaseFilters()&&selected('fUnit')==='ALL'?p:plus(pRows);body.push(hierRow('program',p.code,p.name,pAm));state.current.outputs.filter(o=>o.program===p.code).forEach(o=>{if((oSel!=='ALL'&&o.code!==oSel)||(!oSet.has(o.code)&&filtered.length))return;const oRows=filtered.filter(a=>a.program===p.code&&a.output===o.code);const oAm=(isBaseFilters()&&selected('fUnit')==='ALL')?o:plus(oRows);body.push(hierRow('output',o.code,o.name,oAm));state.current.suboutputs.filter(s=>s.program===p.code&&s.output===o.code).forEach(s=>{if((sSel!=='ALL'&&s.code!==sSel)||(!sSet.has(s.code)&&filtered.length))return;const sRows=filtered.filter(a=>a.suboutput===s.code);const sAm=(isBaseFilters()&&selected('fUnit')==='ALL')?s:plus(sRows);body.push(hierRow('suboutput',s.code,s.name,sAm))})})});$('hierarchyTable').innerHTML=body.length?`<table><thead><tr><th>Struktur Anggaran</th><th class="num">Pagu</th><th class="num">Realisasi</th><th class="num">Sisa Anggaran</th><th class="num">Realisasi</th></tr></thead><tbody>${body.join('')}</tbody></table>`:''}
+function hierRow(level,code,name,am){return `<tr class="level-${level}"><td><div class="hier-label"><span class="hier-code">${esc(code)}</span><span>${esc(name)}</span></div></td><td class="num">${fmtFull(am.pagu)}</td><td class="num">${fmtFull(am.realisasi)}</td><td class="num">${fmtFull(am.sisa)}</td><td class="num">${fmtPct(pct(am.realisasi,am.pagu))}</td></tr>`}
+
+function renderPeriod(){const period=state.loaded?(state.current.meta.period||'—'):'[loading...]';$('periodSectionTitle').textContent='Realisasi Periode '+period;$('rpdLabel').textContent='RPD '+period;const pc=state.current.periodCurrent||{total:0,types:{},units:{}};$('periodMetrics').innerHTML=[['Total',pc.total||0],['Jaldis',pc.types?.['Jaldis']||0],['Non-Jaldis',pc.types?.['Non-Jaldis']||0]].map(([l,v])=>`<div class="period-metric"><span>${esc(l)}</span><strong>${fmtFull(v)}</strong></div>`).join('');const rpd=$('rpdInput');rpd.disabled=!state.loaded||!state.current.meta.period;rpd.value=fmtFull(state.manual.rpd||0);const rows=UNITS.map(unit=>{const x=pc.units?.[unit]||{};return `<tr><td>${esc(unit)}</td><td class="num">${fmtFull(x.total||0)}</td><td class="num">${fmtFull(x['Jaldis']||0)}</td><td class="num">${fmtFull(x['Non-Jaldis']||0)}</td></tr>`}).join('');$('periodTable').innerHTML=`<table><thead><tr><th>Unit</th><th class="num">Total</th><th class="num">Jaldis</th><th class="num">Non-Jaldis</th></tr></thead><tbody>${rows}</tbody></table>`}
+function bindRpd(){const input=$('rpdInput');input.addEventListener('focus',()=>input.select());input.addEventListener('change',async()=>{if(!state.loaded||!state.current.meta.period)return;const value=moneyFromInput(input.value),old=Number(state.manual.rpd||0);input.value=fmtFull(value);state.manual.rpd=value;$('rpdStatus').textContent='Menyimpan...';try{const resp=await rpc('saveRpd',{period:state.current.meta.period,value});if(resp.manual)state.manual=normalizeManual(resp.manual);$('rpdStatus').textContent='Tersimpan';renderPeriod();setTimeout(()=>{$('rpdStatus').textContent=''},1400)}catch(err){state.manual.rpd=old;input.value=fmtFull(old);$('rpdStatus').textContent='Gagal disimpan';alert(err.message)}})}
+
+function renderValidation(){const warnings=state.current.validation?.warnings||[],errors=state.current.validation?.errors||[];if(!state.loaded){$('validationBody').innerHTML='<div class="status ok">Belum ada data yang dimuat.</div>';return}if(errors.length){$('validationBody').innerHTML=`<div class="status err">${errors.length} Error</div><ul class="warning-list">${errors.map(x=>`<li>${esc(x.message||x)}</li>`).join('')}</ul>`;return}if(warnings.length){$('validationBody').innerHTML=`<div class="status warn">${warnings.length} peringatan.</div><ul class="warning-list">${warnings.map(x=>`<li>${esc(x.message||x)}</li>`).join('')}</ul>`;return}$('validationBody').innerHTML='<div class="status ok">Tidak ada peringatan.</div>'}
+function renderHeader(){if(!state.loaded){$('period').textContent='[loading...]';$('dataAsOf').textContent='[loading...]';$('sourceMeta').textContent='Memuat Laporan FA dari Google Drive...';return}const m=state.current.meta||{};$('period').textContent=m.period||'—';$('dataAsOf').textContent=fmtDateISO(m.dataAsOf);$('sourceMeta').textContent=`Sumber: ${m.sourceFile||'Laporan FA'} · ${Number(m.accountRows||0).toLocaleString('id-ID')} baris Akun`}
+function renderFooter(){if(!state.loaded){$('footerNote').textContent=state.refreshError?'Data backend belum dapat dimuat; seluruh angka tetap Rp 0.':'Menunggu data Laporan FA dari backend.';return}let text='Data dimuat otomatis dari Laporan FA di Google Drive.';if(state.source?.modifiedAt){const d=new Date(state.source.modifiedAt);if(!isNaN(d))text+=' · File terakhir diperbarui '+d.toLocaleString('id-ID',{timeZone:'Asia/Jakarta',dateStyle:'long',timeStyle:'short'})+'.'}if(state.refreshError)text+=' Pembaruan sumber terakhir gagal: '+state.refreshError;$('footerNote').textContent=text}
+function renderAll(){renderHeader();renderSummary();renderUnits();renderAccount();renderHierarchy();renderPeriod();renderValidation();renderFooter()}
+
+function normalizeManual(manual){const base=emptyManual();if(manual&&manual.outstanding)UNITS.forEach(u=>TYPES.forEach(t=>{base.outstanding[u][t]=Number(manual.outstanding?.[u]?.[t]||0)}));base.rpd=Number(manual?.rpd||0);base.period=String(manual?.period||'');return base}
+async function loadLatest(){renderAll();try{const resp=await jsonp('latest');if(!resp||resp.ok===false||!resp.data)throw new Error((resp&&resp.error)||'Data laporan belum tersedia.');state.current=resp.data;state.manual=normalizeManual(resp.manual);state.source=resp.source||null;state.refreshError=resp.refreshError||null;state.loaded=true;populateFilters();renderAll()}catch(err){state.loaded=false;state.current=emptyData();state.manual=emptyManual();state.refreshError=err.message;populateFilters();renderAll()}}
+
+['fUnit','fProgram','fOutput','fSuboutput','fType'].forEach(id=>$(id).addEventListener('change',renderAll));$('resetUnit').addEventListener('click',()=>{$('fUnit').value='ALL';renderAll()});bindRpd();populateFilters();loadLatest();
 </script>
 </body>
 </html>
