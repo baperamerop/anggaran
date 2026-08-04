@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Monitoring Anggaran frontend v0.7.0; compatible with backend v0.6.0 -->
+<!-- Monitoring Anggaran frontend v0.8.0; compatible with backend v0.6.0 -->
 <html lang="id">
 <head>
 <meta charset="utf-8">
@@ -7,6 +7,7 @@
 <meta name="robots" content="noindex,nofollow">
 <title>Monitoring Anggaran</title>
 <script src="./config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
 :root{
   --bg:#f5f8fa;--card:#fff;--ink:#163047;--muted:#66788a;--line:#dbe4ea;
@@ -18,6 +19,7 @@
 .container{max-width:1440px;margin:0 auto;padding:26px 28px 56px}header{display:flex;gap:20px;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
 h1{margin:0;font-size:30px;letter-spacing:-.4px}.subtitle{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.pill{background:#edf4f8;border:1px solid var(--line);border-radius:999px;padding:7px 10px;font-size:12px;color:#415d70}.pill strong{color:var(--ink)}
 .source{font-size:11px;color:var(--muted);margin-top:8px}.source-status{font-size:11px;color:var(--muted);margin-top:3px}.section{margin-top:22px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 10px}.section-head h2{font-size:18px;margin:0}.note,.small-muted{color:var(--muted);font-size:11px}
+.live-status{display:flex;gap:13px;flex-wrap:wrap;margin-top:7px;font-size:11px;color:#415d70}.live-item{display:inline-flex;align-items:center;gap:5px}.live-dot{width:8px;height:8px;border-radius:50%;background:#c68a1b}.live-dot.ok{background:#449548}.live-dot.warn{background:#c68a1b}.live-dot.err{background:#b34747}.main-tabs{display:flex;gap:3px;background:#e7eef2;border-radius:11px;padding:4px;margin:0 0 18px auto;width:max-content;max-width:100%}.main-tab{border-radius:8px;padding:9px 15px;background:transparent;color:#557083;font-size:12px}.main-tab.active{background:#fff;color:var(--ink);box-shadow:0 2px 7px rgba(33,69,87,.09)}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}.filters{display:grid;grid-template-columns:repeat(5,minmax(130px,1fr)) 110px;gap:10px;padding:14px}label.small{display:block;font-size:11px;font-weight:700;color:#536879;margin:0 0 5px}
 select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid #cbd8df;border-radius:9px;background:#fff;padding:9px 10px;color:var(--ink)}button{font-family:Arial,sans-serif;border:0;border-radius:9px;padding:10px 13px;cursor:pointer;font-weight:700}.btn{background:var(--blue);color:#fff}.btn.secondary{background:#eaf1f5;color:#34546a}.btn.ghost{background:#fff;border:1px solid #cbd8df;color:#34546a}.btn:disabled{opacity:.45;cursor:not-allowed}
 .admin-link{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;font-size:10px;font-weight:600;padding:7px 10px}
@@ -27,8 +29,9 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
 .hier-label{display:flex;gap:7px;align-items:flex-start}.hier-code{font-weight:700;min-width:66px}.tree-toggle{width:18px;height:18px;padding:0!important;border:0;background:transparent!important;color:#718493;display:inline-flex;align-items:center;justify-content:center;flex:0 0 18px;font-size:12px;line-height:1}.tree-spacer{width:18px;flex:0 0 18px}.tree-row td:first-child{cursor:default}.level-program td{background:#f5f9fb;font-weight:700}.level-output td{background:#fbfcfd;font-weight:700}.level-suboutput td{background:#fff}.level-account td{color:#526879}.level-output td:first-child{padding-left:24px}.level-suboutput td:first-child{padding-left:48px}.level-account td:first-child{padding-left:72px}.level-account .hier-code{font-weight:600}
 .period-panel{padding:14px}.period-top{display:grid;grid-template-columns:2fr 1fr;gap:12px;align-items:stretch}.period-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.period-metric{background:#f6f9fb;border:1px solid #e0e8ed;border-radius:11px;padding:11px}.period-metric span{display:block;font-size:10px;color:var(--muted);margin-bottom:4px}.period-metric strong{font-size:16px}.rpd-box{background:#eef5f8;border:1px solid #d2e1e9;border-radius:12px;padding:11px}.rpd-box label{display:block;font-weight:700;font-size:11px;margin-bottom:6px}.rpd-box .money-input{font-size:13px}.rpd-progress{margin-top:12px;background:#f6f9fb;border:1px solid #e0e8ed;border-radius:11px;padding:11px}.rpd-progress-label{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:10px;color:#557083;margin-bottom:7px}.rpd-progress-label strong{font-size:12px;color:var(--ink)}.rpd-progress .progress{height:9px}.period-table{margin-top:12px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .status{padding:12px 14px;border-radius:11px;font-size:12px}.status.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #cfeada}.status.warn{background:var(--warning-bg);color:var(--warning);border:1px solid #f0dda1}.status.err{background:var(--danger-bg);color:var(--danger);border:1px solid #efcccc}.warning-list{margin:8px 0 0;padding-left:18px;color:#6f5416;font-size:12px}details.panel{padding:0}details summary{cursor:pointer;padding:14px 16px;font-weight:700;font-size:13px}details .details-body{padding:0 16px 16px}
+.pj-summary-wrap{margin-top:12px}.pj-summary-note{padding:10px 13px;border-top:1px solid var(--line);font-size:10px;color:var(--muted);background:#f8fafb}.pj-card{overflow:hidden}.pj-head{padding:15px 17px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}.pj-head h2{font-size:18px;margin:0}.pj-filters{display:flex;gap:9px;padding:11px 16px;flex-wrap:wrap;border-bottom:1px solid var(--line);background:#f7f9fa}.pj-filter{display:flex;flex-direction:column;gap:4px}.pj-filter label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.35px;color:#708494}.pj-filter select,.pj-filter input{min-width:135px;padding:7px 9px;font-size:11px}.pj-filter.search input{min-width:220px}.pj-totals{padding:9px 16px;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted)}.pj-table{max-height:560px;overflow:auto}.pj-table td{font-size:11px}.pj-table .desc{max-width:270px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}.pj-table .code{max-width:175px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px}.pj-badge{display:inline-block;padding:3px 7px;border-radius:6px;font-size:9px;font-weight:700;white-space:nowrap}.pj-badge.submitted{background:#fff2d8;color:#8a5a00}.pj-badge.outstanding{background:#ffe7df;color:#a33e27}.pj-badge.spby{background:#e5f3e9;color:#276b42}.pj-badge.anomaly{background:#eee7fb;color:#6543a5}.pj-badge.incomplete{background:#edf0f2;color:#64727d}.pj-badge.jaldis{background:#e4efff;color:#2860a6}.pj-badge.nonjaldis{background:#e2f4f2;color:#16716d}.pj-flag{background:#f1e9fb;color:#6e43aa}.pj-flag.bad{background:#ffe6e2;color:#ad4337}.pj-row-anomaly td{background:#fffaf0}.pj-legend{padding:10px 16px;background:#f4f6f7;border-top:1px solid var(--line);display:flex;gap:13px;flex-wrap:wrap;font-size:10px;color:var(--muted)}.pj-empty{padding:30px;text-align:center;color:var(--muted)}.pj-more{padding:9px 16px;font-size:10px;color:var(--muted);border-top:1px solid var(--line)}.modal-overlay{position:fixed;inset:0;background:rgba(13,35,48,.45);display:flex;align-items:center;justify-content:center;padding:18px;z-index:20}.modal-box{background:#fff;border-radius:15px;max-width:680px;width:100%;max-height:82vh;overflow:auto;padding:21px;box-shadow:0 20px 60px rgba(13,35,48,.2);position:relative}.modal-box h3{margin:0 34px 10px 0}.modal-close{position:absolute;right:12px;top:12px;background:#eef3f6;color:#506879;padding:7px 10px}.modal-meta{font-size:10px;color:var(--muted);margin-top:13px}.hidden{display:none!important}
 @media(max-width:1100px){.summary-grid{grid-template-columns:1.4fr 1fr 1fr}.metric-card:last-child{grid-column:auto}.units-grid{grid-template-columns:repeat(2,1fr)}.period-top{grid-template-columns:1fr}.filters{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:760px){.container{padding:18px 14px 40px}header{display:block}.admin-link{margin-top:10px}.summary-grid,.units-grid,.filters,.period-metrics{grid-template-columns:1fr}.metric-card:last-child{grid-column:auto}.metric-kv-grid,.primary .metric-kv-grid{grid-template-columns:1fr 1fr}.period-top{grid-template-columns:1fr}h1{font-size:25px}td,th{padding:9px 8px}}
+@media(max-width:760px){.container{padding:18px 14px 40px}header{display:block}.admin-link{margin-top:10px}.main-tabs{width:100%;margin-top:12px}.main-tab{flex:1}.summary-grid,.units-grid,.filters,.period-metrics{grid-template-columns:1fr}.metric-card:last-child{grid-column:auto}.metric-kv-grid,.primary .metric-kv-grid{grid-template-columns:1fr 1fr}.period-top{grid-template-columns:1fr}h1{font-size:25px}td,th{padding:9px 8px}.pj-filter,.pj-filter select,.pj-filter input,.pj-filter.search input{width:100%;min-width:0}}
 </style>
 </head>
 <body>
@@ -42,9 +45,20 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
     </div>
     <div class="source" id="sourceMeta">Memuat Laporan FA dari Google Drive...</div>
     <div class="source-status" id="sourceStatus">Menunggu data Laporan FA dari backend.</div>
+    <div class="live-status">
+      <span class="live-item"><span class="live-dot warn" id="faDot"></span><span id="faLiveStatus">FA: memuat</span></span>
+      <span class="live-item" id="pjLiveItem" title="Memuat tujuh sumber PJ"><span class="live-dot warn" id="pjDot"></span><span id="pjLiveStatus">PJ: memuat</span></span>
+    </div>
   </div>
   <a class="btn ghost admin-link" href="https://drive.google.com/drive/folders/1p0oQwttvkAw8rL73B-qWD7sfnVLH9HBm" target="_blank" rel="noopener noreferrer">Admin</a>
 </header>
+
+<nav class="main-tabs" aria-label="Navigasi utama">
+  <button class="main-tab active" type="button" data-view="monitoring">Monitoring Anggaran</button>
+  <button class="main-tab" type="button" data-view="tracker">Tracker PJ</button>
+</nav>
+
+<main id="monitoringView">
 
 <section class="panel">
   <div class="filters">
@@ -65,6 +79,10 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
 <section class="section">
   <div class="section-head"><h2>Monitoring per Unit</h2><div class="note">Klik unit untuk membuka Outstanding dan rincian Akun</div></div>
   <div class="units-grid" id="unitCards"></div>
+  <div class="panel table-panel pj-summary-wrap">
+    <div class="account-heading"><div><h3>Outstanding &amp; PJ Submitted</h3><div class="small-muted">Nilai otomatis dari tujuh sumber Tracker PJ</div></div></div>
+    <div class="table-scroll" id="pjUnitSummary"></div>
+  </div>
 </section>
 
 <section class="section panel table-panel">
@@ -102,6 +120,37 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
   </details>
 </section>
 
+</main>
+
+<main id="trackerView" class="hidden">
+  <section class="panel pj-card">
+    <div class="pj-head"><h2>Tracker PJ</h2><div class="small-muted" id="pjRecordCount">Memuat data...</div></div>
+    <div class="pj-filters">
+      <div class="pj-filter"><label>Output</label><select id="pjOutput"></select></div>
+      <div class="pj-filter"><label>Tipe</label><select id="pjType"></select></div>
+      <div class="pj-filter"><label>Unit</label><select id="pjUnit"></select></div>
+      <div class="pj-filter"><label>Bulan</label><select id="pjMonth"></select></div>
+      <div class="pj-filter"><label>Status PJ</label><select id="pjStatus"></select></div>
+    </div>
+    <div class="pj-filters">
+      <div class="pj-filter"><label>Akun</label><select id="pjAccount"></select></div>
+      <div class="pj-filter"><label>Flag</label><select id="pjFlag"></select></div>
+      <div class="pj-filter search"><label>Cari</label><input type="text" id="pjSearch" placeholder="Cari uraian, penerima, atau No. SPBY..."></div>
+    </div>
+    <div class="pj-totals" id="pjTotals"></div>
+    <div class="pj-table" id="pjTable"></div>
+    <div class="pj-legend">
+      <span><span class="pj-badge jaldis">J</span> Jaldis</span>
+      <span><span class="pj-badge nonjaldis">NJ</span> Non-Jaldis</span>
+      <span><span class="pj-badge submitted">PJ Submitted</span> Total pengajuan belum divalidasi</span>
+      <span><span class="pj-badge outstanding">Outstanding</span> Model O belum selesai SPBY</span>
+      <span><span class="pj-badge spby">SPBY</span> Tidak dihitung di Monitoring Anggaran</span>
+    </div>
+  </section>
+</main>
+
+<div id="pjModal"></div>
+
 </div>
 
 <script>
@@ -109,10 +158,21 @@ const APP_CONFIG=window.MONITORING_ANGGARAN_CONFIG||{};
 const UNITS=['Amerika I','Amerika II','Eropa I','Eropa II','KSIA','SDJ'];
 const TYPES=['Jaldis','Non-Jaldis','BBO'];
 const UNIT_SUB={'Amerika I':'AEC.001','Amerika II':'AEC.002','Eropa I':'AEC.003','Eropa II':'AEC.004','KSIA':'AEB.001'};
+const PJ_CACHE_KEY='monitoring_anggaran_pj_cache_v1';
+const PJ_SOURCES=[
+  {key:'jaldis',label:'PJ Jaldis',id:'1W92yenmkMr7amt2PwQzWdE0t27gVhfDqsDj6VjHlEiE',gid:'1895097211',type:'Jaldis',unit:''},
+  {key:'amerika1',label:'Amerika I Non-Jaldis',id:'1oglajxds2CJ8X85-FpeT-qHm8pl4IWl1DcFTGQ6fE_8',type:'Non-Jaldis',unit:'Amerika I'},
+  {key:'amerika2',label:'Amerika II Non-Jaldis',id:'1C1hZsCqEeA7Xb7flp2EoHL2s16_OtjlPAZfQ1eT8F3o',type:'Non-Jaldis',unit:'Amerika II'},
+  {key:'eropa1',label:'Eropa I Non-Jaldis',id:'1g6fmDVRXmpvFbk7OplGAng45r2oAdVU4AOn1T7PU2d4',type:'Non-Jaldis',unit:'Eropa I'},
+  {key:'eropa2',label:'Eropa II Non-Jaldis',id:'19xeryDEO5vTQ9WdwIn_1B-EEVznDF1P2W85KGOcaoQI',type:'Non-Jaldis',unit:'Eropa II'},
+  {key:'ksia',label:'KSIA Non-Jaldis',id:'15QNoZ23IMjGeAr_QX5EHoh1Ir7CP55aMhQ_xvxlcbkQ',type:'Non-Jaldis',unit:'KSIA'},
+  {key:'sdj',label:'SDJ Non-Jaldis',id:'1udGKWb2A89_OVbN4o3bBqZiFllTe-d_Ojin1KGQh4Po',type:'Non-Jaldis',unit:'SDJ'}
+];
 
 function emptyData(){return {meta:{period:'',dataAsOf:'',sourceFile:'',accountRows:0},grandTotal:{pagu:0,realisasi:0,sisa:0},programs:[],outputs:[],suboutputs:[],accounts:[],periodCurrent:{total:0,types:{'Jaldis':0,'Non-Jaldis':0,'BBO':0},units:{}},validation:{warnings:[],errors:[]}}}
 function emptyManual(){const outstanding={};UNITS.forEach(u=>outstanding[u]={'Jaldis':0,'Non-Jaldis':0,'BBO':0});return {outstanding,rpd:0,period:''}}
-const state={current:emptyData(),manual:emptyManual(),loaded:false,source:null,refreshError:null,hierarchy:{programs:new Set(),outputs:new Set(),suboutputs:new Set(),initialized:false}};
+function emptyPj(){return {records:[],loading:true,live:0,cached:0,unavailable:0,sources:[],lastFullSuccess:null,sortKey:'date',sortDir:-1,filtered:[]}}
+const state={current:emptyData(),manual:emptyManual(),loaded:false,source:null,refreshError:null,pj:emptyPj(),view:'monitoring',hierarchy:{programs:new Set(),outputs:new Set(),suboutputs:new Set(),initialized:false}};
 
 const $=id=>document.getElementById(id);
 function esc(v){return String(v==null?'':v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
@@ -124,6 +184,21 @@ function fmtDateISO(v){if(!v)return '[loading...]';const m=String(v).match(/^(\d
 function moneyFromInput(v){const digits=String(v||'').replace(/[^0-9]/g,'');return digits?Number(digits):0}
 function selected(id){return $(id)&&$(id).value?$(id).value:'ALL'}
 function isBaseFilters(){return ['fProgram','fOutput','fSuboutput','fType'].every(id=>selected(id)==='ALL')}
+
+function pjUrl(source){const gid=source.gid?'&gid='+encodeURIComponent(source.gid):'';return `https://docs.google.com/spreadsheets/d/${source.id}/gviz/tq?tqx=out:csv${gid}`}
+function pjNumber(v){const digits=String(v==null?'':v).replace(/Rp/gi,'').replace(/[^0-9-]/g,'');return digits&&digits!=='-'?Number(digits)||0:0}
+function pjPresent(v){const s=String(v==null?'':v).trim().toLowerCase();return !['','-','0','0.0','nan','n/a'].includes(s)}
+function pjColumn(headers,test){return headers.find(h=>test(String(h||'').trim()))||''}
+function normalizePjUnit(v){let u=String(v||'').trim().replace(/^Dit\s+/i,'');if(u==='KSIA Amerop')u='KSIA';if(u==='Setditjen')u='SDJ';return UNITS.includes(u)?u:u||'Tidak diketahui'}
+function parsePjDate(v){const raw=String(v||'').trim();const m=raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);if(m){const month=Number(m[1]),day=Number(m[2]),year=Number(m[3]);const d=new Date(year,month-1,day);return {value:d.getTime(),iso:`${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`,display:`${String(day).padStart(2,'0')}/${String(month).padStart(2,'0')}/${year}`}}const d=new Date(raw);if(!isNaN(d)){return {value:d.getTime(),iso:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`,display:`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`}}return {value:0,iso:'',display:raw||'—'}}
+function pjOutputFromCode(code){const compact=String(code||'').toUpperCase().replace(/\s+/g,'').replace(/\//g,'.');const match=compact.match(/(?:^|\.)([A-Z]{3}\.[A-Z0-9]{2,3})(?:\.|$)/);return match?match[1]:''}
+function pjAccountFromValues(mak,code){const match=(String(mak||'')+' '+String(code||'')).match(/\b(5\d{5})\b/);return match?match[1]:''}
+function classifyPj(total,nmo,hasSpby,hasAkrual){const done=hasSpby||hasAkrual;if(nmo>0&&done)return 'SPBY';if(nmo>0&&!done)return 'Outstanding';if(total>0&&!done)return 'PJ Submitted';if(done)return 'Data Anomaly';return 'Incomplete'}
+function parsePjCsv(csv,source){if(!window.Papa)throw new Error('Parser CSV belum tersedia.');const parsed=Papa.parse(csv,{header:true,skipEmptyLines:true});if(parsed.errors&&parsed.errors.some(e=>e.code==='UndetectableDelimiter'))throw new Error('Format CSV tidak dikenali.');const rows=parsed.data||[];if(!rows.length)throw new Error('Sumber tidak memiliki baris data.');const headers=Object.keys(rows[0]||{});const totalCol=pjColumn(headers,h=>h.toUpperCase().includes('TOTAL JUMLAH'));const nmoCol=pjColumn(headers,h=>h.toUpperCase().includes('NILAI MODEL O'));const spbyCol=pjColumn(headers,h=>h.toUpperCase().includes('NO')&&h.toUpperCase().includes('SPBY')&&!h.toUpperCase().includes('STATUS'));const akrualCol=pjColumn(headers,h=>h.toUpperCase().includes('STATUS AKRUAL'));const transferCol=pjColumn(headers,h=>h.toUpperCase().includes('STATUS TRANSFER'));const unitCol=pjColumn(headers,h=>['UNIT ESELON II PENYELENGGARA KEGIATAN','UNIT ESELON II','UNIT ES II'].includes(h.toUpperCase()));const dateCol=pjColumn(headers,h=>h.toUpperCase().includes('TANGGAL PENGAJUAN'));const descCol=pjColumn(headers,h=>h.toUpperCase().includes('URAIAN'));const codeCol=pjColumn(headers,h=>h.toUpperCase().includes('KODE'));const makCol=pjColumn(headers,h=>h.toUpperCase().includes('MATA ANGGARAN')||h.toUpperCase().includes('MAK'));const recipientCol=pjColumn(headers,h=>h.toUpperCase().includes('PENERIMA')||(h.toUpperCase().includes('NAMA')&&h.toUpperCase().includes('TRANSFER')));if(!totalCol||!nmoCol||!spbyCol||!descCol)throw new Error('Kolom wajib Tracker PJ berubah atau tidak ditemukan.');return rows.map((row,index)=>{const total=pjNumber(row[totalCol]),nmo=pjNumber(row[nmoCol]),spby=String(row[spbyCol]||'').trim(),akrual=String(row[akrualCol]||'').trim(),hasSpby=pjPresent(spby),hasAkrual=pjPresent(akrual),date=parsePjDate(row[dateCol]),code=String(row[codeCol]||'').trim(),mak=String(row[makCol]||'').trim(),desc=String(row[descCol]||'').trim(),status=classifyPj(total,nmo,hasSpby,hasAkrual);return {id:`${source.key}-${index}`,sourceKey:source.key,source:source.label,type:source.type,unit:normalizePjUnit(source.unit||row[unitCol]),date:date.value,dateIso:date.iso,dateDisplay:date.display,month:date.iso.slice(0,7),desc,total,nmo,code,output:pjOutputFromCode(code),account:pjAccountFromValues(mak,code),spby,akrual,transfer:String(row[transferCol]||'').trim(),recipient:String(row[recipientCol]||'').trim(),status,duplicate:false}}).filter(r=>r.desc||r.total>0||r.nmo>0||pjPresent(r.spby)||pjPresent(r.akrual))}
+function markPjDuplicates(records){const counts={};records.forEach(r=>{if(!r.code||!r.total||!r.dateIso){r._dupKey='';return}const key=[r.code,r.total,r.dateIso,r.recipient].map(x=>String(x||'').trim().toLowerCase()).join('|');counts[key]=(counts[key]||0)+1;r._dupKey=key});records.forEach(r=>{r.duplicate=Boolean(r._dupKey&&counts[r._dupKey]>1);delete r._dupKey})}
+function readPjCache(){try{return JSON.parse(localStorage.getItem(PJ_CACHE_KEY)||'{}')||{}}catch(_){return {}}}
+function savePjCache(cache){try{localStorage.setItem(PJ_CACHE_KEY,JSON.stringify(cache))}catch(err){console.warn('PJ cache tidak dapat disimpan:',err)}}
+function pjAutoBreakdown(unit,type){const out={submitted:0,outstanding:0,total:0};state.pj.records.forEach(r=>{if((unit&&r.unit!==unit)||(type&&r.type!==type))return;if(r.status==='PJ Submitted')out.submitted+=r.total;if(r.status==='Outstanding')out.outstanding+=r.nmo});out.total=out.submitted+out.outstanding;return out}
 
 function jsonp(action,params={}){return new Promise((resolve,reject)=>{if(!APP_CONFIG.apiUrl){reject(new Error('API backend belum dikonfigurasi.'));return}const cb='__ma_'+Date.now()+'_'+Math.random().toString(36).slice(2);const script=document.createElement('script');const timer=setTimeout(()=>done(new Error('Backend tidak merespons.')),30000);function done(err,data){clearTimeout(timer);delete window[cb];script.remove();err?reject(err):resolve(data)}window[cb]=data=>done(null,data);const q=new URLSearchParams({action,callback:cb,...params});script.onerror=()=>done(new Error('Gagal menghubungi backend.'));script.src=APP_CONFIG.apiUrl+(APP_CONFIG.apiUrl.includes('?')?'&':'?')+q.toString();document.head.appendChild(script)})}
 function rpc(action,payload={}){return new Promise((resolve,reject)=>{if(!APP_CONFIG.apiUrl){reject(new Error('API backend belum dikonfigurasi.'));return}const nonce=(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random());const frame=document.createElement('iframe');frame.name='ma_rpc_'+nonce.replace(/[^A-Za-z0-9]/g,'');frame.style.display='none';const form=document.createElement('form');form.method='POST';form.action=APP_CONFIG.apiUrl;form.target=frame.name;form.style.display='none';const fields={action,nonce,payload:JSON.stringify(payload)};Object.entries(fields).forEach(([k,v])=>{const i=document.createElement('textarea');i.name=k;i.value=v;form.appendChild(i)});const timer=setTimeout(()=>done(new Error('Backend tidak merespons.')),45000);function onMessage(ev){const d=ev.data;if(!d||d.channel!=='monitoring-anggaran-rpc'||d.nonce!==nonce)return;done(null,d.response)}function done(err,data){clearTimeout(timer);window.removeEventListener('message',onMessage);form.remove();frame.remove();if(err)reject(err);else if(!data||data.ok===false)reject(new Error((data&&data.error)||'Backend mengembalikan error.'));else resolve(data)}window.addEventListener('message',onMessage);document.body.appendChild(frame);document.body.appendChild(form);form.submit()})}
@@ -142,13 +217,37 @@ function unitOfficial(unit){if(unit==='SDJ')return state.current.programs.find(x
 function exactOfficialScope(){if(selected('fType')!=='ALL')return null;const u=selected('fUnit'),p=selected('fProgram'),o=selected('fOutput'),s=selected('fSuboutput');if(s!=='ALL')return state.current.suboutputs.find(x=>x.code===s)||null;if(o!=='ALL'&&u==='ALL')return state.current.outputs.find(x=>x.code===o)||null;if(p!=='ALL'&&o==='ALL'&&u==='ALL')return state.current.programs.find(x=>x.code===p)||null;if(u!=='ALL'&&p==='ALL'&&o==='ALL')return unitOfficial(u);if(u==='ALL'&&p==='ALL'&&o==='ALL'&&s==='ALL')return state.current.grandTotal;return null}
 
 function outstandingValue(unit,type){return Number(state.manual.outstanding?.[unit]?.[type]||0)}
-function outstandingForType(type){const u=selected('fUnit');if(u!=='ALL')return outstandingValue(u,type);return UNITS.reduce((sum,unit)=>sum+outstandingValue(unit,type),0)}
+function effectiveOutstandingValue(unit,type){return outstandingValue(unit,type)+pjAutoBreakdown(unit,type).total}
+function outstandingForType(type){const u=selected('fUnit');if(u!=='ALL')return effectiveOutstandingValue(u,type);return UNITS.reduce((sum,unit)=>sum+effectiveOutstandingValue(unit,type),0)}
 function totalOutstanding(){const t=selected('fType');if(t!=='ALL')return outstandingForType(t);return TYPES.reduce((sum,type)=>sum+outstandingForType(type),0)}
 
-function metricCard(title,am,primary,type){const out=primary?totalOutstanding():(type?outstandingForType(type):0);const projection=Number(am.sisa||0)-out;const r=pct(am.realisasi,am.pagu);const width=Math.max(0,Math.min(100,r*100));const kv=primary?`<div class="metric-kv-grid"><div class="kv"><span>Realisasi</span><strong>${fmtFull(am.realisasi)}</strong></div><div class="kv"><span>Sisa</span><strong>${fmtFull(am.sisa)}</strong></div><div class="kv"><span>Outstanding</span><strong>${fmtFull(out)}</strong></div><div class="kv"><span>Proyeksi Sisa</span><strong>${fmtFull(projection)}</strong></div></div>`:`<div class="metric-kv-grid"><div class="kv"><span>Realisasi</span><strong>${fmtFull(am.realisasi)}</strong></div><div class="kv"><span>Sisa</span><strong>${fmtFull(am.sisa)}</strong></div><div class="kv"><span>Proyeksi Sisa</span><strong>${fmtFull(projection)}</strong></div></div>`;return `<div class="metric-card ${primary?'primary':''}"><h3>${esc(title)}</h3><div class="metric-big">${fmtFull(am.pagu)}</div>${kv}<div class="progress-wrap"><div class="progress-label"><span>Realisasi ${fmtPct(r)}</span><span>Sisa ${fmtPct(pct(am.sisa,am.pagu))}</span></div><div class="progress"><div style="width:${width}%"></div></div></div></div>`}
+function metricCard(title,am,primary,type){const out=primary?totalOutstanding():(type?outstandingForType(type):0);const projection=Number(am.sisa||0)-out;const r=pct(am.realisasi,am.pagu);const width=Math.max(0,Math.min(100,r*100));const kv=primary?`<div class="metric-kv-grid"><div class="kv"><span>Realisasi</span><strong>${fmtFull(am.realisasi)}</strong></div><div class="kv"><span>Sisa</span><strong>${fmtFull(am.sisa)}</strong></div><div class="kv"><span>PJ Submitted + Outstanding</span><strong>${fmtFull(out)}</strong></div><div class="kv"><span>Proyeksi Sisa</span><strong>${fmtFull(projection)}</strong></div></div>`:`<div class="metric-kv-grid"><div class="kv"><span>Realisasi</span><strong>${fmtFull(am.realisasi)}</strong></div><div class="kv"><span>Sisa</span><strong>${fmtFull(am.sisa)}</strong></div><div class="kv"><span>Proyeksi Sisa</span><strong>${fmtFull(projection)}</strong></div></div>`;return `<div class="metric-card ${primary?'primary':''}"><h3>${esc(title)}</h3><div class="metric-big">${fmtFull(am.pagu)}</div>${kv}<div class="progress-wrap"><div class="progress-label"><span>Realisasi ${fmtPct(r)}</span><span>Sisa ${fmtPct(pct(am.sisa,am.pagu))}</span></div><div class="progress"><div style="width:${width}%"></div></div></div></div>`}
 function renderSummary(){const rows=filterRows(state.current);const official=exactOfficialScope();const total=official||plus(rows);const typeData=Object.fromEntries(TYPES.map(t=>[t,plus(rows.filter(r=>r.type===t))]));const chosen=selected('fUnit'),chosenType=selected('fType');const visibleTypes=TYPES.filter(t=>(chosen==='ALL'||chosen==='SDJ'||t!=='BBO')&&(chosenType==='ALL'||chosenType===t));$('summaryCards').innerHTML=metricCard('Total Anggaran',total,true)+visibleTypes.map(t=>metricCard(t,typeData[t],false,t)).join('')}
 
-function renderUnits(){const active=selected('fUnit'),chosenType=selected('fType');const globalRows=filterRows(state.current,{unit:'ALL'});$('unitCards').innerHTML=UNITS.map(unit=>{const rows=globalRows.filter(r=>r.unit===unit);let am=plus(rows);if(isBaseFilters()){const off=unitOfficial(unit);if(off)am=off}const r=pct(am.realisasi,am.pagu);const jaldis=plus(rows.filter(a=>a.type==='Jaldis'));const nonJaldis=plus(rows.filter(a=>a.type==='Non-Jaldis'));const relevantTypes=TYPES.filter(t=>(unit==='SDJ'||t!=='BBO')&&(chosenType==='ALL'||chosenType===t));const unitOut=relevantTypes.reduce((sum,t)=>sum+outstandingValue(unit,t),0);const unitProj=Number(am.sisa||0)-unitOut;let details='';if(active===unit){const types=relevantTypes;details=`<div class="unit-detail">${types.map(t=>{const x=plus(rows.filter(a=>a.type===t));const out=outstandingValue(unit,t);return `<div class="type-detail"><div class="type-detail-title">${esc(t)}</div><div class="detail-grid"><div class="detail-kv"><span>Pagu</span><strong>${fmtFull(x.pagu)}</strong></div><div class="detail-kv"><span>Realisasi</span><strong>${fmtFull(x.realisasi)}</strong></div><div class="detail-kv"><span>Sisa</span><strong>${fmtFull(x.sisa)}</strong></div><div class="detail-kv"><span>Proyeksi Sisa</span><strong>${fmtFull(x.sisa-out)}</strong></div></div><div class="money-label">Outstanding</div><div class="money-input-wrap"><input class="money-input outstanding-input" type="text" inputmode="numeric" data-unit="${esc(unit)}" data-type="${esc(t)}" value="${esc(fmtFull(out))}"></div><div class="saving" data-status="${esc(unit)}|${esc(t)}"></div></div>`}).join('')}<div class="unit-projection">Total Outstanding <strong>${fmtFull(unitOut)}</strong> · Proyeksi Sisa <strong>${fmtFull(unitProj)}</strong></div></div>`}return `<article class="unit-card ${active===unit?'active':''}" data-unit="${esc(unit)}" tabindex="0"><div class="unit-title"><h3>${esc(unit)}</h3><div class="pct">${fmtPct(r)}</div></div><div class="unit-total">Pagu ${fmtFull(am.pagu)} · Realisasi ${fmtFull(am.realisasi)} · Sisa ${fmtFull(am.sisa)}</div><div class="unit-sisa-split"><span class="unit-sisa-item">Sisa Jaldis <strong>${fmtFull(jaldis.sisa)}</strong></span><span class="unit-sisa-item">Sisa Non-Jaldis <strong>${fmtFull(nonJaldis.sisa)}</strong></span></div>${details}</article>`}).join('');bindUnitEvents();bindOutstandingInputs()}
+function renderUnits(){
+  const active=selected('fUnit'),chosenType=selected('fType');
+  const globalRows=filterRows(state.current,{unit:'ALL'});
+  $('unitCards').innerHTML=UNITS.map(unit=>{
+    const rows=globalRows.filter(r=>r.unit===unit);let am=plus(rows);
+    if(isBaseFilters()){const off=unitOfficial(unit);if(off)am=off}
+    const r=pct(am.realisasi,am.pagu),jaldis=plus(rows.filter(a=>a.type==='Jaldis')),nonJaldis=plus(rows.filter(a=>a.type==='Non-Jaldis'));
+    const relevantTypes=TYPES.filter(t=>(unit==='SDJ'||t!=='BBO')&&(chosenType==='ALL'||chosenType===t));
+    const unitOut=relevantTypes.reduce((sum,t)=>sum+effectiveOutstandingValue(unit,t),0),unitProj=Number(am.sisa||0)-unitOut;
+    let details='';
+    if(active===unit){details=`<div class="unit-detail">${relevantTypes.map(t=>{
+      const x=plus(rows.filter(a=>a.type===t)),manualOut=outstandingValue(unit,t),auto=pjAutoBreakdown(unit,t),effective=manualOut+auto.total;
+      return `<div class="type-detail"><div class="type-detail-title">${esc(t)}</div><div class="detail-grid"><div class="detail-kv"><span>Pagu</span><strong>${fmtFull(x.pagu)}</strong></div><div class="detail-kv"><span>Realisasi</span><strong>${fmtFull(x.realisasi)}</strong></div><div class="detail-kv"><span>Sisa</span><strong>${fmtFull(x.sisa)}</strong></div><div class="detail-kv"><span>Proyeksi Sisa</span><strong>${fmtFull(x.sisa-effective)}</strong></div></div><div class="money-label">Outstanding manual</div><div class="money-input-wrap"><input class="money-input outstanding-input" type="text" inputmode="numeric" data-unit="${esc(unit)}" data-type="${esc(t)}" value="${esc(fmtFull(manualOut))}"></div><div class="saving" data-status="${esc(unit)}|${esc(t)}"></div><div class="small-muted">PJ Submitted ${fmtFull(auto.submitted)} · Outstanding PJ ${fmtFull(auto.outstanding)}</div></div>`
+    }).join('')}<div class="unit-projection">PJ Submitted + Outstanding <strong>${fmtFull(unitOut)}</strong> · Proyeksi Sisa <strong>${fmtFull(unitProj)}</strong></div></div>`}
+    return `<article class="unit-card ${active===unit?'active':''}" data-unit="${esc(unit)}" tabindex="0"><div class="unit-title"><h3>${esc(unit)}</h3><div class="pct">${fmtPct(r)}</div></div><div class="unit-total">Pagu ${fmtFull(am.pagu)} · Realisasi ${fmtFull(am.realisasi)} · Sisa ${fmtFull(am.sisa)}</div><div class="unit-sisa-split"><span class="unit-sisa-item">Sisa Jaldis <strong>${fmtFull(jaldis.sisa)}</strong></span><span class="unit-sisa-item">Sisa Non-Jaldis <strong>${fmtFull(nonJaldis.sisa)}</strong></span></div>${details}</article>`
+  }).join('');
+  bindUnitEvents();bindOutstandingInputs()
+}
+function renderPjUnitSummary(){
+  if(state.pj.loading){$('pjUnitSummary').innerHTML='<div class="pj-empty">Memuat data Tracker PJ...</div>';return}
+  const rows=UNITS.map(unit=>{const x=pjAutoBreakdown(unit);return `<tr><td>${esc(unit)}</td><td class="num">${fmtFull(x.submitted)}</td><td class="num">${fmtFull(x.outstanding)}</td><td class="num"><strong>${fmtFull(x.total)}</strong></td></tr>`}).join('');
+  const total=pjAutoBreakdown();
+  $('pjUnitSummary').innerHTML=`<table><thead><tr><th>Unit</th><th class="num">PJ Submitted</th><th class="num">Outstanding</th><th class="num">Total</th></tr></thead><tbody>${rows}<tr><td><strong>Total</strong></td><td class="num"><strong>${fmtFull(total.submitted)}</strong></td><td class="num"><strong>${fmtFull(total.outstanding)}</strong></td><td class="num"><strong>${fmtFull(total.total)}</strong></td></tr></tbody></table><div class="pj-summary-note">Nilai otomatis ini ditambahkan di atas Outstanding manual untuk menghitung Proyeksi Sisa. SPBY tidak dihitung karena telah tercermin dalam Laporan FA Detail.</div>`
+}
 function bindUnitEvents(){document.querySelectorAll('.unit-card').forEach(card=>{const choose=()=>{const unit=card.dataset.unit;$('fUnit').value=selected('fUnit')===unit?'ALL':unit;renderAll()};card.addEventListener('click',e=>{if(e.target.closest('input')||e.target.closest('.unit-detail'))return;choose()});card.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.target.closest('input')){e.preventDefault();choose()}})})}
 function bindOutstandingInputs(){document.querySelectorAll('.outstanding-input').forEach(input=>{input.addEventListener('focus',()=>input.select());input.addEventListener('change',async()=>{const unit=input.dataset.unit,type=input.dataset.type,value=moneyFromInput(input.value),old=outstandingValue(unit,type);input.value=fmtFull(value);state.manual.outstanding[unit][type]=value;renderSummary();renderAccount();const status=document.querySelector(`[data-status="${CSS.escape(unit+'|'+type)}"]`);if(status)status.textContent='Menyimpan...';try{const resp=await rpc('saveOutstanding',{unit,type,value,period:state.current.meta.period||''});if(resp.manual)state.manual=normalizeManual(resp.manual);renderAll()}catch(err){state.manual.outstanding[unit][type]=old;alert(err.message);renderAll()}})})}
 
@@ -163,14 +262,78 @@ function bindHierarchyToggles(){document.querySelectorAll('.tree-toggle').forEac
 function renderPeriod(){const period=state.loaded?(state.current.meta.period||'—'):'[loading...]';$('periodSectionTitle').textContent='Realisasi Periode '+period;$('rpdLabel').textContent='RPD '+period;const pc=state.current.periodCurrent||{total:0,types:{},units:{}};$('periodMetrics').innerHTML=[['Total',pc.total||0],['Jaldis',pc.types?.['Jaldis']||0],['Non-Jaldis',pc.types?.['Non-Jaldis']||0]].map(([l,v])=>`<div class="period-metric"><span>${esc(l)}</span><strong>${fmtFull(v)}</strong></div>`).join('');const rpdValue=Number(state.manual.rpd||0);const rpdRatio=rpdValue>0?Number(pc.total||0)/rpdValue:0;const rpdWidth=Math.max(0,Math.min(100,rpdRatio*100));$('rpdProgress').innerHTML=`<div class="rpd-progress-label"><span>Progress terhadap RPD ${esc(period)}</span><strong>${fmtPct(rpdRatio)}</strong></div><div class="progress"><div style="width:${rpdWidth}%"></div></div>`;const rpd=$('rpdInput');rpd.disabled=!state.loaded||!state.current.meta.period;rpd.value=fmtFull(rpdValue);const rows=UNITS.map(unit=>{const x=pc.units?.[unit]||{};return `<tr><td>${esc(unit)}</td><td class="num">${fmtFull(x.total||0)}</td><td class="num">${fmtFull(x['Jaldis']||0)}</td><td class="num">${fmtFull(x['Non-Jaldis']||0)}</td></tr>`}).join('');$('periodTable').innerHTML=`<table><thead><tr><th>Unit</th><th class="num">Total</th><th class="num">Jaldis</th><th class="num">Non-Jaldis</th></tr></thead><tbody>${rows}</tbody></table>`}
 function bindRpd(){const input=$('rpdInput');input.addEventListener('focus',()=>input.select());input.addEventListener('change',async()=>{if(!state.loaded||!state.current.meta.period)return;const value=moneyFromInput(input.value),old=Number(state.manual.rpd||0);input.value=fmtFull(value);state.manual.rpd=value;$('rpdStatus').textContent='Menyimpan...';try{const resp=await rpc('saveRpd',{period:state.current.meta.period,value});if(resp.manual)state.manual=normalizeManual(resp.manual);$('rpdStatus').textContent='Tersimpan';renderPeriod();setTimeout(()=>{$('rpdStatus').textContent=''},1400)}catch(err){state.manual.rpd=old;input.value=fmtFull(old);$('rpdStatus').textContent='Gagal disimpan';alert(err.message)}})}
 
+function pjMonthLabel(value){if(!value)return '—';const [year,month]=value.split('-').map(Number);return new Intl.DateTimeFormat('id-ID',{month:'long',year:'numeric'}).format(new Date(year,month-1,1))}
+function populatePjFilters(){
+  const records=state.pj.records,old={output:selected('pjOutput'),type:selected('pjType'),unit:selected('pjUnit'),month:selected('pjMonth'),status:selected('pjStatus'),account:selected('pjAccount'),flag:selected('pjFlag')};
+  const uniq=key=>[...new Set(records.map(r=>r[key]).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),'id'));
+  setOptions('pjOutput',[['ALL','Semua output'],...uniq('output').map(x=>[x,x])],old.output);
+  setOptions('pjType',[['ALL','Semua'],['Jaldis','Jaldis'],['Non-Jaldis','Non-Jaldis']],old.type);
+  setOptions('pjUnit',[['ALL','Semua unit'],...UNITS.map(x=>[x,x])],old.unit);
+  setOptions('pjMonth',[['ALL','Semua bulan'],...uniq('month').map(x=>[x,pjMonthLabel(x)])],old.month);
+  setOptions('pjStatus',[['ALL','Semua status'],['PJ Submitted','PJ Submitted'],['Outstanding','Outstanding'],['SPBY','SPBY'],['Data Anomaly','Data Anomaly'],['Incomplete','Incomplete']],old.status);
+  setOptions('pjAccount',[['ALL','Semua akun'],...uniq('account').map(x=>[x,x])],old.account);
+  setOptions('pjFlag',[['ALL','Semua'],['DUP','Kemungkinan duplikat'],['KODE','Kode/akun tidak lengkap'],['DATA','Data anomaly']],old.flag);
+}
+function filteredPjRecords(){
+  const output=selected('pjOutput'),type=selected('pjType'),unit=selected('pjUnit'),month=selected('pjMonth'),status=selected('pjStatus'),account=selected('pjAccount'),flag=selected('pjFlag'),q=String($('pjSearch').value||'').trim().toLowerCase();
+  const rows=state.pj.records.filter(r=>(output==='ALL'||r.output===output)&&(type==='ALL'||r.type===type)&&(unit==='ALL'||r.unit===unit)&&(month==='ALL'||r.month===month)&&(status==='ALL'||r.status===status)&&(account==='ALL'||r.account===account)&&(flag==='ALL'||(flag==='DUP'&&r.duplicate)||(flag==='KODE'&&(!r.output||!r.account))||(flag==='DATA'&&r.status==='Data Anomaly'))&&(!q||[r.desc,r.recipient,r.spby,r.code,r.source].some(v=>String(v||'').toLowerCase().includes(q))));
+  const key=state.pj.sortKey,dir=state.pj.sortDir;
+  rows.sort((a,b)=>{let av=a[key],bv=b[key];if(key==='total'||key==='nmo'||key==='date'){av=Number(av||0);bv=Number(bv||0);return(av-bv)*dir}return String(av||'').localeCompare(String(bv||''),'id')*dir});
+  return rows
+}
+function pjStatusBadge(status){const cls=status==='PJ Submitted'?'submitted':status==='Outstanding'?'outstanding':status==='SPBY'?'spby':status==='Data Anomaly'?'anomaly':'incomplete';return `<span class="pj-badge ${cls}">${esc(status)}</span>`}
+function pjSortTh(key,label,numeric){const active=state.pj.sortKey===key,arrow=active?(state.pj.sortDir===1?'↑':'↓'):'↕';return `<th class="${numeric?'num':''}" data-pj-sort="${esc(key)}" style="cursor:pointer">${esc(label)} ${arrow}</th>`}
+function renderTracker(){
+  if(state.pj.loading){$('pjRecordCount').textContent='Memuat tujuh sumber...';$('pjTotals').textContent='Menunggu data Tracker PJ.';$('pjTable').innerHTML='<div class="pj-empty">Memuat data Tracker PJ...</div>';return}
+  const rows=filteredPjRecords();state.pj.filtered=rows;const shown=rows.slice(0,500);
+  $('pjRecordCount').textContent=state.pj.records.length.toLocaleString('id-ID')+' catatan total';
+  const submitted=rows.filter(r=>r.status==='PJ Submitted').reduce((s,r)=>s+r.total,0),outstanding=rows.filter(r=>r.status==='Outstanding').reduce((s,r)=>s+r.nmo,0),spby=rows.filter(r=>r.status==='SPBY').length;
+  $('pjTotals').innerHTML=`<strong>${rows.length.toLocaleString('id-ID')}</strong> catatan · Nominal Pengajuan ${fmtFull(rows.reduce((s,r)=>s+r.total,0))} · PJ Submitted ${fmtFull(submitted)} · Outstanding ${fmtFull(outstanding)} · SPBY ${spby.toLocaleString('id-ID')}`;
+  if(!shown.length){$('pjTable').innerHTML='<div class="pj-empty">Tidak ada catatan untuk filter ini.</div>';return}
+  const body=shown.map(r=>{const flags=[r.duplicate?'<span class="pj-badge pj-flag">DUP</span>':'',(!r.output||!r.account)?'<span class="pj-badge pj-flag bad">KODE</span>':'',r.status==='Data Anomaly'?'<span class="pj-badge pj-flag">DATA</span>':''].filter(Boolean).join(' ');return `<tr class="${r.status==='Data Anomaly'?'pj-row-anomaly':''}"><td>${esc(r.dateDisplay)}</td><td>${esc(r.unit)}</td><td><span class="pj-badge ${r.type==='Jaldis'?'jaldis':'nonjaldis'}">${r.type==='Jaldis'?'J':'NJ'}</span></td><td>${pjStatusBadge(r.status)}</td><td class="desc" data-pj-modal="${esc(r.id)}" title="Klik untuk melihat uraian lengkap">${esc(r.desc||'—')}</td><td class="num">${fmtFull(r.total)}</td><td class="code" title="${esc(r.code)}">${esc(r.output||'?')} · ${esc(r.code||'—')}</td><td>${esc(r.account||'—')}</td><td class="num">${fmtFull(r.nmo)}</td><td>${esc(r.spby||'—')}</td><td>${esc(r.transfer||'—')}</td><td>${esc(r.recipient||'—')}</td><td>${flags||'—'}<div class="small-muted">${esc(r.source)}</div></td></tr>`}).join('');
+  $('pjTable').innerHTML=`<table><thead><tr>${pjSortTh('date','Tanggal')}${pjSortTh('unit','Unit')} ${pjSortTh('type','Tipe')} ${pjSortTh('status','Status PJ')}<th>Uraian</th>${pjSortTh('total','Nominal Pengajuan',true)}<th>Kode/Output</th>${pjSortTh('account','Akun')} ${pjSortTh('nmo','Nilai Model O',true)} ${pjSortTh('spby','No. SPBY')}<th>Status Transfer</th><th>Penerima Penggantian</th><th>Flag/Data Source</th></tr></thead><tbody>${body}</tbody></table>${rows.length>500?`<div class="pj-more">Menampilkan 500 dari ${rows.length.toLocaleString('id-ID')} catatan. Gunakan filter untuk mempersempit.</div>`:''}`;
+  document.querySelectorAll('[data-pj-sort]').forEach(th=>th.addEventListener('click',()=>{const key=th.dataset.pjSort;if(state.pj.sortKey===key)state.pj.sortDir*=-1;else{state.pj.sortKey=key;state.pj.sortDir=key==='date'||key==='total'||key==='nmo'?-1:1}renderTracker()}));
+  document.querySelectorAll('[data-pj-modal]').forEach(cell=>cell.addEventListener('click',()=>openPjModal(cell.dataset.pjModal)))
+}
+function openPjModal(id){const r=state.pj.records.find(x=>x.id===id);if(!r)return;$('pjModal').innerHTML=`<div class="modal-overlay" data-close-modal><div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="pjModalTitle"><button class="modal-close" type="button" data-close-modal>✕</button><h3 id="pjModalTitle">Uraian Lengkap</h3><div>${esc(r.desc||'—')}</div><div class="modal-meta">${esc(r.dateDisplay)} · ${esc(r.unit)} · ${esc(r.type)} · ${esc(r.source)}<br>${esc(r.code||'Kode tidak tersedia')} · ${esc(r.account||'Akun tidak tersedia')} · ${fmtFull(r.total)} · Model O ${fmtFull(r.nmo)}</div></div></div>`;document.querySelectorAll('[data-close-modal]').forEach(el=>el.addEventListener('click',e=>{if(e.currentTarget===e.target||e.currentTarget.classList.contains('modal-close'))$('pjModal').innerHTML=''}))}
+function renderView(){const tracker=state.view==='tracker';$('monitoringView').classList.toggle('hidden',tracker);$('trackerView').classList.toggle('hidden',!tracker);document.querySelectorAll('.main-tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.view===state.view))}
+function renderPjHealth(){
+  const dot=$('pjDot'),text=$('pjLiveStatus'),item=$('pjLiveItem');dot.className='live-dot warn';
+  if(state.pj.loading){text.textContent='PJ: memuat';item.title='Memuat tujuh sumber PJ';return}
+  const {live,cached,unavailable,sources,lastFullSuccess}=state.pj;let label='';
+  if(live===7){dot.className='live-dot ok';label='PJ: 7/7 live'}
+  else if(unavailable>0){dot.className='live-dot err';label=`PJ: ${live+cached}/7 tersedia · ${unavailable} gagal`}
+  else if(live>0){dot.className='live-dot warn';label=`PJ: ${live}/7 live · ${cached} cached`}
+  else if(cached===7){dot.className='live-dot warn';const when=lastFullSuccess?new Date(lastFullSuccess).toLocaleString('id-ID',{timeZone:'Asia/Jakarta',dateStyle:'short',timeStyle:'short'}):'tersimpan';label=`PJ: cached · terakhir ${when}`}
+  else{dot.className='live-dot err';label='PJ: data tidak lengkap'}
+  text.textContent=label;item.title=sources.map(s=>`${s.label}: ${s.mode}${s.fetchedAt?' · '+new Date(s.fetchedAt).toLocaleString('id-ID',{timeZone:'Asia/Jakarta'}):''}${s.error?' · '+s.error:''}`).join('\n')
+}
+async function loadTrackerPj(){
+  const cache=readPjCache(),sourceCache=cache.sources||{};
+  state.pj.loading=true;renderPjHealth();renderTracker();
+  const results=await Promise.all(PJ_SOURCES.map(async source=>{
+    try{const response=await fetch(pjUrl(source),{cache:'no-store'});if(!response.ok)throw new Error('HTTP '+response.status);const records=parsePjCsv(await response.text(),source);if(!records.length)throw new Error('Tidak ada data valid');const fetchedAt=new Date().toISOString();sourceCache[source.key]={records,fetchedAt};return {source,records,mode:'live',fetchedAt}}
+    catch(err){const saved=sourceCache[source.key];if(saved&&Array.isArray(saved.records)&&saved.records.length)return {source,records:saved.records,mode:'cached',fetchedAt:saved.fetchedAt,error:err.message};return {source,records:[],mode:'unavailable',error:err.message}}
+  }));
+  const records=results.flatMap(x=>x.records);markPjDuplicates(records);const live=results.filter(x=>x.mode==='live').length,cached=results.filter(x=>x.mode==='cached').length,unavailable=results.filter(x=>x.mode==='unavailable').length;
+  if(live===7)cache.lastFullSuccess=new Date().toISOString();cache.sources=sourceCache;savePjCache(cache);
+  state.pj={...state.pj,records,loading:false,live,cached,unavailable,lastFullSuccess:cache.lastFullSuccess||null,sources:results.map(x=>({key:x.source.key,label:x.source.label,mode:x.mode,fetchedAt:x.fetchedAt||null,error:x.error||''}))};
+  populatePjFilters();renderAll()
+}
+
 function renderValidation(){const warnings=state.current.validation?.warnings||[],errors=state.current.validation?.errors||[];if(!state.loaded){$('validationBody').innerHTML='<div class="status ok">Belum ada data yang dimuat.</div>';return}if(errors.length){$('validationBody').innerHTML=`<div class="status err">${errors.length} Error</div><ul class="warning-list">${errors.map(x=>`<li>${esc(x.message||x)}</li>`).join('')}</ul>`;return}if(warnings.length){$('validationBody').innerHTML=`<div class="status warn">${warnings.length} peringatan.</div><ul class="warning-list">${warnings.map(x=>`<li>${esc(x.message||x)}</li>`).join('')}</ul>`;return}$('validationBody').innerHTML='<div class="status ok">Tidak ada peringatan.</div>'}
-function renderHeader(){if(!state.loaded){$('period').textContent='[loading...]';$('dataAsOf').textContent='[loading...]';$('sourceMeta').textContent=state.refreshError?'Sumber: belum tersedia':'Memuat Laporan FA dari Google Drive...';$('sourceStatus').textContent=state.refreshError?'Data backend belum dapat dimuat; seluruh angka tetap Rp0.':'Menunggu data Laporan FA dari backend.';return}const m=state.current.meta||{};$('period').textContent=m.period||'—';$('dataAsOf').textContent=fmtDateISO(m.dataAsOf);$('sourceMeta').textContent=`Sumber: ${m.sourceFile||'Laporan FA'} · ${Number(m.accountRows||0).toLocaleString('id-ID')} baris Akun`;let text='Data dimuat otomatis dari Laporan FA di Google Drive.';if(state.source?.modifiedAt){const d=new Date(state.source.modifiedAt);if(!isNaN(d))text+=' · File terakhir diperbarui '+d.toLocaleString('id-ID',{timeZone:'Asia/Jakarta',dateStyle:'long',timeStyle:'short'})+'.'}if(state.refreshError)text+=' Pembaruan sumber terakhir gagal: '+state.refreshError;$('sourceStatus').textContent=text}
-function renderAll(){renderHeader();renderSummary();renderUnits();renderAccount();renderHierarchy();renderPeriod();renderValidation()}
+function renderHeader(){renderPjHealth();const faDot=$('faDot'),faText=$('faLiveStatus');if(!state.loaded){faDot.className='live-dot '+(state.refreshError?'err':'warn');faText.textContent=state.refreshError?'FA: gagal':'FA: memuat';$('period').textContent='[loading...]';$('dataAsOf').textContent='[loading...]';$('sourceMeta').textContent=state.refreshError?'Sumber: belum tersedia':'Memuat Laporan FA dari Google Drive...';$('sourceStatus').textContent=state.refreshError?'Data backend belum dapat dimuat; seluruh angka tetap Rp0.':'Menunggu data Laporan FA dari backend.';return}faDot.className='live-dot '+(state.refreshError?'warn':'ok');faText.textContent=state.refreshError?'FA: cached':'FA: live';const m=state.current.meta||{};$('period').textContent=m.period||'—';$('dataAsOf').textContent=fmtDateISO(m.dataAsOf);$('sourceMeta').textContent=`Sumber: ${m.sourceFile||'Laporan FA'} · ${Number(m.accountRows||0).toLocaleString('id-ID')} baris Akun`;let text='Data dimuat otomatis dari Laporan FA di Google Drive.';if(state.source?.modifiedAt){const d=new Date(state.source.modifiedAt);if(!isNaN(d))text+=' · File terakhir diperbarui '+d.toLocaleString('id-ID',{timeZone:'Asia/Jakarta',dateStyle:'long',timeStyle:'short'})+'.'}if(state.refreshError)text+=' Pembaruan sumber terakhir gagal: '+state.refreshError;$('sourceStatus').textContent=text}
+function renderAll(){renderHeader();renderSummary();renderUnits();renderPjUnitSummary();renderAccount();renderHierarchy();renderPeriod();renderValidation();renderTracker();renderView()}
 
 function normalizeManual(manual){const base=emptyManual();if(manual&&manual.outstanding)UNITS.forEach(u=>TYPES.forEach(t=>{base.outstanding[u][t]=Number(manual.outstanding?.[u]?.[t]||0)}));base.rpd=Number(manual?.rpd||0);base.period=String(manual?.period||'');return base}
 async function loadLatest(){renderAll();try{const resp=await jsonp('latest');if(!resp||resp.ok===false||!resp.data)throw new Error((resp&&resp.error)||'Data laporan belum tersedia.');state.current=resp.data;state.manual=normalizeManual(resp.manual);state.source=resp.source||null;state.refreshError=resp.refreshError||null;state.loaded=true;initializeHierarchyState();populateFilters();renderAll()}catch(err){state.loaded=false;state.current=emptyData();state.manual=emptyManual();state.hierarchy={programs:new Set(),outputs:new Set(),suboutputs:new Set(),initialized:false};state.refreshError=err.message;populateFilters();renderAll()}}
 
-['fUnit','fProgram','fOutput','fSuboutput','fType'].forEach(id=>$(id).addEventListener('change',renderAll));$('resetUnit').addEventListener('click',()=>{$('fUnit').value='ALL';renderAll()});bindRpd();populateFilters();loadLatest();
+['fUnit','fProgram','fOutput','fSuboutput','fType'].forEach(id=>$(id).addEventListener('change',renderAll));
+['pjOutput','pjType','pjUnit','pjMonth','pjStatus','pjAccount','pjFlag'].forEach(id=>$(id).addEventListener('change',renderTracker));
+$('pjSearch').addEventListener('input',renderTracker);
+document.querySelectorAll('.main-tab').forEach(tab=>tab.addEventListener('click',()=>{state.view=tab.dataset.view;renderView();if(state.view==='tracker')renderTracker()}));
+$('resetUnit').addEventListener('click',()=>{$('fUnit').value='ALL';renderAll()});
+bindRpd();populateFilters();populatePjFilters();loadLatest();loadTrackerPj();
 </script>
 </body>
 </html>
