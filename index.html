@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Monitoring Anggaran frontend v0.8.0; compatible with backend v0.6.0 -->
+<!-- Monitoring Anggaran frontend v0.9.0; requires backend v0.7.0 -->
 <html lang="id">
 <head>
 <meta charset="utf-8">
@@ -27,7 +27,7 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
 .units-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.unit-card{background:var(--unit);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:14px;cursor:pointer;transition:.15s ease;outline:none}.unit-card:hover,.unit-card.active{border-color:#84b9c2;box-shadow:0 9px 26px rgba(33,69,87,.11)}.unit-card.active{outline:2px solid rgba(23,107,135,.09)}.unit-title{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.unit-title h3{margin:0;font-size:16px}.unit-title .pct{font-size:18px;font-weight:700;color:var(--blue)}.unit-total{font-size:11px;color:var(--muted);margin:7px 0 0;line-height:1.55}.unit-sisa-split{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}.unit-sisa-item{background:#f1f6f8;border:1px solid #e0e9ee;border-radius:8px;padding:5px 7px;font-size:10px;color:#4d687a}.unit-sisa-item strong{color:var(--ink)}.unit-detail{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:grid;gap:8px}.type-detail{background:var(--unit-detail);border:1px solid #e0e8ed;padding:9px;border-radius:10px}.type-detail-title{font-size:11px;font-weight:700;color:#486377;margin-bottom:6px}.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.detail-kv span{font-size:9px;color:var(--muted);display:block}.detail-kv strong{font-size:10px;display:block;margin-top:2px;word-break:break-word}.money-label{font-size:9px;color:var(--muted);margin:7px 0 3px}.money-input-wrap{display:flex;align-items:center;gap:6px}.money-input{font-size:11px;padding:7px 8px!important;font-variant-numeric:tabular-nums}.saving{font-size:9px;color:var(--muted);min-height:11px}.unit-projection{margin-top:8px;background:#eef6f7;border-radius:9px;padding:8px;font-size:10px;color:#486377}.unit-projection strong{font-size:11px;color:var(--ink)}
 .table-panel{overflow:hidden}.table-scroll{overflow:auto}table{width:100%;border-collapse:collapse;font-size:12px}th{position:sticky;top:0;background:#eef4f7;color:#3f5a6b;text-align:left;font-size:11px;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}td{padding:10px;border-bottom:1px solid #edf1f4;vertical-align:top}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}tr:last-child td{border-bottom:0}.account-heading{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 15px;border-bottom:1px solid var(--line)}.account-heading h3{margin:0;font-size:14px}
 .hier-label{display:flex;gap:7px;align-items:flex-start}.hier-code{font-weight:700;min-width:66px}.tree-toggle{width:18px;height:18px;padding:0!important;border:0;background:transparent!important;color:#718493;display:inline-flex;align-items:center;justify-content:center;flex:0 0 18px;font-size:12px;line-height:1}.tree-spacer{width:18px;flex:0 0 18px}.tree-row td:first-child{cursor:default}.level-program td{background:#f5f9fb;font-weight:700}.level-output td{background:#fbfcfd;font-weight:700}.level-suboutput td{background:#fff}.level-account td{color:#526879}.level-output td:first-child{padding-left:24px}.level-suboutput td:first-child{padding-left:48px}.level-account td:first-child{padding-left:72px}.level-account .hier-code{font-weight:600}
-.period-panel{padding:14px}.period-top{display:grid;grid-template-columns:2fr 1fr;gap:12px;align-items:stretch}.period-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.period-metric{background:#f6f9fb;border:1px solid #e0e8ed;border-radius:11px;padding:11px}.period-metric span{display:block;font-size:10px;color:var(--muted);margin-bottom:4px}.period-metric strong{font-size:16px}.rpd-box{background:#eef5f8;border:1px solid #d2e1e9;border-radius:12px;padding:11px}.rpd-box label{display:block;font-weight:700;font-size:11px;margin-bottom:6px}.rpd-box .money-input{font-size:13px}.rpd-progress{margin-top:12px;background:#f6f9fb;border:1px solid #e0e8ed;border-radius:11px;padding:11px}.rpd-progress-label{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:10px;color:#557083;margin-bottom:7px}.rpd-progress-label strong{font-size:12px;color:var(--ink)}.rpd-progress .progress{height:9px}.period-table{margin-top:12px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.period-panel{padding:14px}.period-top{display:grid;grid-template-columns:minmax(0,2fr) minmax(180px,1fr) minmax(220px,1fr);gap:12px;align-items:stretch}.period-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.period-metric{background:#f6f9fb;border:1px solid #e0e8ed;border-radius:11px;padding:11px}.period-metric span{display:block;font-size:10px;color:var(--muted);margin-bottom:4px}.period-metric strong{font-size:16px}.period-input-box{background:#eef5f8;border:1px solid #d2e1e9;border-radius:12px;padding:11px}.period-input-box label{display:block;font-weight:700;font-size:11px;margin-bottom:6px}.period-input-box .money-input{font-size:13px}.projection-source{font-size:9px;color:var(--muted);margin-top:5px;line-height:1.4}.projection-source a{color:var(--blue);font-weight:700}.rpd-progress{margin-top:12px;background:#f6f9fb;border:1px solid #e0e8ed;border-radius:11px;padding:11px}.rpd-progress.projection-progress{background:#eef7f6;border-color:#cfe4e1}.rpd-progress-label{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:10px;color:#557083;margin-bottom:7px}.rpd-progress-label strong{font-size:12px;color:var(--ink);text-align:right}.rpd-progress .progress{height:9px}.period-table{margin-top:12px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .status{padding:12px 14px;border-radius:11px;font-size:12px}.status.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #cfeada}.status.warn{background:var(--warning-bg);color:var(--warning);border:1px solid #f0dda1}.status.err{background:var(--danger-bg);color:var(--danger);border:1px solid #efcccc}.warning-list{margin:8px 0 0;padding-left:18px;color:#6f5416;font-size:12px}details.panel{padding:0}details summary{cursor:pointer;padding:14px 16px;font-weight:700;font-size:13px}details .details-body{padding:0 16px 16px}
 .pj-summary-wrap{margin-top:12px}.pj-summary-note{padding:10px 13px;border-top:1px solid var(--line);font-size:10px;color:var(--muted);background:#f8fafb}.pj-card{overflow:hidden}.pj-head{padding:15px 17px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}.pj-head h2{font-size:18px;margin:0}.pj-filters{display:flex;gap:9px;padding:11px 16px;flex-wrap:wrap;border-bottom:1px solid var(--line);background:#f7f9fa}.pj-filter{display:flex;flex-direction:column;gap:4px}.pj-filter label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.35px;color:#708494}.pj-filter select,.pj-filter input{min-width:135px;padding:7px 9px;font-size:11px}.pj-filter.search input{min-width:220px}.pj-totals{padding:9px 16px;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted)}.pj-table{max-height:560px;overflow:auto}.pj-table td{font-size:11px}.pj-table .desc{max-width:270px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}.pj-table .code{max-width:175px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px}.pj-badge{display:inline-block;padding:3px 7px;border-radius:6px;font-size:9px;font-weight:700;white-space:nowrap}.pj-badge.submitted{background:#fff2d8;color:#8a5a00}.pj-badge.outstanding{background:#ffe7df;color:#a33e27}.pj-badge.spby{background:#e5f3e9;color:#276b42}.pj-badge.anomaly{background:#eee7fb;color:#6543a5}.pj-badge.incomplete{background:#edf0f2;color:#64727d}.pj-badge.jaldis{background:#e4efff;color:#2860a6}.pj-badge.nonjaldis{background:#e2f4f2;color:#16716d}.pj-flag{background:#f1e9fb;color:#6e43aa}.pj-flag.bad{background:#ffe6e2;color:#ad4337}.pj-row-anomaly td{background:#fffaf0}.pj-legend{padding:10px 16px;background:#f4f6f7;border-top:1px solid var(--line);display:flex;gap:13px;flex-wrap:wrap;font-size:10px;color:var(--muted)}.pj-empty{padding:30px;text-align:center;color:var(--muted)}.pj-more{padding:9px 16px;font-size:10px;color:var(--muted);border-top:1px solid var(--line)}.modal-overlay{position:fixed;inset:0;background:rgba(13,35,48,.45);display:flex;align-items:center;justify-content:center;padding:18px;z-index:20}.modal-box{background:#fff;border-radius:15px;max-width:680px;width:100%;max-height:82vh;overflow:auto;padding:21px;box-shadow:0 20px 60px rgba(13,35,48,.2);position:relative}.modal-box h3{margin:0 34px 10px 0}.modal-close{position:absolute;right:12px;top:12px;background:#eef3f6;color:#506879;padding:7px 10px}.modal-meta{font-size:10px;color:var(--muted);margin-top:13px}.hidden{display:none!important}
 @media(max-width:1100px){.summary-grid{grid-template-columns:1.4fr 1fr 1fr}.metric-card:last-child{grid-column:auto}.units-grid{grid-template-columns:repeat(2,1fr)}.period-top{grid-template-columns:1fr}.filters{grid-template-columns:repeat(3,1fr)}}
@@ -55,6 +55,7 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
 
 <nav class="main-tabs" aria-label="Navigasi utama">
   <button class="main-tab active" type="button" data-view="monitoring">Monitoring Anggaran</button>
+  <button class="main-tab" type="button" data-view="account">Rincian Akun</button>
   <button class="main-tab" type="button" data-view="tracker">Tracker PJ</button>
 </nav>
 
@@ -79,10 +80,6 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
 <section class="section">
   <div class="section-head"><h2>Monitoring per Unit</h2><div class="note">Klik unit untuk membuka Outstanding dan rincian Akun</div></div>
   <div class="units-grid" id="unitCards"></div>
-  <div class="panel table-panel pj-summary-wrap">
-    <div class="account-heading"><div><h3>Outstanding &amp; PJ Submitted</h3><div class="small-muted">Nilai otomatis dari tujuh sumber Tracker PJ</div></div></div>
-    <div class="table-scroll" id="pjUnitSummary"></div>
-  </div>
 </section>
 
 <section class="section panel table-panel">
@@ -93,8 +90,8 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
 </section>
 
 <section class="section">
-  <div class="section-head"><h2>Program → Output → Sub-Output → Akun</h2><div class="note">Klik panah untuk membuka atau menutup setiap tingkat</div></div>
-  <div class="panel table-panel"><div class="table-scroll" id="hierarchyTable"></div></div>
+  <div class="section-head"><h2>Outstanding &amp; PJ Submitted</h2><div class="note">Nilai otomatis dari tujuh sumber Tracker PJ</div></div>
+  <div class="panel table-panel"><div class="table-scroll" id="pjUnitSummary"></div></div>
 </section>
 
 <section class="section">
@@ -102,13 +99,20 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
   <div class="panel period-panel">
     <div class="period-top">
       <div class="period-metrics" id="periodMetrics"></div>
-      <div class="rpd-box">
+      <div class="period-input-box">
         <label id="rpdLabel">RPD [loading...]</label>
         <input class="money-input" type="text" inputmode="numeric" id="rpdInput" value="Rp0" disabled>
         <div class="saving" id="rpdStatus"></div>
       </div>
+      <div class="period-input-box">
+        <label id="activityProjectionLabel">Proyeksi Kegiatan [loading...]</label>
+        <input class="money-input" type="text" inputmode="numeric" id="activityProjectionInput" value="Rp0" disabled>
+        <div class="saving" id="activityProjectionStatus"></div>
+        <div class="projection-source">berdasarkan <a href="https://docs.google.com/spreadsheets/d/198VpJZ2us5-ZEUb-ufQVdKgnfAQhDXL6IqOf3tTLc-c/edit?gid=1852635140#gid=1852635140" target="_blank" rel="noopener noreferrer">sheet proyeksi kegiatan</a></div>
+      </div>
     </div>
     <div class="rpd-progress" id="rpdProgress"></div>
+    <div class="rpd-progress projection-progress" id="activityProjectionProgress"></div>
     <div class="period-table" id="periodTable"></div>
   </div>
 </section>
@@ -120,6 +124,24 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
   </details>
 </section>
 
+</main>
+
+<main id="accountView" class="hidden">
+  <section class="panel">
+    <div class="filters">
+      <div><label class="small">Unit</label><select id="aUnit"></select></div>
+      <div><label class="small">Program</label><select id="aProgram"></select></div>
+      <div><label class="small">Output</label><select id="aOutput"></select></div>
+      <div><label class="small">Sub-Output</label><select id="aSuboutput"></select></div>
+      <div><label class="small">Jenis Anggaran</label><select id="aType"></select></div>
+      <div><label class="small">&nbsp;</label><button class="btn secondary" id="resetAccountFilters">Reset Filter</button></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Program → Output → Sub-Output → Akun</h2><div class="note">Klik panah untuk membuka atau menutup setiap tingkat</div></div>
+    <div class="panel table-panel"><div class="table-scroll" id="hierarchyTable"></div></div>
+  </section>
 </main>
 
 <main id="trackerView" class="hidden">
@@ -170,7 +192,7 @@ const PJ_SOURCES=[
 ];
 
 function emptyData(){return {meta:{period:'',dataAsOf:'',sourceFile:'',accountRows:0},grandTotal:{pagu:0,realisasi:0,sisa:0},programs:[],outputs:[],suboutputs:[],accounts:[],periodCurrent:{total:0,types:{'Jaldis':0,'Non-Jaldis':0,'BBO':0},units:{}},validation:{warnings:[],errors:[]}}}
-function emptyManual(){const outstanding={};UNITS.forEach(u=>outstanding[u]={'Jaldis':0,'Non-Jaldis':0,'BBO':0});return {outstanding,rpd:0,period:''}}
+function emptyManual(){const outstanding={};UNITS.forEach(u=>outstanding[u]={'Jaldis':0,'Non-Jaldis':0,'BBO':0});return {outstanding,rpd:0,activityProjection:0,period:''}}
 function emptyPj(){return {records:[],loading:true,live:0,cached:0,unavailable:0,sources:[],lastFullSuccess:null,sortKey:'date',sortDir:-1,filtered:[]}}
 const state={current:emptyData(),manual:emptyManual(),loaded:false,source:null,refreshError:null,pj:emptyPj(),view:'monitoring',hierarchy:{programs:new Set(),outputs:new Set(),suboutputs:new Set(),initialized:false}};
 
@@ -183,7 +205,7 @@ function plus(rows){return (rows||[]).reduce((a,r)=>({pagu:a.pagu+Number(r.pagu|
 function fmtDateISO(v){if(!v)return '[loading...]';const m=String(v).match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${m[3]}/${m[2]}/${m[1]}`:String(v)}
 function moneyFromInput(v){const digits=String(v||'').replace(/[^0-9]/g,'');return digits?Number(digits):0}
 function selected(id){return $(id)&&$(id).value?$(id).value:'ALL'}
-function isBaseFilters(){return ['fProgram','fOutput','fSuboutput','fType'].every(id=>selected(id)==='ALL')}
+function isBaseFilters(prefix='f'){return ['Program','Output','Suboutput','Type'].every(name=>selected(prefix+name)==='ALL')}
 
 function pjUrl(source){const gid=source.gid?'&gid='+encodeURIComponent(source.gid):'';return `https://docs.google.com/spreadsheets/d/${source.id}/gviz/tq?tqx=out:csv${gid}`}
 function pjNumber(v){const digits=String(v==null?'':v).replace(/Rp/gi,'').replace(/[^0-9-]/g,'');return digits&&digits!=='-'?Number(digits)||0:0}
@@ -203,16 +225,17 @@ function pjAutoBreakdown(unit,type){const out={submitted:0,outstanding:0,total:0
 function jsonp(action,params={}){return new Promise((resolve,reject)=>{if(!APP_CONFIG.apiUrl){reject(new Error('API backend belum dikonfigurasi.'));return}const cb='__ma_'+Date.now()+'_'+Math.random().toString(36).slice(2);const script=document.createElement('script');const timer=setTimeout(()=>done(new Error('Backend tidak merespons.')),30000);function done(err,data){clearTimeout(timer);delete window[cb];script.remove();err?reject(err):resolve(data)}window[cb]=data=>done(null,data);const q=new URLSearchParams({action,callback:cb,...params});script.onerror=()=>done(new Error('Gagal menghubungi backend.'));script.src=APP_CONFIG.apiUrl+(APP_CONFIG.apiUrl.includes('?')?'&':'?')+q.toString();document.head.appendChild(script)})}
 function rpc(action,payload={}){return new Promise((resolve,reject)=>{if(!APP_CONFIG.apiUrl){reject(new Error('API backend belum dikonfigurasi.'));return}const nonce=(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random());const frame=document.createElement('iframe');frame.name='ma_rpc_'+nonce.replace(/[^A-Za-z0-9]/g,'');frame.style.display='none';const form=document.createElement('form');form.method='POST';form.action=APP_CONFIG.apiUrl;form.target=frame.name;form.style.display='none';const fields={action,nonce,payload:JSON.stringify(payload)};Object.entries(fields).forEach(([k,v])=>{const i=document.createElement('textarea');i.name=k;i.value=v;form.appendChild(i)});const timer=setTimeout(()=>done(new Error('Backend tidak merespons.')),45000);function onMessage(ev){const d=ev.data;if(!d||d.channel!=='monitoring-anggaran-rpc'||d.nonce!==nonce)return;done(null,d.response)}function done(err,data){clearTimeout(timer);window.removeEventListener('message',onMessage);form.remove();frame.remove();if(err)reject(err);else if(!data||data.ok===false)reject(new Error((data&&data.error)||'Backend mengembalikan error.'));else resolve(data)}window.addEventListener('message',onMessage);document.body.appendChild(frame);document.body.appendChild(form);form.submit()})}
 
-function populateFilters(){
-  const old={unit:selected('fUnit'),program:selected('fProgram'),output:selected('fOutput'),sub:selected('fSuboutput'),type:selected('fType')};
-  setOptions('fUnit',[['ALL','Semua'],...UNITS.map(x=>[x,x])],old.unit);
-  setOptions('fProgram',[['ALL','Semua'],...state.current.programs.map(x=>[x.code,x.code+' — '+x.name])],old.program);
-  setOptions('fOutput',[['ALL','Semua'],...state.current.outputs.map(x=>[x.code,x.code+' — '+x.name])],old.output);
-  setOptions('fSuboutput',[['ALL','Semua'],...state.current.suboutputs.map(x=>[x.code,x.code+' — '+x.name])],old.sub);
-  setOptions('fType',[['ALL','Semua'],...TYPES.map(x=>[x,x])],old.type);
+function populateFilterSet(prefix){
+  const old={unit:selected(prefix+'Unit'),program:selected(prefix+'Program'),output:selected(prefix+'Output'),sub:selected(prefix+'Suboutput'),type:selected(prefix+'Type')};
+  setOptions(prefix+'Unit',[['ALL','Semua'],...UNITS.map(x=>[x,x])],old.unit);
+  setOptions(prefix+'Program',[['ALL','Semua'],...state.current.programs.map(x=>[x.code,x.code+' — '+x.name])],old.program);
+  setOptions(prefix+'Output',[['ALL','Semua'],...state.current.outputs.map(x=>[x.code,x.code+' — '+x.name])],old.output);
+  setOptions(prefix+'Suboutput',[['ALL','Semua'],...state.current.suboutputs.map(x=>[x.code,x.code+' — '+x.name])],old.sub);
+  setOptions(prefix+'Type',[['ALL','Semua'],...TYPES.map(x=>[x,x])],old.type);
 }
+function populateFilters(){populateFilterSet('f');populateFilterSet('a')}
 function setOptions(id,items,wanted){const el=$(id);el.innerHTML=items.map(([v,t])=>`<option value="${esc(v)}">${esc(t)}</option>`).join('');el.value=items.some(x=>x[0]===wanted)?wanted:'ALL'}
-function filterRows(data,override={}){const u=override.unit!==undefined?override.unit:selected('fUnit'),p=override.program!==undefined?override.program:selected('fProgram'),o=override.output!==undefined?override.output:selected('fOutput'),s=override.suboutput!==undefined?override.suboutput:selected('fSuboutput'),t=override.type!==undefined?override.type:selected('fType');return (data.accounts||[]).filter(r=>(u==='ALL'||r.unit===u)&&(p==='ALL'||r.program===p)&&(o==='ALL'||r.output===o)&&(s==='ALL'||r.suboutput===s)&&(t==='ALL'||r.type===t))}
+function filterRows(data,override={},prefix='f'){const u=override.unit!==undefined?override.unit:selected(prefix+'Unit'),p=override.program!==undefined?override.program:selected(prefix+'Program'),o=override.output!==undefined?override.output:selected(prefix+'Output'),s=override.suboutput!==undefined?override.suboutput:selected(prefix+'Suboutput'),t=override.type!==undefined?override.type:selected(prefix+'Type');return (data.accounts||[]).filter(r=>(u==='ALL'||r.unit===u)&&(p==='ALL'||r.program===p)&&(o==='ALL'||r.output===o)&&(s==='ALL'||r.suboutput===s)&&(t==='ALL'||r.type===t))}
 function unitOfficial(unit){if(unit==='SDJ')return state.current.programs.find(x=>x.code==='WA.1318')||null;const c=UNIT_SUB[unit];return state.current.suboutputs.find(x=>x.code===c)||null}
 function exactOfficialScope(){if(selected('fType')!=='ALL')return null;const u=selected('fUnit'),p=selected('fProgram'),o=selected('fOutput'),s=selected('fSuboutput');if(s!=='ALL')return state.current.suboutputs.find(x=>x.code===s)||null;if(o!=='ALL'&&u==='ALL')return state.current.outputs.find(x=>x.code===o)||null;if(p!=='ALL'&&o==='ALL'&&u==='ALL')return state.current.programs.find(x=>x.code===p)||null;if(u!=='ALL'&&p==='ALL'&&o==='ALL')return unitOfficial(u);if(u==='ALL'&&p==='ALL'&&o==='ALL'&&s==='ALL')return state.current.grandTotal;return null}
 
@@ -220,6 +243,7 @@ function outstandingValue(unit,type){return Number(state.manual.outstanding?.[un
 function effectiveOutstandingValue(unit,type){return outstandingValue(unit,type)+pjAutoBreakdown(unit,type).total}
 function outstandingForType(type){const u=selected('fUnit');if(u!=='ALL')return effectiveOutstandingValue(u,type);return UNITS.reduce((sum,unit)=>sum+effectiveOutstandingValue(unit,type),0)}
 function totalOutstanding(){const t=selected('fType');if(t!=='ALL')return outstandingForType(t);return TYPES.reduce((sum,type)=>sum+outstandingForType(type),0)}
+function allEffectiveOutstanding(){return UNITS.reduce((unitSum,unit)=>unitSum+TYPES.reduce((typeSum,type)=>typeSum+effectiveOutstandingValue(unit,type),0),0)}
 
 function metricCard(title,am,primary,type){const out=primary?totalOutstanding():(type?outstandingForType(type):0);const projection=Number(am.sisa||0)-out;const r=pct(am.realisasi,am.pagu);const width=Math.max(0,Math.min(100,r*100));const kv=primary?`<div class="metric-kv-grid"><div class="kv"><span>Realisasi</span><strong>${fmtFull(am.realisasi)}</strong></div><div class="kv"><span>Sisa</span><strong>${fmtFull(am.sisa)}</strong></div><div class="kv"><span>PJ Submitted + Outstanding</span><strong>${fmtFull(out)}</strong></div><div class="kv"><span>Proyeksi Sisa</span><strong>${fmtFull(projection)}</strong></div></div>`:`<div class="metric-kv-grid"><div class="kv"><span>Realisasi</span><strong>${fmtFull(am.realisasi)}</strong></div><div class="kv"><span>Sisa</span><strong>${fmtFull(am.sisa)}</strong></div><div class="kv"><span>Proyeksi Sisa</span><strong>${fmtFull(projection)}</strong></div></div>`;return `<div class="metric-card ${primary?'primary':''}"><h3>${esc(title)}</h3><div class="metric-big">${fmtFull(am.pagu)}</div>${kv}<div class="progress-wrap"><div class="progress-label"><span>Realisasi ${fmtPct(r)}</span><span>Sisa ${fmtPct(pct(am.sisa,am.pagu))}</span></div><div class="progress"><div style="width:${width}%"></div></div></div></div>`}
 function renderSummary(){const rows=filterRows(state.current);const official=exactOfficialScope();const total=official||plus(rows);const typeData=Object.fromEntries(TYPES.map(t=>[t,plus(rows.filter(r=>r.type===t))]));const chosen=selected('fUnit'),chosenType=selected('fType');const visibleTypes=TYPES.filter(t=>(chosen==='ALL'||chosen==='SDJ'||t!=='BBO')&&(chosenType==='ALL'||chosenType===t));$('summaryCards').innerHTML=metricCard('Total Anggaran',total,true)+visibleTypes.map(t=>metricCard(t,typeData[t],false,t)).join('')}
@@ -255,12 +279,67 @@ function renderAccount(){const unit=selected('fUnit');if(unit==='ALL'){$('accoun
 
 function hierarchyKey(level,program,output,code){if(level==='program')return code;if(level==='output')return program+'|'+code;if(level==='suboutput')return program+'|'+output+'|'+code;return ''}
 function initializeHierarchyState(){state.hierarchy.programs=new Set((state.current.programs||[]).map(p=>p.code));state.hierarchy.outputs=new Set();state.hierarchy.suboutputs=new Set();state.hierarchy.initialized=true}
-function renderHierarchy(){if(!state.loaded){$('hierarchyTable').innerHTML='';return}if(!state.hierarchy.initialized)initializeHierarchyState();const filtered=filterRows(state.current);const pSet=new Set(filtered.map(x=>x.program)),oSet=new Set(filtered.map(x=>x.output)),sSet=new Set(filtered.map(x=>x.suboutput));const pSel=selected('fProgram'),oSel=selected('fOutput'),sSel=selected('fSuboutput');const body=[];state.current.programs.forEach(p=>{if((pSel!=='ALL'&&p.code!==pSel)||(!pSet.has(p.code)&&filtered.length))return;const pRows=filtered.filter(a=>a.program===p.code);if(!pRows.length&&filtered.length)return;const pAm=isBaseFilters()&&selected('fUnit')==='ALL'?p:plus(pRows);const pKey=hierarchyKey('program','','',p.code);const pOpen=state.hierarchy.programs.has(pKey);body.push(hierRow('program',p.code,p.name,pAm,true,pOpen,pKey));if(!pOpen)return;state.current.outputs.filter(o=>o.program===p.code).forEach(o=>{if((oSel!=='ALL'&&o.code!==oSel)||(!oSet.has(o.code)&&filtered.length))return;const oRows=pRows.filter(a=>a.output===o.code);if(!oRows.length&&filtered.length)return;const oAm=(isBaseFilters()&&selected('fUnit')==='ALL')?o:plus(oRows);const oKey=hierarchyKey('output',p.code,'',o.code);const oOpen=state.hierarchy.outputs.has(oKey);body.push(hierRow('output',o.code,o.name,oAm,true,oOpen,oKey));if(!oOpen)return;state.current.suboutputs.filter(sub=>sub.program===p.code&&sub.output===o.code).forEach(sub=>{if((sSel!=='ALL'&&sub.code!==sSel)||(!sSet.has(sub.code)&&filtered.length))return;const subRows=oRows.filter(a=>a.suboutput===sub.code);if(!subRows.length&&filtered.length)return;const subAm=(isBaseFilters()&&selected('fUnit')==='ALL')?sub:plus(subRows);const sKey=hierarchyKey('suboutput',p.code,o.code,sub.code);const sOpen=state.hierarchy.suboutputs.has(sKey);body.push(hierRow('suboutput',sub.code,sub.name,subAm,true,sOpen,sKey));if(!sOpen)return;subRows.forEach(a=>body.push(hierRow('account',a.account,a.name,a,false,false,'')))})})});$('hierarchyTable').innerHTML=body.length?`<table><thead><tr><th>Struktur Anggaran</th><th class="num">Pagu</th><th class="num">Realisasi</th><th class="num">Sisa Anggaran</th><th class="num">Realisasi</th></tr></thead><tbody>${body.join('')}</tbody></table>`:'';bindHierarchyToggles()}
+function renderHierarchy(){
+  if(!state.loaded){$('hierarchyTable').innerHTML='';return}
+  if(!state.hierarchy.initialized)initializeHierarchyState();
+  const filtered=filterRows(state.current,{},'a');
+  const pSet=new Set(filtered.map(x=>x.program)),oSet=new Set(filtered.map(x=>x.output)),sSet=new Set(filtered.map(x=>x.suboutput));
+  const pSel=selected('aProgram'),oSel=selected('aOutput'),sSel=selected('aSuboutput');
+  const body=[];
+  state.current.programs.forEach(p=>{
+    if((pSel!=='ALL'&&p.code!==pSel)||(!pSet.has(p.code)&&filtered.length))return;
+    const pRows=filtered.filter(a=>a.program===p.code);
+    if(!pRows.length&&filtered.length)return;
+    const pAm=isBaseFilters('a')&&selected('aUnit')==='ALL'?p:plus(pRows);
+    const pKey=hierarchyKey('program','','',p.code),pOpen=state.hierarchy.programs.has(pKey);
+    body.push(hierRow('program',p.code,p.name,pAm,true,pOpen,pKey));
+    if(!pOpen)return;
+    state.current.outputs.filter(o=>o.program===p.code).forEach(o=>{
+      if((oSel!=='ALL'&&o.code!==oSel)||(!oSet.has(o.code)&&filtered.length))return;
+      const oRows=pRows.filter(a=>a.output===o.code);
+      if(!oRows.length&&filtered.length)return;
+      const oAm=isBaseFilters('a')&&selected('aUnit')==='ALL'?o:plus(oRows);
+      const oKey=hierarchyKey('output',p.code,'',o.code),oOpen=state.hierarchy.outputs.has(oKey);
+      body.push(hierRow('output',o.code,o.name,oAm,true,oOpen,oKey));
+      if(!oOpen)return;
+      state.current.suboutputs.filter(sub=>sub.program===p.code&&sub.output===o.code).forEach(sub=>{
+        if((sSel!=='ALL'&&sub.code!==sSel)||(!sSet.has(sub.code)&&filtered.length))return;
+        const subRows=oRows.filter(a=>a.suboutput===sub.code);
+        if(!subRows.length&&filtered.length)return;
+        const subAm=isBaseFilters('a')&&selected('aUnit')==='ALL'?sub:plus(subRows);
+        const sKey=hierarchyKey('suboutput',p.code,o.code,sub.code),sOpen=state.hierarchy.suboutputs.has(sKey);
+        body.push(hierRow('suboutput',sub.code,sub.name,subAm,true,sOpen,sKey));
+        if(!sOpen)return;
+        subRows.forEach(a=>body.push(hierRow('account',a.account,a.name,a,false,false,'')));
+      });
+    });
+  });
+  $('hierarchyTable').innerHTML=body.length?`<table><thead><tr><th>Struktur Anggaran</th><th class="num">Pagu</th><th class="num">Realisasi</th><th class="num">Sisa Anggaran</th><th class="num">Realisasi</th></tr></thead><tbody>${body.join('')}</tbody></table>`:'<div class="pj-empty">Tidak ada data untuk filter ini.</div>';
+  bindHierarchyToggles();
+}
 function hierRow(level,code,name,am,toggleable,isOpen,key){const control=toggleable?`<button class="tree-toggle" type="button" aria-label="${isOpen?'Tutup':'Buka'} ${esc(code)}" aria-expanded="${isOpen?'true':'false'}" data-tree-level="${esc(level)}" data-tree-key="${esc(key)}">${isOpen?'▼':'▶'}</button>`:'<span class="tree-spacer"></span>';return `<tr class="tree-row level-${level}"><td><div class="hier-label">${control}<span class="hier-code">${esc(code)}</span><span>${esc(name)}</span></div></td><td class="num">${fmtFull(am.pagu)}</td><td class="num">${fmtFull(am.realisasi)}</td><td class="num">${fmtFull(am.sisa)}</td><td class="num">${fmtPct(pct(am.realisasi,am.pagu))}</td></tr>`}
 function bindHierarchyToggles(){document.querySelectorAll('.tree-toggle').forEach(btn=>btn.addEventListener('click',()=>{const level=btn.dataset.treeLevel,key=btn.dataset.treeKey;const set=level==='program'?state.hierarchy.programs:level==='output'?state.hierarchy.outputs:state.hierarchy.suboutputs;if(set.has(key))set.delete(key);else set.add(key);renderHierarchy()}))}
 
-function renderPeriod(){const period=state.loaded?(state.current.meta.period||'—'):'[loading...]';$('periodSectionTitle').textContent='Realisasi Periode '+period;$('rpdLabel').textContent='RPD '+period;const pc=state.current.periodCurrent||{total:0,types:{},units:{}};$('periodMetrics').innerHTML=[['Total',pc.total||0],['Jaldis',pc.types?.['Jaldis']||0],['Non-Jaldis',pc.types?.['Non-Jaldis']||0]].map(([l,v])=>`<div class="period-metric"><span>${esc(l)}</span><strong>${fmtFull(v)}</strong></div>`).join('');const rpdValue=Number(state.manual.rpd||0);const rpdRatio=rpdValue>0?Number(pc.total||0)/rpdValue:0;const rpdWidth=Math.max(0,Math.min(100,rpdRatio*100));$('rpdProgress').innerHTML=`<div class="rpd-progress-label"><span>Progress terhadap RPD ${esc(period)}</span><strong>${fmtPct(rpdRatio)}</strong></div><div class="progress"><div style="width:${rpdWidth}%"></div></div>`;const rpd=$('rpdInput');rpd.disabled=!state.loaded||!state.current.meta.period;rpd.value=fmtFull(rpdValue);const rows=UNITS.map(unit=>{const x=pc.units?.[unit]||{};return `<tr><td>${esc(unit)}</td><td class="num">${fmtFull(x.total||0)}</td><td class="num">${fmtFull(x['Jaldis']||0)}</td><td class="num">${fmtFull(x['Non-Jaldis']||0)}</td></tr>`}).join('');$('periodTable').innerHTML=`<table><thead><tr><th>Unit</th><th class="num">Total</th><th class="num">Jaldis</th><th class="num">Non-Jaldis</th></tr></thead><tbody>${rows}</tbody></table>`}
+function periodMonthName(period){const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];const matches=months.filter(month=>new RegExp('\\b'+month+'\\b','i').test(String(period||'')));return matches.length?matches[matches.length-1]:(period||'[loading...]')}
+function renderPeriod(){
+  const period=state.loaded?(state.current.meta.period||'—'):'[loading...]',month=periodMonthName(period);
+  $('periodSectionTitle').textContent='Realisasi Periode '+period;
+  $('rpdLabel').textContent='RPD '+period;
+  $('activityProjectionLabel').textContent='Proyeksi Kegiatan '+month;
+  const pc=state.current.periodCurrent||{total:0,types:{},units:{}};
+  $('periodMetrics').innerHTML=[['Total',pc.total||0],['Jaldis',pc.types?.['Jaldis']||0],['Non-Jaldis',pc.types?.['Non-Jaldis']||0]].map(([l,v])=>`<div class="period-metric"><span>${esc(l)}</span><strong>${fmtFull(v)}</strong></div>`).join('');
+  const realization=Number(pc.total||0),rpdValue=Number(state.manual.rpd||0),activityProjection=Number(state.manual.activityProjection||0),outstanding=allEffectiveOutstanding();
+  const rpdRatio=rpdValue>0?realization/rpdValue:0,rpdWidth=Math.max(0,Math.min(100,rpdRatio*100));
+  $('rpdProgress').innerHTML=`<div class="rpd-progress-label"><span>Progress terhadap RPD ${esc(period)}</span><strong>${fmtPct(rpdRatio)}</strong></div><div class="progress"><div style="width:${rpdWidth}%"></div></div>`;
+  const remaining=rpdValue-realization-outstanding-activityProjection,remainingRatio=rpdValue>0?remaining/rpdValue:0,remainingWidth=Math.max(0,Math.min(100,remainingRatio*100));
+  $('activityProjectionProgress').innerHTML=`<div class="rpd-progress-label"><span>Proyeksi terhadap RPD</span><strong>${fmtFull(remaining)} · ${fmtPct(remainingRatio)}</strong></div><div class="progress"><div style="width:${remainingWidth}%"></div></div><div class="small-muted" style="margin-top:7px">RPD − Realisasi − Outstanding &amp; PJ Submitted − Proyeksi Kegiatan</div>`;
+  const rpd=$('rpdInput');rpd.disabled=!state.loaded||!state.current.meta.period;rpd.value=fmtFull(rpdValue);
+  const projectionInput=$('activityProjectionInput');projectionInput.disabled=!state.loaded||!state.current.meta.period;projectionInput.value=fmtFull(activityProjection);
+  const rows=UNITS.map(unit=>{const x=pc.units?.[unit]||{};return `<tr><td>${esc(unit)}</td><td class="num">${fmtFull(x.total||0)}</td><td class="num">${fmtFull(x['Jaldis']||0)}</td><td class="num">${fmtFull(x['Non-Jaldis']||0)}</td></tr>`}).join('');
+  $('periodTable').innerHTML=`<table><thead><tr><th>Unit</th><th class="num">Total</th><th class="num">Jaldis</th><th class="num">Non-Jaldis</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
 function bindRpd(){const input=$('rpdInput');input.addEventListener('focus',()=>input.select());input.addEventListener('change',async()=>{if(!state.loaded||!state.current.meta.period)return;const value=moneyFromInput(input.value),old=Number(state.manual.rpd||0);input.value=fmtFull(value);state.manual.rpd=value;$('rpdStatus').textContent='Menyimpan...';try{const resp=await rpc('saveRpd',{period:state.current.meta.period,value});if(resp.manual)state.manual=normalizeManual(resp.manual);$('rpdStatus').textContent='Tersimpan';renderPeriod();setTimeout(()=>{$('rpdStatus').textContent=''},1400)}catch(err){state.manual.rpd=old;input.value=fmtFull(old);$('rpdStatus').textContent='Gagal disimpan';alert(err.message)}})}
+function bindActivityProjection(){const input=$('activityProjectionInput');input.addEventListener('focus',()=>input.select());input.addEventListener('change',async()=>{if(!state.loaded||!state.current.meta.period)return;const value=moneyFromInput(input.value),old=Number(state.manual.activityProjection||0);input.value=fmtFull(value);state.manual.activityProjection=value;$('activityProjectionStatus').textContent='Menyimpan...';renderPeriod();try{const resp=await rpc('saveActivityProjection',{period:state.current.meta.period,value});if(resp.manual)state.manual=normalizeManual(resp.manual);$('activityProjectionStatus').textContent='Tersimpan';renderPeriod();setTimeout(()=>{$('activityProjectionStatus').textContent=''},1400)}catch(err){state.manual.activityProjection=old;input.value=fmtFull(old);$('activityProjectionStatus').textContent='Gagal disimpan';renderPeriod();alert(err.message)}})}
 
 function pjMonthLabel(value){if(!value)return '—';const [year,month]=value.split('-').map(Number);return new Intl.DateTimeFormat('id-ID',{month:'long',year:'numeric'}).format(new Date(year,month-1,1))}
 function populatePjFilters(){
@@ -296,7 +375,7 @@ function renderTracker(){
   document.querySelectorAll('[data-pj-modal]').forEach(cell=>cell.addEventListener('click',()=>openPjModal(cell.dataset.pjModal)))
 }
 function openPjModal(id){const r=state.pj.records.find(x=>x.id===id);if(!r)return;$('pjModal').innerHTML=`<div class="modal-overlay" data-close-modal><div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="pjModalTitle"><button class="modal-close" type="button" data-close-modal>✕</button><h3 id="pjModalTitle">Uraian Lengkap</h3><div>${esc(r.desc||'—')}</div><div class="modal-meta">${esc(r.dateDisplay)} · ${esc(r.unit)} · ${esc(r.type)} · ${esc(r.source)}<br>${esc(r.code||'Kode tidak tersedia')} · ${esc(r.account||'Akun tidak tersedia')} · ${fmtFull(r.total)} · Model O ${fmtFull(r.nmo)}</div></div></div>`;document.querySelectorAll('[data-close-modal]').forEach(el=>el.addEventListener('click',e=>{if(e.currentTarget===e.target||e.currentTarget.classList.contains('modal-close'))$('pjModal').innerHTML=''}))}
-function renderView(){const tracker=state.view==='tracker';$('monitoringView').classList.toggle('hidden',tracker);$('trackerView').classList.toggle('hidden',!tracker);document.querySelectorAll('.main-tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.view===state.view))}
+function renderView(){const monitoring=state.view==='monitoring',account=state.view==='account',tracker=state.view==='tracker';$('monitoringView').classList.toggle('hidden',!monitoring);$('accountView').classList.toggle('hidden',!account);$('trackerView').classList.toggle('hidden',!tracker);document.querySelectorAll('.main-tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.view===state.view))}
 function renderPjHealth(){
   const dot=$('pjDot'),text=$('pjLiveStatus'),item=$('pjLiveItem');dot.className='live-dot warn';
   if(state.pj.loading){text.textContent='PJ: memuat';item.title='Memuat tujuh sumber PJ';return}
@@ -325,15 +404,17 @@ function renderValidation(){const warnings=state.current.validation?.warnings||[
 function renderHeader(){renderPjHealth();const faDot=$('faDot'),faText=$('faLiveStatus');if(!state.loaded){faDot.className='live-dot '+(state.refreshError?'err':'warn');faText.textContent=state.refreshError?'FA: gagal':'FA: memuat';$('period').textContent='[loading...]';$('dataAsOf').textContent='[loading...]';$('sourceMeta').textContent=state.refreshError?'Sumber: belum tersedia':'Memuat Laporan FA dari Google Drive...';$('sourceStatus').textContent=state.refreshError?'Data backend belum dapat dimuat; seluruh angka tetap Rp0.':'Menunggu data Laporan FA dari backend.';return}faDot.className='live-dot '+(state.refreshError?'warn':'ok');faText.textContent=state.refreshError?'FA: cached':'FA: live';const m=state.current.meta||{};$('period').textContent=m.period||'—';$('dataAsOf').textContent=fmtDateISO(m.dataAsOf);$('sourceMeta').textContent=`Sumber: ${m.sourceFile||'Laporan FA'} · ${Number(m.accountRows||0).toLocaleString('id-ID')} baris Akun`;let text='Data dimuat otomatis dari Laporan FA di Google Drive.';if(state.source?.modifiedAt){const d=new Date(state.source.modifiedAt);if(!isNaN(d))text+=' · File terakhir diperbarui '+d.toLocaleString('id-ID',{timeZone:'Asia/Jakarta',dateStyle:'long',timeStyle:'short'})+'.'}if(state.refreshError)text+=' Pembaruan sumber terakhir gagal: '+state.refreshError;$('sourceStatus').textContent=text}
 function renderAll(){renderHeader();renderSummary();renderUnits();renderPjUnitSummary();renderAccount();renderHierarchy();renderPeriod();renderValidation();renderTracker();renderView()}
 
-function normalizeManual(manual){const base=emptyManual();if(manual&&manual.outstanding)UNITS.forEach(u=>TYPES.forEach(t=>{base.outstanding[u][t]=Number(manual.outstanding?.[u]?.[t]||0)}));base.rpd=Number(manual?.rpd||0);base.period=String(manual?.period||'');return base}
+function normalizeManual(manual){const base=emptyManual();if(manual&&manual.outstanding)UNITS.forEach(u=>TYPES.forEach(t=>{base.outstanding[u][t]=Number(manual.outstanding?.[u]?.[t]||0)}));base.rpd=Number(manual?.rpd||0);base.activityProjection=Number(manual?.activityProjection||0);base.period=String(manual?.period||'');return base}
 async function loadLatest(){renderAll();try{const resp=await jsonp('latest');if(!resp||resp.ok===false||!resp.data)throw new Error((resp&&resp.error)||'Data laporan belum tersedia.');state.current=resp.data;state.manual=normalizeManual(resp.manual);state.source=resp.source||null;state.refreshError=resp.refreshError||null;state.loaded=true;initializeHierarchyState();populateFilters();renderAll()}catch(err){state.loaded=false;state.current=emptyData();state.manual=emptyManual();state.hierarchy={programs:new Set(),outputs:new Set(),suboutputs:new Set(),initialized:false};state.refreshError=err.message;populateFilters();renderAll()}}
 
 ['fUnit','fProgram','fOutput','fSuboutput','fType'].forEach(id=>$(id).addEventListener('change',renderAll));
+['aUnit','aProgram','aOutput','aSuboutput','aType'].forEach(id=>$(id).addEventListener('change',renderHierarchy));
 ['pjOutput','pjType','pjUnit','pjMonth','pjStatus','pjAccount','pjFlag'].forEach(id=>$(id).addEventListener('change',renderTracker));
 $('pjSearch').addEventListener('input',renderTracker);
-document.querySelectorAll('.main-tab').forEach(tab=>tab.addEventListener('click',()=>{state.view=tab.dataset.view;renderView();if(state.view==='tracker')renderTracker()}));
+document.querySelectorAll('.main-tab').forEach(tab=>tab.addEventListener('click',()=>{state.view=tab.dataset.view;renderView();if(state.view==='account')renderHierarchy();if(state.view==='tracker')renderTracker()}));
 $('resetUnit').addEventListener('click',()=>{$('fUnit').value='ALL';renderAll()});
-bindRpd();populateFilters();populatePjFilters();loadLatest();loadTrackerPj();
+$('resetAccountFilters').addEventListener('click',()=>{['aUnit','aProgram','aOutput','aSuboutput','aType'].forEach(id=>$(id).value='ALL');renderHierarchy()});
+bindRpd();bindActivityProjection();populateFilters();populatePjFilters();loadLatest();loadTrackerPj();
 </script>
 </body>
 </html>
