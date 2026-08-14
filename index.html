@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Monitoring Anggaran frontend v0.9.1; requires backend v0.7.0 -->
+<!-- Monitoring Anggaran frontend v0.10.0; requires backend v0.8.0 -->
 <html lang="id">
 <head>
 <meta charset="utf-8">
@@ -191,7 +191,7 @@ const PJ_SOURCES=[
   {key:'sdj',label:'SDJ Non-Jaldis',id:'1udGKWb2A89_OVbN4o3bBqZiFllTe-d_Ojin1KGQh4Po',type:'Non-Jaldis',unit:'SDJ'}
 ];
 
-function emptyData(){return {meta:{period:'',dataAsOf:'',sourceFile:'',accountRows:0},grandTotal:{pagu:0,realisasi:0,sisa:0},programs:[],outputs:[],suboutputs:[],accounts:[],periodCurrent:{total:0,types:{'Jaldis':0,'Non-Jaldis':0,'BBO':0},units:{}},validation:{warnings:[],errors:[]}}}
+function emptyData(){return {meta:{period:'',dataAsOf:'',sourceFile:'',accountRows:0},grandTotal:{pagu:0,lockPagu:0,paguEfektif:0,realisasi:0,sisa:0},programs:[],outputs:[],suboutputs:[],accounts:[],periodCurrent:{total:0,types:{'Jaldis':0,'Non-Jaldis':0,'BBO':0},units:{}},validation:{warnings:[],errors:[]}}}
 function emptyManual(){const outstanding={};UNITS.forEach(u=>outstanding[u]={'Jaldis':0,'Non-Jaldis':0,'BBO':0});return {outstanding,rpd:0,activityProjection:0,period:''}}
 function emptyPj(){return {records:[],loading:true,live:0,cached:0,unavailable:0,sources:[],lastFullSuccess:null,sortKey:'date',sortDir:-1,filtered:[]}}
 const state={current:emptyData(),manual:emptyManual(),loaded:false,source:null,refreshError:null,pj:emptyPj(),view:'monitoring',hierarchy:{programs:new Set(),outputs:new Set(),suboutputs:new Set(),initialized:false}};
@@ -201,7 +201,8 @@ function esc(v){return String(v==null?'':v).replace(/[&<>'"]/g,c=>({'&':'&amp;',
 function fmtFull(v){const n=Math.round(Number(v||0));const sign=n<0?'-':'';return sign+'Rp'+Math.abs(n).toLocaleString('id-ID')}
 function pct(a,b){return Number(b)?Number(a)/Number(b):0}
 function fmtPct(v){return (Number(v||0)*100).toLocaleString('id-ID',{maximumFractionDigits:1})+'%'}
-function plus(rows){return (rows||[]).reduce((a,r)=>({pagu:a.pagu+Number(r.pagu||0),realisasi:a.realisasi+Number(r.realisasi||0),sisa:a.sisa+Number(r.sisa||0)}),{pagu:0,realisasi:0,sisa:0})}
+function plus(rows){return (rows||[]).reduce((a,r)=>{const pagu=Number(r.pagu||0),lockPagu=Number(r.lockPagu||0);a.pagu+=pagu;a.lockPagu+=lockPagu;a.paguEfektif+=Number(r.paguEfektif!=null?r.paguEfektif:pagu-lockPagu);a.realisasi+=Number(r.realisasi||0);a.sisa+=Number(r.sisa||0);return a},{pagu:0,lockPagu:0,paguEfektif:0,realisasi:0,sisa:0})}
+function withEffective(am){const pagu=Number(am?.pagu||0),lockPagu=Number(am?.lockPagu||0);return {...am,pagu,lockPagu,paguEfektif:Number(am?.paguEfektif!=null?am.paguEfektif:pagu-lockPagu)}}
 function fmtDateISO(v){if(!v)return '[loading...]';const m=String(v).match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${m[3]}/${m[2]}/${m[1]}`:String(v)}
 function moneyFromInput(v){const digits=String(v||'').replace(/[^0-9]/g,'');return digits?Number(digits):0}
 function selected(id){return $(id)&&$(id).value?$(id).value:'ALL'}
@@ -245,7 +246,7 @@ function outstandingForType(type){const u=selected('fUnit');if(u!=='ALL')return 
 function totalOutstanding(){const t=selected('fType');if(t!=='ALL')return outstandingForType(t);return TYPES.reduce((sum,type)=>sum+outstandingForType(type),0)}
 function allEffectiveOutstanding(){return UNITS.reduce((unitSum,unit)=>unitSum+TYPES.reduce((typeSum,type)=>typeSum+effectiveOutstandingValue(unit,type),0),0)}
 
-function metricCard(title,am,primary,type){const out=primary?totalOutstanding():(type?outstandingForType(type):0);const projection=Number(am.sisa||0)-out;const r=pct(am.realisasi,am.pagu);const width=Math.max(0,Math.min(100,r*100));const kv=primary?`<div class="metric-kv-grid"><div class="kv"><span>Realisasi</span><strong>${fmtFull(am.realisasi)}</strong></div><div class="kv"><span>Sisa</span><strong>${fmtFull(am.sisa)}</strong></div><div class="kv"><span>PJ Submitted + Outstanding</span><strong>${fmtFull(out)}</strong></div><div class="kv"><span>Proyeksi Sisa</span><strong>${fmtFull(projection)}</strong></div></div>`:`<div class="metric-kv-grid"><div class="kv"><span>Realisasi</span><strong>${fmtFull(am.realisasi)}</strong></div><div class="kv"><span>Sisa</span><strong>${fmtFull(am.sisa)}</strong></div><div class="kv"><span>Proyeksi Sisa</span><strong>${fmtFull(projection)}</strong></div></div>`;return `<div class="metric-card ${primary?'primary':''}"><h3>${esc(title)}</h3><div class="metric-big">${fmtFull(am.pagu)}</div>${kv}<div class="progress-wrap"><div class="progress-label"><span>Realisasi ${fmtPct(r)}</span><span>Sisa ${fmtPct(pct(am.sisa,am.pagu))}</span></div><div class="progress"><div style="width:${width}%"></div></div></div></div>`}
+function metricCard(title,raw,primary,type){const am=withEffective(raw),out=primary?totalOutstanding():(type?outstandingForType(type):0),projection=Number(am.sisa||0)-out,r=pct(am.realisasi,am.paguEfektif),width=Math.max(0,Math.min(100,r*100));const common=`<div class="kv"><span>Pagu Revisi</span><strong>${fmtFull(am.pagu)}</strong></div><div class="kv"><span>Lock Pagu</span><strong>${fmtFull(am.lockPagu)}</strong></div><div class="kv"><span>Realisasi</span><strong>${fmtFull(am.realisasi)}</strong></div><div class="kv"><span>Sisa Resmi</span><strong>${fmtFull(am.sisa)}</strong></div>`;const extra=primary?`<div class="kv"><span>PJ Submitted + Outstanding</span><strong>${fmtFull(out)}</strong></div><div class="kv"><span>Proyeksi Sisa</span><strong>${fmtFull(projection)}</strong></div>`:`<div class="kv"><span>Proyeksi Sisa</span><strong>${fmtFull(projection)}</strong></div>`;return `<div class="metric-card ${primary?'primary':''}"><h3>${esc(title)}</h3><div class="small-muted">Pagu Efektif</div><div class="metric-big">${fmtFull(am.paguEfektif)}</div><div class="metric-kv-grid">${common}${extra}</div><div class="progress-wrap"><div class="progress-label"><span>Realisasi terhadap Pagu Efektif ${fmtPct(r)}</span><span>Sisa ${fmtPct(pct(am.sisa,am.paguEfektif))}</span></div><div class="progress"><div style="width:${width}%"></div></div></div></div>`}
 function renderSummary(){const rows=filterRows(state.current);const official=exactOfficialScope();const total=official||plus(rows);const typeData=Object.fromEntries(TYPES.map(t=>[t,plus(rows.filter(r=>r.type===t))]));const chosen=selected('fUnit'),chosenType=selected('fType');const visibleTypes=TYPES.filter(t=>(chosen==='ALL'||chosen==='SDJ'||t!=='BBO')&&(chosenType==='ALL'||chosenType===t));$('summaryCards').innerHTML=metricCard('Total Anggaran',total,true)+visibleTypes.map(t=>metricCard(t,typeData[t],false,t)).join('')}
 
 function renderUnits(){
@@ -254,7 +255,7 @@ function renderUnits(){
   $('unitCards').innerHTML=UNITS.map(unit=>{
     const rows=globalRows.filter(r=>r.unit===unit);let am=plus(rows);
     if(isBaseFilters()){const off=unitOfficial(unit);if(off)am=off}
-    const r=pct(am.realisasi,am.pagu),jaldis=plus(rows.filter(a=>a.type==='Jaldis')),nonJaldis=plus(rows.filter(a=>a.type==='Non-Jaldis'));
+    am=withEffective(am);const r=pct(am.realisasi,am.paguEfektif),jaldis=plus(rows.filter(a=>a.type==='Jaldis')),nonJaldis=plus(rows.filter(a=>a.type==='Non-Jaldis'));
     const relevantTypes=TYPES.filter(t=>(unit==='SDJ'||t!=='BBO')&&(chosenType==='ALL'||chosenType===t));
     const unitOut=relevantTypes.reduce((sum,t)=>sum+effectiveOutstandingValue(unit,t),0),unitProj=Number(am.sisa||0)-unitOut;
     let details='';
@@ -262,7 +263,7 @@ function renderUnits(){
       const x=plus(rows.filter(a=>a.type===t)),manualOut=outstandingValue(unit,t),auto=pjAutoBreakdown(unit,t),effective=manualOut+auto.total;
       return `<div class="type-detail"><div class="type-detail-title">${esc(t)}</div><div class="detail-grid"><div class="detail-kv"><span>Pagu</span><strong>${fmtFull(x.pagu)}</strong></div><div class="detail-kv"><span>Realisasi</span><strong>${fmtFull(x.realisasi)}</strong></div><div class="detail-kv"><span>Sisa</span><strong>${fmtFull(x.sisa)}</strong></div><div class="detail-kv"><span>Proyeksi Sisa</span><strong>${fmtFull(x.sisa-effective)}</strong></div></div><div class="money-label">Outstanding manual</div><div class="money-input-wrap"><input class="money-input outstanding-input" type="text" inputmode="numeric" data-unit="${esc(unit)}" data-type="${esc(t)}" value="${esc(fmtFull(manualOut))}"></div><div class="saving" data-status="${esc(unit)}|${esc(t)}"></div><div class="small-muted">PJ Submitted ${fmtFull(auto.submitted)} · Outstanding PJ ${fmtFull(auto.outstanding)}</div></div>`
     }).join('')}<div class="unit-projection">PJ Submitted + Outstanding <strong>${fmtFull(unitOut)}</strong> · Proyeksi Sisa <strong>${fmtFull(unitProj)}</strong></div></div>`}
-    return `<article class="unit-card ${active===unit?'active':''}" data-unit="${esc(unit)}" tabindex="0"><div class="unit-title"><h3>${esc(unit)}</h3><div class="pct">${fmtPct(r)}</div></div><div class="unit-total">Pagu ${fmtFull(am.pagu)} · Realisasi ${fmtFull(am.realisasi)} · Sisa ${fmtFull(am.sisa)}</div><div class="unit-sisa-split"><span class="unit-sisa-item">Sisa Jaldis <strong>${fmtFull(jaldis.sisa)}</strong></span><span class="unit-sisa-item">Sisa Non-Jaldis <strong>${fmtFull(nonJaldis.sisa)}</strong></span></div>${details}</article>`
+    return `<article class="unit-card ${active===unit?'active':''}" data-unit="${esc(unit)}" tabindex="0"><div class="unit-title"><h3>${esc(unit)}</h3><div class="pct">${fmtPct(r)}</div></div><div class="unit-total">Pagu Revisi ${fmtFull(am.pagu)} · Lock Pagu ${fmtFull(am.lockPagu)} · Pagu Efektif ${fmtFull(am.paguEfektif)}<br>Realisasi ${fmtFull(am.realisasi)} · Sisa ${fmtFull(am.sisa)}</div><div class="unit-sisa-split"><span class="unit-sisa-item">Sisa Jaldis <strong>${fmtFull(jaldis.sisa)}</strong></span><span class="unit-sisa-item">Sisa Non-Jaldis <strong>${fmtFull(nonJaldis.sisa)}</strong></span></div>${details}</article>`
   }).join('');
   bindUnitEvents();bindOutstandingInputs()
 }
