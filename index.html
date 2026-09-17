@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Monitoring Anggaran frontend v0.9.0; requires backend v0.9.0 -->
+<!-- Monitoring Anggaran frontend v0.10.0; requires backend v0.10.0 -->
 <html lang="id">
 <head>
 <meta charset="utf-8">
@@ -32,6 +32,9 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
 .pj-summary-wrap{margin-top:12px}.pj-summary-note{padding:10px 13px;border-top:1px solid var(--line);font-size:10px;color:var(--muted);background:#f8fafb}.pj-card{overflow:hidden}.pj-head{padding:15px 17px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}.pj-head h2{font-size:18px;margin:0}.pj-filters{display:flex;gap:9px;padding:11px 16px;flex-wrap:wrap;border-bottom:1px solid var(--line);background:#f7f9fa}.pj-filter{display:flex;flex-direction:column;gap:4px}.pj-filter label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.35px;color:#708494}.pj-filter select,.pj-filter input{min-width:135px;padding:7px 9px;font-size:11px}.pj-filter.search input{min-width:220px}.pj-totals{padding:9px 16px;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted)}.pj-table{max-height:560px;overflow:auto}.pj-table td{font-size:11px}.pj-table .desc{max-width:270px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}.pj-table .code{max-width:175px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px}.pj-badge{display:inline-block;padding:3px 7px;border-radius:6px;font-size:9px;font-weight:700;white-space:nowrap}.pj-badge.submitted{background:#fff2d8;color:#8a5a00}.pj-badge.outstanding{background:#ffe7df;color:#a33e27}.pj-badge.spby{background:#e5f3e9;color:#276b42}.pj-badge.anomaly{background:#eee7fb;color:#6543a5}.pj-badge.incomplete{background:#edf0f2;color:#64727d}.pj-badge.jaldis{background:#e4efff;color:#2860a6}.pj-badge.nonjaldis{background:#e2f4f2;color:#16716d}.pj-flag{background:#f1e9fb;color:#6e43aa}.pj-flag.bad{background:#ffe6e2;color:#ad4337}.pj-row-anomaly td{background:#fffaf0}.pj-legend{padding:10px 16px;background:#f4f6f7;border-top:1px solid var(--line);display:flex;gap:13px;flex-wrap:wrap;font-size:10px;color:var(--muted)}.pj-empty{padding:30px;text-align:center;color:var(--muted)}.pj-more{padding:9px 16px;font-size:10px;color:var(--muted);border-top:1px solid var(--line)}.modal-overlay{position:fixed;inset:0;background:rgba(13,35,48,.45);display:flex;align-items:center;justify-content:center;padding:18px;z-index:20}.modal-box{background:#fff;border-radius:15px;max-width:680px;width:100%;max-height:82vh;overflow:auto;padding:21px;box-shadow:0 20px 60px rgba(13,35,48,.2);position:relative}.modal-box h3{margin:0 34px 10px 0}.modal-close{position:absolute;right:12px;top:12px;background:#eef3f6;color:#506879;padding:7px 10px}.modal-meta{font-size:10px;color:var(--muted);margin-top:13px}.hidden{display:none!important}
 @media(max-width:1100px){.summary-grid{grid-template-columns:1.4fr 1fr 1fr}.metric-card:last-child{grid-column:auto}.units-grid{grid-template-columns:repeat(2,1fr)}.period-top{grid-template-columns:1fr}.filters{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:760px){.container{padding:18px 14px 40px}header{display:block}.admin-link{margin-top:10px}.main-tabs{width:100%;margin-top:12px}.main-tab{flex:1}.summary-grid,.units-grid,.filters,.period-metrics{grid-template-columns:1fr}.metric-card:last-child{grid-column:auto}.metric-kv-grid,.primary .metric-kv-grid{grid-template-columns:1fr 1fr}.period-top{grid-template-columns:1fr}h1{font-size:25px}td,th{padding:9px 8px}.pj-filter,.pj-filter select,.pj-filter input,.pj-filter.search input{width:100%;min-width:0}}
+
+.planning-toolbar{display:flex;align-items:end;gap:12px;flex-wrap:wrap}.planning-toolbar label{font-size:11px;font-weight:700;min-width:130px}.planning-toolbar label select{display:block;margin-top:5px}.planning-toolbar a{display:inline-flex;align-items:center;padding:10px 13px;border-radius:9px;text-decoration:none;font-size:11px}.planning-toolbar button{font-size:11px}.planning-help{font-size:12px;line-height:1.6;color:#4d687a}.planning-progress-grid{display:grid;grid-template-columns:1fr 2fr;gap:12px}.annual-scroll{border:1px solid var(--line);border-radius:12px;margin-top:14px}.annual-table{min-width:1160px}.annual-table input[type=text]{min-width:112px;text-align:right}.annual-table th[scope=row]{position:static;background:white}.annual-table tfoot{background:var(--soft);font-weight:700}.annual-table tfoot td{white-space:normal}.annual-table button:disabled{opacity:.45;cursor:default}.annual-table .saving{max-width:130px;min-width:82px;margin-top:6px;line-height:1.4}.complete-label{white-space:nowrap;font-size:10px}.month-completed td,.month-completed th[scope=row]{background:#f3f6f7}.month-completed input[type=text]{background:#edf1f3;color:#738594}.pj-planning-cell{min-width:190px}.pj-planning-cell select{font-size:11px}.pj-planning-toolbar{padding:9px 16px;border-bottom:1px solid var(--line)}#planningWarnings .status{margin-top:8px}.legacy-panel{margin-top:14px}.kegiatan-dialog{border:1px solid var(--line);border-radius:16px;max-width:470px;width:calc(100% - 32px);padding:24px;color:var(--ink)}.kegiatan-dialog::backdrop{background:rgba(13,35,48,.45)}.kegiatan-dialog label{display:block;font-size:12px;margin-bottom:8px}.kegiatan-dialog h2{margin-top:0}.manual-timing{margin-top:4px;font-size:11px}#kegiatanSummary tfoot{background:var(--soft);font-weight:700}#realizationSource{line-height:1.5}
+@media(max-width:760px){.planning-progress-grid{grid-template-columns:1fr}.planning-toolbar{align-items:stretch}.planning-toolbar label{flex:1}.planning-toolbar a{width:100%;text-align:center}.main-tab{padding:8px 6px;font-size:10px}}
 </style>
 </head>
 <body>
@@ -56,8 +59,8 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
 <nav class="main-tabs" aria-label="Navigasi utama">
   <button class="main-tab active" type="button" data-view="monitoring">Monitoring Anggaran</button>
   <button class="main-tab" type="button" data-view="account">Rincian Akun</button>
-  <button class="main-tab" type="button" data-view="proyeksi">Proyeksi</button>
   <button class="main-tab" type="button" data-view="tracker">Tracker PJ</button>
+  <button class="main-tab" type="button" data-view="proyeksi">Proyeksi</button>
 </nav>
 
 <main id="monitoringView">
@@ -96,25 +99,23 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
 </section>
 
 <section class="section">
-  <div class="section-head"><h2 id="periodSectionTitle">Realisasi Periode [loading...]</h2><div class="note">Bersumber dari kolom “Periode Ini”</div></div>
+  <div class="section-head"><h2 id="periodSectionTitle">Realisasi &amp; Rencana Bulanan</h2><div class="note">Seluruh Ditjen · Jaldis + Non-Jaldis</div></div>
   <div class="panel period-panel">
-    <div class="period-top">
-      <div class="period-metrics" id="periodMetrics"></div>
-      <div class="period-input-box">
-        <label id="rpdLabel">RPD [loading...]</label>
-        <input class="money-input" type="text" inputmode="numeric" id="rpdInput" value="Rp0" disabled>
-        <div class="saving" id="rpdStatus"></div>
-      </div>
-      <div class="period-input-box">
-        <label id="activityProjectionLabel">Proyeksi Kegiatan [loading...]</label>
-        <input class="money-input" type="text" inputmode="numeric" id="activityProjectionInput" value="Rp0" disabled>
-        <div class="saving" id="activityProjectionStatus"></div>
-        <div class="projection-source">berdasarkan <a href="https://docs.google.com/spreadsheets/d/198VpJZ2us5-ZEUb-ufQVdKgnfAQhDXL6IqOf3tTLc-c/edit?gid=1852635140#gid=1852635140" target="_blank" rel="noopener noreferrer">sheet proyeksi kegiatan</a></div>
-      </div>
+    <div class="planning-toolbar">
+      <label>Tahun<select id="planningYear" aria-label="Tahun rencana"></select></label>
+      <label>Periode kumulatif<select id="planningThrough" aria-label="Periode kumulatif"></select></label>
+      <a class="btn ghost" href="https://docs.google.com/spreadsheets/d/198VpJZ2us5-ZEUb-ufQVdKgnfAQhDXL6IqOf3tTLc-c/edit?gid=1156345739#gid=1156345739" target="_blank" rel="noopener noreferrer">Sheet proyeksi kegiatan ↗</a>
     </div>
-    <div class="rpd-progress" id="rpdProgress"></div>
-    <div class="rpd-progress projection-progress" id="activityProjectionProgress"></div>
-    <div class="period-table" id="periodTable"></div>
+    <p id="planningCompatibility" class="small-muted" role="status"></p>
+    <div class="period-metrics" id="periodMetrics"></div>
+    <p id="realizationSource" class="small-muted"></p>
+    <div class="planning-progress-grid"><div class="rpd-progress" id="rpdProgress"></div><div class="rpd-progress projection-progress" id="activityProjectionProgress"></div></div>
+    <p class="planning-help">Isi RPD dan proyeksi Kegiatan <strong>untuk masing-masing bulan</strong>. Tandai <strong>Selesai</strong> lalu Simpan untuk mengeluarkan proyeksi bulan itu dari total aktif. RPD tetap dihitung. Buka kembali bulan untuk mengedit nilainya.</p>
+    <div id="planningWarnings"></div>
+    <div class="table-scroll annual-scroll" id="annualPlanningTable"></div>
+    <p class="small-muted">Total aktif memakai nilai tersimpan. Realisasi bersifat kumulatif dan tidak dijumlahkan antarbulan. Proyeksi Kegiatan diisi untuk rencana yang belum masuk PJ/Outstanding agar tidak terhitung dua kali. BBO tidak termasuk tabel ini.</p>
+    <div class="planning-toolbar"><button class="btn secondary" id="importHistory">Muat riwayat FA tersimpan</button><span class="small-muted" id="historyStatus" role="status"></span></div>
+    <details class="panel legacy-panel" id="legacyPlanning" hidden></details>
   </div>
 </section>
 
@@ -152,15 +153,17 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
       <div class="pj-filter"><label>Output</label><select id="pjOutput"></select></div>
       <div class="pj-filter"><label>Tipe</label><select id="pjType"></select></div>
       <div class="pj-filter"><label>Unit</label><select id="pjUnit"></select></div>
-      <div class="pj-filter"><label>Bulan</label><select id="pjMonth"></select></div>
+      <div class="pj-filter"><label>Bulan Pengajuan</label><select id="pjMonth"></select></div>
       <div class="pj-filter"><label>Status PJ</label><select id="pjStatus"></select></div>
     </div>
     <div class="pj-filters">
       <div class="pj-filter"><label>Akun</label><select id="pjAccount"></select></div>
       <div class="pj-filter"><label>Flag</label><select id="pjFlag"></select></div>
+      <div class="pj-filter"><label>Kegiatan</label><select id="pjKegiatan"></select></div>
       <div class="pj-filter search"><label>Cari</label><input type="text" id="pjSearch" placeholder="Cari uraian, penerima, atau No. SPBY..."></div>
     </div>
     <div class="pj-totals" id="pjTotals"></div>
+    <div class="planning-toolbar pj-planning-toolbar"><button class="btn secondary" id="addKegiatan" disabled>+ Add Kegiatan</button><span id="pjPlanningStatus" class="small-muted" role="status"></span></div>
     <div class="pj-table" id="pjTable"></div>
     <div class="pj-legend">
       <span><span class="pj-badge jaldis">J</span> Jaldis</span>
@@ -170,8 +173,15 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
       <span><span class="pj-badge spby">SPBY</span> Tidak dihitung di Monitoring Anggaran</span>
     </div>
   </section>
+  <section class="section panel table-panel">
+    <div class="pj-head"><h2>Ringkasan per Kegiatan</h2></div>
+    <div class="table-scroll" id="kegiatanSummary"></div>
+  </section>
 </main>
 
+<dialog id="kegiatanDialog" class="kegiatan-dialog">
+  <form id="kegiatanForm"><h2>Add Kegiatan</h2><label for="newKegiatanName">Nama Kegiatan bersama</label><input type="text" id="newKegiatanName" maxlength="150" required autocomplete="off"><p class="small-muted">Tersedia untuk seluruh pengguna. Satu entri PJ dapat ditag ke satu Kegiatan.</p><p id="newKegiatanStatus" role="status"></p><div class="planning-toolbar"><button type="submit" class="btn" id="saveKegiatan">Simpan</button><button type="button" class="btn secondary" id="cancelKegiatan">Batal</button></div></form>
+</dialog>
 <div id="pjModal"></div>
 
 </div>
@@ -197,7 +207,7 @@ const PJ_SOURCES=[
 function emptyData(){return {meta:{period:'',dataAsOf:'',sourceFile:'',accountRows:0},grandTotal:{pagu:0,lockPagu:0,paguEfektif:0,realisasi:0,sisa:0},programs:[],outputs:[],suboutputs:[],accounts:[],periodCurrent:{total:0,types:{'Jaldis':0,'Non-Jaldis':0,'BBO':0},units:{}},validation:{warnings:[],errors:[]}}}
 function emptyManual(){const outstanding={};UNITS.forEach(u=>outstanding[u]={'Jaldis':0,'Non-Jaldis':0,'BBO':0});return {exclusions:{},outstanding,rpd:0,activityProjection:0,period:''}}
 function emptyPj(){return {records:[],loading:true,live:0,cached:0,unavailable:0,sources:[],lastFullSuccess:null,sortKey:'date',sortDir:-1,filtered:[]}}
-const state={current:emptyData(),manual:emptyManual(),loaded:false,source:null,refreshError:null,pj:emptyPj(),view:'monitoring',hierarchy:{programs:new Set(),outputs:new Set(),suboutputs:new Set(),initialized:false}};
+const state={planning:emptyPlanning(),backendVersion:'',current:emptyData(),manual:emptyManual(),loaded:false,source:null,refreshError:null,pj:emptyPj(),view:'monitoring',hierarchy:{programs:new Set(),outputs:new Set(),suboutputs:new Set(),initialized:false}};
 
 const $=id=>document.getElementById(id);
 function esc(v){return String(v==null?'':v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
@@ -264,11 +274,11 @@ function renderUnits(){
     let details='';
     if(active===unit){details=`<div class="unit-detail">${relevantTypes.map(t=>{
       const x=plus(rows.filter(a=>a.type===t)),manualOut=outstandingValue(unit,t),auto=pjAutoBreakdown(unit,t),effective=manualOut+auto.total;
-      return `<div class="type-detail"><div class="type-detail-title">${esc(t)}</div><div class="detail-grid"><div class="detail-kv"><span>Pagu</span><strong>${fmtFull(x.pagu)}</strong></div><div class="detail-kv"><span>Realisasi</span><strong>${fmtFull(x.realisasi)}</strong></div><div class="detail-kv"><span>Sisa</span><strong>${fmtFull(x.sisa)}</strong></div><div class="detail-kv"><span>Proyeksi Sisa</span><strong>${fmtFull(x.sisa-effective)}</strong></div></div><div class="money-label">Outstanding manual</div><div class="money-input-wrap"><input class="money-input outstanding-input" type="text" inputmode="numeric" data-unit="${esc(unit)}" data-type="${esc(t)}" value="${esc(fmtFull(manualOut))}"></div><div class="saving" data-status="${esc(unit)}|${esc(t)}"></div><div class="small-muted">PJ Submitted ${fmtFull(auto.submitted)} · Outstanding PJ ${fmtFull(auto.outstanding)}</div></div>`
+      return `<div class="type-detail"><div class="type-detail-title">${esc(t)}</div><div class="detail-grid"><div class="detail-kv"><span>Pagu</span><strong>${fmtFull(x.pagu)}</strong></div><div class="detail-kv"><span>Realisasi</span><strong>${fmtFull(x.realisasi)}</strong></div><div class="detail-kv"><span>Sisa</span><strong>${fmtFull(x.sisa)}</strong></div><div class="detail-kv"><span>Proyeksi Sisa</span><strong>${fmtFull(x.sisa-effective)}</strong></div></div><div class="money-label">Outstanding manual</div><div class="money-input-wrap"><input class="money-input outstanding-input" type="text" inputmode="numeric" data-unit="${esc(unit)}" data-type="${esc(t)}" value="${esc(fmtFull(manualOut))}"></div><div class="saving" data-status="${esc(unit)}|${esc(t)}"></div>${manualTimingControl(unit,t)}<div class="small-muted">PJ Submitted ${fmtFull(auto.submitted)} · Outstanding PJ ${fmtFull(auto.outstanding)}</div></div>`
     }).join('')}<div class="unit-projection">PJ Submitted + Outstanding <strong>${fmtFull(unitOut)}</strong> · Proyeksi Sisa <strong>${fmtFull(unitProj)}</strong></div></div>`}
     return `<article class="unit-card ${active===unit?'active':''}" data-unit="${esc(unit)}" tabindex="0"><div class="unit-title"><h3>${esc(unit)}</h3><div class="pct">${fmtPct(r)}</div></div><div class="unit-total">Pagu Revisi ${fmtFull(am.pagu)} · Lock Pagu ${fmtFull(am.lockPagu)} · Pagu Efektif ${fmtFull(am.paguEfektif)}<br>Realisasi ${fmtFull(am.realisasi)} · Sisa ${fmtFull(am.sisa)}</div><div class="unit-sisa-split"><span class="unit-sisa-item">Sisa Jaldis <strong>${fmtFull(jaldis.sisa)}</strong></span><span class="unit-sisa-item">Sisa Non-Jaldis <strong>${fmtFull(nonJaldis.sisa)}</strong></span></div>${details}</article>`
   }).join('');
-  bindUnitEvents();bindOutstandingInputs()
+  bindUnitEvents();bindOutstandingInputs();bindManualTiming()
 }
 function renderPjUnitSummary(){
   if(state.pj.loading){$('pjUnitSummary').innerHTML='<div class="pj-empty">Memuat data Tracker PJ...</div>';return}
@@ -276,7 +286,7 @@ function renderPjUnitSummary(){
   const total=pjAutoBreakdown();
   $('pjUnitSummary').innerHTML=`<table><thead><tr><th>Unit</th><th class="num">PJ Submitted</th><th class="num">Outstanding</th><th class="num">Total</th></tr></thead><tbody>${rows}<tr><td><strong>Total</strong></td><td class="num"><strong>${fmtFull(total.submitted)}</strong></td><td class="num"><strong>${fmtFull(total.outstanding)}</strong></td><td class="num"><strong>${fmtFull(total.total)}</strong></td></tr></tbody></table><div class="pj-summary-note">Nilai otomatis ini ditambahkan di atas Outstanding manual untuk menghitung Proyeksi Sisa. SPBY tidak dihitung karena telah tercermin dalam Laporan FA Detail.</div>`
 }
-function bindUnitEvents(){document.querySelectorAll('.unit-card').forEach(card=>{const choose=()=>{const unit=card.dataset.unit;$('fUnit').value=selected('fUnit')===unit?'ALL':unit;renderAll()};card.addEventListener('click',e=>{if(e.target.closest('input')||e.target.closest('.unit-detail'))return;choose()});card.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.target.closest('input')){e.preventDefault();choose()}})})}
+function bindUnitEvents(){document.querySelectorAll('.unit-card').forEach(card=>{const choose=()=>{const unit=card.dataset.unit;$('fUnit').value=selected('fUnit')===unit?'ALL':unit;renderAll()};card.addEventListener('click',e=>{if(e.target.closest('input')||e.target.closest('.unit-detail'))return;choose()});card.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.target.closest('input,select,button')){e.preventDefault();choose()}})})}
 function bindOutstandingInputs(){document.querySelectorAll('.outstanding-input').forEach(input=>{input.addEventListener('focus',()=>input.select());input.addEventListener('change',async()=>{const unit=input.dataset.unit,type=input.dataset.type,value=moneyFromInput(input.value),old=outstandingValue(unit,type);input.value=fmtFull(value);state.manual.outstanding[unit][type]=value;renderSummary();renderAccount();const status=document.querySelector(`[data-status="${CSS.escape(unit+'|'+type)}"]`);if(status)status.textContent='Menyimpan...';try{const resp=await rpc('saveOutstanding',{unit,type,value,period:state.current.meta.period||''});if(resp.manual)state.manual.outstanding[unit][type]=Number(resp.manual.outstanding?.[unit]?.[type]||0);renderAll()}catch(err){state.manual.outstanding[unit][type]=old;alert(err.message);renderAll()}})})}
 
 function renderAccount(){const unit=selected('fUnit');if(unit==='ALL'){$('accountTitle').textContent='Rincian Akun';$('accountSubtitle').textContent='';$('accountTable').innerHTML='';return}const rows=filterRows(state.current);$('accountTitle').textContent='Rincian Akun — '+unit;$('accountSubtitle').textContent=rows.length+' baris Akun teragregasi setelah filter aktif.';if(!rows.length){$('accountTable').innerHTML='<div style="padding:16px" class="small-muted">Tidak ada data untuk filter ini.</div>';return}$('accountTable').innerHTML=`<table><thead><tr><th>Sub-Output</th><th>Akun</th><th>Jenis</th><th>Uraian Akun</th><th class="num">Pagu</th><th class="num">Realisasi</th><th class="num">Sisa Anggaran</th><th class="num">Realisasi</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.suboutput)}</td><td>${esc(r.account)}</td><td>${esc(r.type)}</td><td>${esc(r.name)}</td><td class="num">${fmtFull(r.pagu)}</td><td class="num">${fmtFull(r.realisasi)}</td><td class="num">${fmtFull(r.sisa)}</td><td class="num">${fmtPct(pct(r.realisasi,r.pagu))}</td></tr>`).join('')}</tbody></table>`}
@@ -324,39 +334,6 @@ function renderHierarchy(){
 function hierRow(level,code,name,am,toggleable,isOpen,key){const control=toggleable?`<button class="tree-toggle" type="button" aria-label="${isOpen?'Tutup':'Buka'} ${esc(code)}" aria-expanded="${isOpen?'true':'false'}" data-tree-level="${esc(level)}" data-tree-key="${esc(key)}">${isOpen?'▼':'▶'}</button>`:'<span class="tree-spacer"></span>';return `<tr class="tree-row level-${level}"><td><div class="hier-label">${control}<span class="hier-code">${esc(code)}</span><span>${esc(name)}</span></div></td><td class="num">${fmtFull(am.pagu)}</td><td class="num">${fmtFull(am.realisasi)}</td><td class="num">${fmtFull(am.sisa)}</td><td class="num">${fmtPct(pct(am.realisasi,am.pagu))}</td></tr>`}
 function bindHierarchyToggles(){document.querySelectorAll('.tree-toggle').forEach(btn=>btn.addEventListener('click',()=>{const level=btn.dataset.treeLevel,key=btn.dataset.treeKey;const set=level==='program'?state.hierarchy.programs:level==='output'?state.hierarchy.outputs:state.hierarchy.suboutputs;if(set.has(key))set.delete(key);else set.add(key);renderHierarchy()}))}
 
-function periodMonthName(period){const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];const matches=months.filter(month=>new RegExp('\\b'+month+'\\b','i').test(String(period||'')));return matches.length?matches[matches.length-1]:(period||'[loading...]')}
-function renderPeriod(){
-  const period=state.loaded?(state.current.meta.period||'—'):'[loading...]',month=periodMonthName(period);
-  $('periodSectionTitle').textContent='Realisasi Periode '+period;
-  $('rpdLabel').textContent='RPD '+period;
-  $('activityProjectionLabel').textContent='Proyeksi Kegiatan '+month;
-  const pc=state.current.periodCurrent||{total:0,types:{},units:{}};
-  $('periodMetrics').innerHTML=[['Total',pc.total||0],['Jaldis',pc.types?.['Jaldis']||0],['Non-Jaldis',pc.types?.['Non-Jaldis']||0]].map(([l,v])=>`<div class="period-metric"><span>${esc(l)}</span><strong>${fmtFull(v)}</strong></div>`).join('');
-  const realization=Number(pc.total||0),rpdValue=Number(state.manual.rpd||0),activityProjection=Number(state.manual.activityProjection||0),outstanding=allEffectiveOutstanding();
-  const rpdRatio=rpdValue>0?realization/rpdValue:0,rpdWidth=Math.max(0,Math.min(100,rpdRatio*100));
-  $('rpdProgress').innerHTML=`<div class="rpd-progress-label"><span>Progress terhadap RPD ${esc(period)}</span><strong>${fmtPct(rpdRatio)}</strong></div><div class="progress"><div style="width:${rpdWidth}%"></div></div>`;
-  const projectedTotal=realization+outstanding+activityProjection,projectedRatio=rpdValue>0?projectedTotal/rpdValue:0,projectedWidth=Math.max(0,Math.min(100,projectedRatio*100));
-  $('activityProjectionProgress').innerHTML=`<div class="rpd-progress-label"><span>Proyeksi terhadap RPD</span><strong>${fmtFull(projectedTotal)} · ${fmtPct(projectedRatio)}</strong></div><div class="progress"><div style="width:${projectedWidth}%"></div></div><div class="small-muted" style="margin-top:7px">Realisasi + Outstanding &amp; PJ Submitted + Proyeksi Kegiatan</div>`;
-  const rpd=$('rpdInput');rpd.disabled=!!rpd.dataset.saving||!state.loaded||!state.current.meta.period;if(!rpd.dataset.dirty&&document.activeElement!==rpd)rpd.value=fmtFull(rpdValue);
-  const projectionInput=$('activityProjectionInput');projectionInput.disabled=!!projectionInput.dataset.saving||!state.loaded||!state.current.meta.period;if(!projectionInput.dataset.dirty&&document.activeElement!==projectionInput)projectionInput.value=fmtFull(activityProjection);
-  const rows=UNITS.map(unit=>{const x=pc.units?.[unit]||{};return `<tr><td>${esc(unit)}</td><td class="num">${fmtFull(x.total||0)}</td><td class="num">${fmtFull(x['Jaldis']||0)}</td><td class="num">${fmtFull(x['Non-Jaldis']||0)}</td></tr>`}).join('');
-  $('periodTable').innerHTML=`<table><thead><tr><th>Unit</th><th class="num">Total</th><th class="num">Jaldis</th><th class="num">Non-Jaldis</th></tr></thead><tbody>${rows}</tbody></table>`;
-}
-function bindPeriodInput(id,field,action,statusId){
- const input=$(id),button=document.createElement('button');button.type='button';button.textContent='Simpan';input.after(button);
- input.addEventListener('focus',()=>input.select());input.addEventListener('input',()=>{input.dataset.dirty='1';$(statusId).textContent='Belum disimpan'});
- async function save(){if(input.dataset.saving||!state.loaded||!state.current.meta.period)return;
- const value=moneyFromInput(input.value),period=state.current.meta.period;
- input.dataset.saving='1';input.disabled=true;button.disabled=true;$(statusId).textContent='Menyimpan...';
- try{const resp=await rpc(action,{period,value});if(!resp.manual||Number(resp.manual[field])!==value)throw new Error('Nilai tersimpan tidak sesuai. Periksa deployment backend v0.9.0.');state.manual[field]=value;delete input.dataset.dirty;input.value=fmtFull(value);$(statusId).textContent='Tersimpan';renderPeriod()}
- catch(err){$(statusId).textContent='Gagal disimpan: '+err.message+' Klik Simpan untuk mencoba lagi.'}
- finally{delete input.dataset.saving;input.disabled=false;button.disabled=false}}
- input.addEventListener('change',save);input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();save()}});button.addEventListener('click',save)
-}
-function bindRpd(){bindPeriodInput('rpdInput','rpd','saveRpd','rpdStatus')}
-function bindActivityProjection(){bindPeriodInput('activityProjectionInput','activityProjection','saveActivityProjection','activityProjectionStatus')}
-
-
 function pjMonthLabel(value){if(!value)return '—';const [year,month]=value.split('-').map(Number);return new Intl.DateTimeFormat('id-ID',{month:'long',year:'numeric'}).format(new Date(year,month-1,1))}
 function populatePjFilters(){
   const records=state.pj.records,old={output:selected('pjOutput'),type:selected('pjType'),unit:selected('pjUnit'),month:selected('pjMonth'),status:selected('pjStatus'),account:selected('pjAccount'),flag:selected('pjFlag')};
@@ -371,7 +348,8 @@ function populatePjFilters(){
 }
 function filteredPjRecords(){
   const output=selected('pjOutput'),type=selected('pjType'),unit=selected('pjUnit'),month=selected('pjMonth'),status=selected('pjStatus'),account=selected('pjAccount'),flag=selected('pjFlag'),q=String($('pjSearch').value||'').trim().toLowerCase();
-  const rows=state.pj.records.filter(r=>(output==='ALL'||r.output===output)&&(type==='ALL'||r.type===type)&&(unit==='ALL'||r.unit===unit)&&(month==='ALL'||r.month===month)&&(status==='ALL'||r.status===status)&&(account==='ALL'||r.account===account)&&(flag==='ALL'||(flag==='DUP'&&r.duplicate)||(flag==='KODE'&&(!r.output||!r.account))||(flag==='DATA'&&r.status==='Data Anomaly'))&&(!q||[r.desc,r.recipient,r.spby,r.code,r.source].some(v=>String(v||'').toLowerCase().includes(q))));
+  const activity=selected('pjKegiatan');
+  const rows=state.pj.records.filter(r=>(activity==='ALL'||(activity==='UNTAGGED'?!pjPlanning(r).activityId:pjPlanning(r).activityId===activity))&&(output==='ALL'||r.output===output)&&(type==='ALL'||r.type===type)&&(unit==='ALL'||r.unit===unit)&&(month==='ALL'||r.month===month)&&(status==='ALL'||r.status===status)&&(account==='ALL'||r.account===account)&&(flag==='ALL'||(flag==='DUP'&&r.duplicate)||(flag==='KODE'&&(!r.output||!r.account))||(flag==='DATA'&&r.status==='Data Anomaly'))&&(!q||[r.desc,r.recipient,r.spby,r.code,r.source].some(v=>String(v||'').toLowerCase().includes(q))));
   const key=state.pj.sortKey,dir=state.pj.sortDir;
   rows.sort((a,b)=>{let av=a[key],bv=b[key];if(key==='total'||key==='nmo'||key==='date'){av=Number(av||0);bv=Number(bv||0);return(av-bv)*dir}return String(av||'').localeCompare(String(bv||''),'id')*dir});
   return rows
@@ -379,15 +357,17 @@ function filteredPjRecords(){
 function pjStatusBadge(status){const cls=status==='PJ Submitted'?'submitted':status==='Outstanding'?'outstanding':status==='SPBY'?'spby':status==='Data Anomaly'?'anomaly':'incomplete';return `<span class="pj-badge ${cls}">${esc(status)}</span>`}
 function pjSortTh(key,label,numeric){const active=state.pj.sortKey===key,arrow=active?(state.pj.sortDir===1?'↑':'↓'):'↕';return `<th class="${numeric?'num':''}" data-pj-sort="${esc(key)}" style="cursor:pointer">${esc(label)} ${arrow}</th>`}
 function renderTracker(){
+  $('addKegiatan').disabled=!planningReady();
+  renderKegiatanSummary(state.pj.loading?[]:filteredPjRecords());
   if(state.pj.loading){$('pjRecordCount').textContent='Memuat tujuh sumber...';$('pjTotals').textContent='Menunggu data Tracker PJ.';$('pjTable').innerHTML='<div class="pj-empty">Memuat data Tracker PJ...</div>';return}
   const rows=filteredPjRecords();state.pj.filtered=rows;const shown=rows.slice(0,500);
   $('pjRecordCount').textContent=state.pj.records.length.toLocaleString('id-ID')+' catatan total';
   const submitted=rows.filter(r=>!isPjExcluded(r)&&r.status==='PJ Submitted').reduce((s,r)=>s+r.total,0),outstanding=rows.filter(r=>!isPjExcluded(r)&&r.status==='Outstanding').reduce((s,r)=>s+r.nmo,0),spby=rows.filter(r=>r.status==='SPBY').length;
   $('pjTotals').innerHTML=`<strong>${rows.length.toLocaleString('id-ID')}</strong> catatan · Nominal Pengajuan ${fmtFull(rows.reduce((s,r)=>s+r.total,0))} · PJ Submitted ${fmtFull(submitted)} · Outstanding ${fmtFull(outstanding)} · SPBY ${spby.toLocaleString('id-ID')}`;
   if(!shown.length){$('pjTable').innerHTML='<div class="pj-empty">Tidak ada catatan untuk filter ini.</div>';return}
-  const body=shown.map(r=>{const flags=[r.duplicate?'<span class="pj-badge pj-flag">DUP</span>':'',(!r.output||!r.account)?'<span class="pj-badge pj-flag bad">KODE</span>':'',r.status==='Data Anomaly'?'<span class="pj-badge pj-flag">DATA</span>':''].filter(Boolean).join(' ');return `<tr class="${isPjExcluded(r)?'pj-excluded ':''}${r.status==='Data Anomaly'?'pj-row-anomaly':''}"><td><input type="checkbox" aria-label="Exclude from summary" data-pj-exclude="${esc(r.id)}" ${isPjExcluded(r)?'checked':''} ${!state.loaded?'disabled':''}></td><td>${esc(r.dateDisplay)}</td><td>${esc(r.unit)}</td><td><span class="pj-badge ${r.type==='Jaldis'?'jaldis':'nonjaldis'}">${r.type==='Jaldis'?'J':'NJ'}</span></td><td>${pjStatusBadge(r.status)}</td><td class="desc" data-pj-modal="${esc(r.id)}" title="Klik untuk melihat uraian lengkap">${esc(r.desc||'—')}</td><td class="num">${fmtFull(r.total)}</td><td class="code" title="${esc(r.code)}">${esc(r.output||'?')} · ${esc(r.code||'—')}</td><td>${esc(r.account||'—')}</td><td class="num">${fmtFull(r.nmo)}</td><td>${esc(r.spby||'—')}</td><td>${esc(r.transfer||'—')}</td><td>${esc(r.recipient||'—')}</td><td>${flags||'—'}<div class="small-muted">${esc(r.source)}</div></td></tr>`}).join('');
-  $('pjTable').innerHTML=`<table><thead><tr><th>Exclude from summary</th>${pjSortTh('date','Tanggal')}${pjSortTh('unit','Unit')} ${pjSortTh('type','Tipe')} ${pjSortTh('status','Status PJ')}<th>Uraian</th>${pjSortTh('total','Nominal Pengajuan',true)}<th>Kode/Output</th>${pjSortTh('account','Akun')} ${pjSortTh('nmo','Nilai Model O',true)} ${pjSortTh('spby','No. SPBY')}<th>Status Transfer</th><th>Penerima Penggantian</th><th>Flag/Data Source</th></tr></thead><tbody>${body}</tbody></table>${rows.length>500?`<div class="pj-more">Menampilkan 500 dari ${rows.length.toLocaleString('id-ID')} catatan. Gunakan filter untuk mempersempit.</div>`:''}`;
-  bindPjExclusions();
+  const body=shown.map(r=>{const flags=[r.duplicate?'<span class="pj-badge pj-flag">DUP</span>':'',(!r.output||!r.account)?'<span class="pj-badge pj-flag bad">KODE</span>':'',r.status==='Data Anomaly'?'<span class="pj-badge pj-flag">DATA</span>':''].filter(Boolean).join(' ');return `<tr class="${isPjExcluded(r)?'pj-excluded ':''}${r.status==='Data Anomaly'?'pj-row-anomaly':''}"><td><input type="checkbox" aria-label="Exclude from summary" data-pj-exclude="${esc(r.id)}" ${isPjExcluded(r)?'checked':''} ${!state.loaded?'disabled':''}></td><td>${esc(r.dateDisplay)}</td><td>${esc(r.unit)}</td><td><span class="pj-badge ${r.type==='Jaldis'?'jaldis':'nonjaldis'}">${r.type==='Jaldis'?'J':'NJ'}</span></td><td>${pjStatusBadge(r.status)}</td><td class="desc" data-pj-modal="${esc(r.id)}" title="Klik untuk melihat uraian lengkap">${esc(r.desc||'—')}</td>${pjPlanningCells(r)}<td class="num">${fmtFull(r.total)}</td><td class="code" title="${esc(r.code)}">${esc(r.output||'?')} · ${esc(r.code||'—')}</td><td>${esc(r.account||'—')}</td><td class="num">${fmtFull(r.nmo)}</td><td>${esc(r.spby||'—')}</td><td>${esc(r.transfer||'—')}</td><td>${esc(r.recipient||'—')}</td><td>${flags||'—'}<div class="small-muted">${esc(r.source)}</div></td></tr>`}).join('');
+  $('pjTable').innerHTML=`<table><thead><tr><th>Exclude from summary</th>${pjSortTh('date','Tanggal')}${pjSortTh('unit','Unit')} ${pjSortTh('type','Tipe')} ${pjSortTh('status','Status PJ')}<th>Uraian</th><th>Kegiatan</th><th>Perkiraan bulan realisasi</th>${pjSortTh('total','Nominal Pengajuan',true)}<th>Kode/Output</th>${pjSortTh('account','Akun')} ${pjSortTh('nmo','Nilai Model O',true)} ${pjSortTh('spby','No. SPBY')}<th>Status Transfer</th><th>Penerima Penggantian</th><th>Flag/Data Source</th></tr></thead><tbody>${body}</tbody></table>${rows.length>500?`<div class="pj-more">Menampilkan 500 dari ${rows.length.toLocaleString('id-ID')} catatan. Gunakan filter untuk mempersempit.</div>`:''}`;
+  bindPjExclusions();bindPjPlanning();
   document.querySelectorAll('[data-pj-sort]').forEach(th=>th.addEventListener('click',()=>{const key=th.dataset.pjSort;if(state.pj.sortKey===key)state.pj.sortDir*=-1;else{state.pj.sortKey=key;state.pj.sortDir=key==='date'||key==='total'||key==='nmo'?-1:1}renderTracker()}));
   document.querySelectorAll('[data-pj-modal]').forEach(cell=>cell.addEventListener('click',()=>openPjModal(cell.dataset.pjModal)))
 }
@@ -422,7 +402,203 @@ function renderHeader(){renderPjHealth();const faDot=$('faDot'),faText=$('faLive
 function renderAll(){renderProyeksi();renderHeader();renderSummary();renderUnits();renderPjUnitSummary();renderAccount();renderHierarchy();renderPeriod();renderValidation();renderTracker();renderView()}
 
 function normalizeManual(manual){const base=emptyManual();if(manual&&manual.outstanding)UNITS.forEach(u=>TYPES.forEach(t=>{base.outstanding[u][t]=Number(manual.outstanding?.[u]?.[t]||0)}));base.exclusions=manual?.exclusions||{};base.rpd=Number(manual?.rpd||0);base.activityProjection=Number(manual?.activityProjection||0);base.period=String(manual?.period||'');return base}
-async function loadLatest(){renderAll();try{const resp=await jsonp('latest');if(!resp||resp.ok===false||!resp.data)throw new Error((resp&&resp.error)||'Data laporan belum tersedia.');state.current=resp.data;state.manual=normalizeManual(resp.manual);state.source=resp.source||null;state.refreshError=resp.refreshError||null;state.loaded=true;initializeHierarchyState();populateFilters();renderAll()}catch(err){state.loaded=false;state.current=emptyData();state.manual=emptyManual();state.hierarchy={programs:new Set(),outputs:new Set(),suboutputs:new Set(),initialized:false};state.refreshError=err.message;populateFilters();renderAll()}}
+async function loadLatest(){renderAll();try{const resp=await jsonp('latest');if(!resp||resp.ok===false||!resp.data)throw new Error((resp&&resp.error)||'Data laporan belum tersedia.');state.current=resp.data;state.manual=normalizeManual(resp.manual);state.planning={...emptyPlanning(),...(resp.planning||{})};state.backendVersion=resp.backendVersion||'';planningUi.month='';populateActivityFilter();state.source=resp.source||null;state.refreshError=resp.refreshError||null;state.loaded=true;initializeHierarchyState();populateFilters();renderAll()}catch(err){state.loaded=false;state.current=emptyData();state.manual=emptyManual();state.planning=emptyPlanning();state.backendVersion='';state.hierarchy={programs:new Set(),outputs:new Set(),suboutputs:new Set(),initialized:false};state.refreshError=err.message;populateFilters();renderAll()}}
+
+const MONTH_NAMES=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const planningUi={year:'',month:'',drafts:{},messages:{},saving:new Set(),pjSaving:new Set(),timingSaving:new Set(),historyBusy:false};
+function emptyPlanning(){return {months:{},activities:[],pj:{},manualTiming:{},realizations:{},legacy:[]}}
+function planningReady(){return state.loaded && state.backendVersion==='0.10.0'}
+function planningYear(){return planningUi.year || String(state.current.meta.fiscalYear || (state.current.meta.period||'').match(/\b20\d{2}\b/)?.[0] || new Date().getFullYear())}
+function yearMonths(year=planningYear()){return MONTH_NAMES.map((_,i)=>year+'-'+String(i+1).padStart(2,'0'))}
+function monthPlan(month){return state.planning.months[month] || {month,rpd:0,jaldis:0,nonJaldis:0,completed:false,revision:0}}
+function pjPlanning(record){return state.planning.pj[pjExclusionKey(record)] || {activityId:'',expectedMonth:'',revision:0}}
+function expectedOptions(value){
+  const year=Number(planningYear()),items=[];
+  for(let y=year-1;y<=year+1;y++)yearMonths(String(y)).forEach(m=>items.push(m));
+  if(value&&!items.includes(value))items.push(value);
+  return '<option value="">Belum ditentukan</option>'+items.sort().map(m=>`<option value="${m}" ${m===value?'selected':''}>${esc(pjMonthLabel(m))}</option>`).join('');
+}
+function pjPendingValue(r){return isPjExcluded(r)?0:r.status==='PJ Submitted'?Number(r.total||0):r.status==='Outstanding'?Number(r.nmo||0):0}
+function monthlyOutstanding(){
+  const amounts={},unscheduled={pj:0,manual:0},completed={pj:0,manual:0};
+  function add(month,amount,kind){
+    if(!amount)return;
+    if(!month){unscheduled[kind]+=amount;return}
+    if(monthPlan(month).completed){if(month.startsWith(planningYear()+'-'))completed[kind]+=amount;return}
+    amounts[month]=(amounts[month]||0)+amount;
+  }
+  state.pj.records.forEach(r=>add(pjPlanning(r).expectedMonth,pjPendingValue(r),'pj'));
+  UNITS.forEach(unit=>['Jaldis','Non-Jaldis'].forEach(type=>add(state.planning.manualTiming[unit+'|'+type]?.expectedMonth,outstandingValue(unit,type),'manual')));
+  return {amounts,unscheduled,completed};
+}
+function planningTotals(endMonth){
+  const monthly=monthlyOutstanding(),keys=yearMonths(endMonth.slice(0,4)).filter(m=>m<=endMonth);
+  const total={rpd:0,jaldis:0,nonJaldis:0,outstanding:0,actual:null,baselineMonth:''};
+  keys.forEach(m=>{const p=monthPlan(m);total.rpd+=p.rpd;if(!p.completed){total.jaldis+=p.jaldis;total.nonJaldis+=p.nonJaldis;total.outstanding+=monthly.amounts[m]||0}});
+  const actualKeys=Object.keys(state.planning.realizations).filter(m=>m.slice(0,4)===endMonth.slice(0,4)&&m<=endMonth).sort();
+  total.baselineMonth=actualKeys.at(-1)||'';
+  if(total.baselineMonth)total.actual=state.planning.realizations[total.baselineMonth];
+  total.projection=total.actual ? total.actual.jaldis+total.actual.nonJaldis+total.jaldis+total.nonJaldis+total.outstanding : null;
+  return total;
+}
+function strictRupiah(text){
+  const raw=String(text||'').trim().replace(/^Rp\s*/i,'');
+  if(!raw)return 0;
+  if(!/^(?:\d+|\d{1,3}(?:\.\d{3})+)$/.test(raw))throw new Error('Gunakan Rupiah bulat, misalnya 1.250.000.');
+  const value=Number(raw.replace(/\./g,''));
+  if(!Number.isSafeInteger(value))throw new Error('Nilai Rupiah terlalu besar.');
+  return value;
+}
+function renderPeriod(){
+  const year=planningYear(),availableYears=new Set([year,String(Number(year)-1),String(Number(year)+1)]);
+  Object.keys(state.planning.months).concat(Object.keys(state.planning.realizations)).forEach(m=>availableYears.add(m.slice(0,4)));
+  $('planningYear').innerHTML=[...availableYears].sort().map(y=>`<option value="${esc(y)}" ${y===year?'selected':''}>${esc(y)}</option>`).join('');
+  if(!planningUi.month||!planningUi.month.startsWith(year+'-')){
+    const actuals=Object.keys(state.planning.realizations).filter(m=>m.startsWith(year+'-')).sort();
+    planningUi.month=actuals.at(-1)||year+'-12';
+  }
+  $('planningThrough').innerHTML=yearMonths(year).map((m,i)=>`<option value="${m}" ${m===planningUi.month?'selected':''}>Januari–${MONTH_NAMES[i]}</option>`).join('');
+  $('planningCompatibility').textContent=!state.loaded?'Menunggu data FA dan rencana tersimpan…':!planningReady()?'Perbarui backend ke v0.10.0 untuk mengaktifkan rencana bulanan dan tag Kegiatan.':'';
+  const month=planningUi.month,actual=state.planning.realizations[month],totals=planningTotals(month),out=monthlyOutstanding();
+  $('periodSectionTitle').textContent='Realisasi & Rencana Bulanan';
+  $('periodMetrics').innerHTML=[['Realisasi kumulatif · Total',actual?actual.jaldis+actual.nonJaldis:null],['Jaldis',actual?.jaldis],['Non-Jaldis',actual?.nonJaldis]].map(([label,value])=>`<div class="period-metric"><span>${label}</span><strong>${value==null?'—':fmtFull(value)}</strong></div>`).join('');
+  $('realizationSource').textContent=actual?`Januari–${pjMonthLabel(month)} · Periode FA: ${actual.period}. Total = Jaldis + Non-Jaldis; BBO (${fmtFull(actual.bbo)}) ditampilkan terpisah.`:'Belum ada laporan FA tersimpan untuk '+pjMonthLabel(month)+'. Realisasi tidak diasumsikan nol.';
+  const actualTotal=actual?actual.jaldis+actual.nonJaldis:null;
+  $('rpdProgress').innerHTML=`<div class="rpd-progress-label"><span>RPD kumulatif Januari–${esc(pjMonthLabel(month))}</span><strong>${fmtFull(totals.rpd)}</strong></div><div class="small-muted">Realisasi terhadap RPD: ${actualTotal!=null&&totals.rpd>0?fmtPct(actualTotal/totals.rpd):'—'}</div>`;
+  const canProject=!state.pj.loading&&state.pj.unavailable===0&&totals.projection!=null;
+  $('activityProjectionProgress').innerHTML=`<div class="rpd-progress-label"><span>Proyeksi kumulatif s.d. ${esc(pjMonthLabel(month))}</span><strong>${canProject?fmtFull(totals.projection):'—'}${canProject&&totals.rpd>0?' · '+fmtPct(totals.projection/totals.rpd)+' dari RPD':''}</strong></div><div class="small-muted">${totals.actual?'Dasar realisasi: '+esc(pjMonthLabel(totals.baselineMonth))+' ('+fmtFull(totals.actual.jaldis+totals.actual.nonJaldis)+')':'Dasar realisasi belum tersedia'} + proyeksi Kegiatan aktif ${fmtFull(totals.jaldis+totals.nonJaldis)} + PJ/Outstanding aktif terjadwal ${fmtFull(totals.outstanding)}. Hanya bulan hingga pilihan periode. ${state.pj.cached?'Sebagian PJ menggunakan cache.':''}${state.pj.loading?'Menunggu data PJ.':state.pj.unavailable?'Sebagian sumber PJ gagal; proyeksi kumulatif belum tersedia.':''}</div>`;
+  const unscheduled=out.unscheduled.pj+out.unscheduled.manual,closed=out.completed.pj+out.completed.manual;
+  $('planningWarnings').innerHTML=`${unscheduled?`<div class="status warn">Belum memiliki bulan realisasi: PJ ${fmtFull(out.unscheduled.pj)} · Outstanding manual ${fmtFull(out.unscheduled.manual)}. Belum masuk proyeksi bulanan.</div>`:''}${closed?`<div class="status warn">PJ/Outstanding ${fmtFull(closed)} dijadwalkan pada bulan selesai tahun ${esc(year)}. Tidak dihitung dalam proyeksi aktif; ubah jadwal jika masih akan direalisasikan.</div>`:''}`;
+  const rows=yearMonths(year).map((m,i)=>{
+    const p=monthPlan(m),draft=planningUi.drafts[m],d=draft||{rpd:fmtFull(p.rpd),jaldis:fmtFull(p.jaldis),nonJaldis:fmtFull(p.nonJaldis),completed:p.completed};
+    const disabled=!planningReady()||planningUi.saving.has(m),a=state.planning.realizations[m];
+    const input=(field,label)=>`<input type="text" class="money-input" inputmode="numeric" aria-label="${label} ${MONTH_NAMES[i]} ${year}" data-plan-field="${field}" value="${esc(d[field])}" ${disabled||d.completed?'disabled':''}>`;
+    return `<tr data-plan-month="${m}" class="${p.completed?'month-completed':''}"><th scope="row">${MONTH_NAMES[i]}</th><td><label class="complete-label"><input type="checkbox" data-plan-field="completed" aria-label="Selesai ${MONTH_NAMES[i]} ${year}" ${d.completed?'checked':''} ${disabled?'disabled':''}> Selesai</label></td><td>${input('rpd','RPD')}</td><td>${input('jaldis','Proyeksi Jaldis')}</td><td>${input('nonJaldis','Proyeksi Non-Jaldis')}</td><td class="num">${fmtFull(p.completed?0:p.jaldis+p.nonJaldis)}</td><td class="num">${state.pj.loading?'Memuat…':fmtFull(out.amounts[m]||0)}</td><td class="num">${a?fmtFull(a.jaldis+a.nonJaldis):'—'}</td><td><button class="btn secondary" data-save-month="${m}" ${disabled||!draft?'disabled':''}>Simpan</button><div class="saving" role="status">${esc(planningUi.messages[m]||'')}</div></td></tr>`;
+  }).join('');
+  const annual=planningTotals(year+'-12');
+  const pjQuality=state.pj.unavailable?' (data PJ belum lengkap)':state.pj.cached?' (sebagian PJ dari cache)':'';
+  $('annualPlanningTable').innerHTML=`<table class="annual-table"><thead><tr><th>Bulan ${esc(year)}</th><th>Status</th><th>RPD bulanan</th><th>Proyeksi Kegiatan<br>Jaldis</th><th>Proyeksi Kegiatan<br>Non-Jaldis</th><th class="num">Kegiatan aktif</th><th class="num">PJ + Outstanding<br>aktif terjadwal</th><th class="num">Realisasi kumulatif<br>Jaldis + Non-Jaldis</th><th>Penyimpanan</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><th colspan="2">Total ${esc(year)}</th><td class="num">${fmtFull(annual.rpd)}</td><td class="num">${fmtFull(annual.jaldis)}</td><td class="num">${fmtFull(annual.nonJaldis)}</td><td class="num">${fmtFull(annual.jaldis+annual.nonJaldis)}</td><td class="num">${state.pj.loading?'Memuat…':fmtFull(annual.outstanding)}</td><td colspan="2">Proyeksi aktif: ${state.pj.loading?'Memuat…':fmtFull(annual.jaldis+annual.nonJaldis+annual.outstanding)}${pjQuality}</td></tr></tfoot></table>`;
+  const legacy=state.planning.legacy||[];
+  $('legacyPlanning').innerHTML=legacy.length?`<summary>Input versi sebelumnya (${legacy.length} periode)</summary><div class="details-body"><p>Nilai lama tetap disimpan. Salin RPD ke bulan yang sesuai dan bagi proyeksi menjadi Jaldis/Non-Jaldis. Nilai ini tidak otomatis ditambahkan ke rencana baru.</p><div class="table-scroll"><table><thead><tr><th>Periode lama</th><th>RPD lama</th><th>Proyeksi gabungan lama</th></tr></thead><tbody>${legacy.map(r=>`<tr><td>${esc(r.period)}</td><td>${fmtFull(r.rpd)}</td><td>${fmtFull(r.projection)}</td></tr>`).join('')}</tbody></table></div></div>`:'';
+  $('legacyPlanning').hidden=!legacy.length;
+  $('importHistory').disabled=!planningReady()||planningUi.historyBusy;
+  bindAnnualInputs();
+}
+function bindAnnualInputs(){
+  document.querySelectorAll('[data-plan-field]').forEach(input=>{
+    input.addEventListener('focus',()=>{if(input.type==='text')input.select()});
+    input.addEventListener(input.type==='checkbox'?'change':'input',()=>{
+      const row=input.closest('[data-plan-month]'),month=row.dataset.planMonth,p=monthPlan(month);
+      const draft=planningUi.drafts[month]||(planningUi.drafts[month]={rpd:fmtFull(p.rpd),jaldis:fmtFull(p.jaldis),nonJaldis:fmtFull(p.nonJaldis),completed:p.completed,revision:p.revision});
+      draft[input.dataset.planField]=input.type==='checkbox'?input.checked:input.value;
+      planningUi.messages[month]='Belum disimpan';
+      row.querySelector('[data-save-month]').disabled=false;row.querySelector('[role=status]').textContent='Belum disimpan';
+      if(input.type==='checkbox')renderPeriod();
+    });
+    input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveMonth(input.closest('[data-plan-month]').dataset.planMonth)}});
+  });
+  document.querySelectorAll('[data-save-month]').forEach(button=>button.addEventListener('click',()=>saveMonth(button.dataset.saveMonth)));
+}
+async function saveMonth(month){
+  const draft=planningUi.drafts[month];if(!draft||!planningReady()||planningUi.saving.has(month))return;
+  let payload;
+  try{payload={month,rpd:strictRupiah(draft.rpd),jaldis:strictRupiah(draft.jaldis),nonJaldis:strictRupiah(draft.nonJaldis),completed:draft.completed,revision:draft.revision}}catch(err){planningUi.messages[month]=err.message;renderPeriod();return}
+  planningUi.saving.add(month);planningUi.messages[month]='Menyimpan…';renderPeriod();
+  try{
+    const response=await rpc('savePlanningMonth',payload),saved=response.month;
+    if(!saved||saved.month!==month||['rpd','jaldis','nonJaldis','completed'].some(k=>saved[k]!==payload[k]))throw new Error('Konfirmasi nilai tersimpan tidak sesuai.');
+    state.planning.months[month]=saved;delete planningUi.drafts[month];planningUi.messages[month]='Tersimpan';
+  }catch(err){planningUi.messages[month]='Gagal: '+err.message}
+  finally{planningUi.saving.delete(month);renderPeriod()}
+}
+function activityOptions(value){return '<option value="">Belum ditag</option>'+[...state.planning.activities].sort((a,b)=>a.name.localeCompare(b.name,'id')).map(a=>`<option value="${esc(a.id)}" ${a.id===value?'selected':''}>${esc(a.name)}</option>`).join('')+'<option value="__ADD__">+ Add Kegiatan…</option>'}
+function pjPlanningCells(r){
+  const p=pjPlanning(r),disabled=!planningReady()||planningUi.pjSaving.has(pjExclusionKey(r));
+  return `<td class="pj-planning-cell"><select data-pj-activity="${esc(r.id)}" aria-label="Kegiatan ${esc(r.desc)}" ${disabled?'disabled':''}>${activityOptions(p.activityId)}</select></td><td class="pj-planning-cell"><select data-pj-expected="${esc(r.id)}" aria-label="Bulan realisasi ${esc(r.desc)}" ${disabled?'disabled':''}>${expectedOptions(p.expectedMonth)}</select></td>`;
+}
+function bindPjPlanning(){
+  document.querySelectorAll('[data-pj-activity],[data-pj-expected]').forEach(input=>input.addEventListener('change',async()=>{
+    const record=state.pj.records.find(r=>r.id===(input.dataset.pjActivity||input.dataset.pjExpected));
+    if(!record)return;
+    const key=pjExclusionKey(record),field=input.dataset.pjActivity?'activityId':'expectedMonth';
+    if(input.value==='__ADD__'){input.value=pjPlanning(record).activityId;openAddKegiatan(record.id);return}
+    await savePjField(record,field,input.value);
+  }));
+}
+async function savePjField(record,field,value){
+  const key=pjExclusionKey(record);if(planningUi.pjSaving.has(key)||!planningReady())return;
+  planningUi.pjSaving.add(key);renderTracker();$('pjPlanningStatus').textContent='Menyimpan…';
+  try{
+    const result=await rpc('savePjPlanning',{key,field,value,revision:pjPlanning(record).revision});
+    if(!result.planning||result.planning[field]!==value)throw new Error('Konfirmasi nilai tidak sesuai.');
+    state.planning.pj[key]=result.planning;$('pjPlanningStatus').textContent='Tersimpan';
+  }catch(err){$('pjPlanningStatus').textContent='Gagal menyimpan: '+err.message}
+  finally{planningUi.pjSaving.delete(key);populateActivityFilter();renderTracker();renderPeriod()}
+}
+function populateActivityFilter(){
+  setOptions('pjKegiatan',[['ALL','Semua Kegiatan'],['UNTAGGED','Belum ditag'],...state.planning.activities.map(a=>[a.id,a.name])],selected('pjKegiatan'));
+}
+function kegiatanSummaryRows(records){
+  const grouped=new Map();
+  records.forEach(r=>{
+    if(isPjExcluded(r))return;
+    const id=pjPlanning(r).activityId;if(!id)return;
+    if(!grouped.has(id))grouped.set(id,{id,name:state.planning.activities.find(a=>a.id===id)?.name||'Kegiatan tidak ditemukan',jaldis:0,nonJaldis:0,count:0});
+    const row=grouped.get(id);row.count++;if(r.type==='Jaldis')row.jaldis+=Number(r.total||0);else if(r.type==='Non-Jaldis')row.nonJaldis+=Number(r.total||0);
+  });
+  return [...grouped.values()].sort((a,b)=>a.name.localeCompare(b.name,'id'));
+}
+function renderKegiatanSummary(records){
+  if(state.pj.loading){$('kegiatanSummary').innerHTML='<div class="pj-empty">Memuat data PJ…</div>';return}
+  const rows=kegiatanSummaryRows(records),untagged=records.filter(r=>!isPjExcluded(r)&&!pjPlanning(r).activityId);
+  const sums=rows.reduce((s,r)=>({jaldis:s.jaldis+r.jaldis,nonJaldis:s.nonJaldis+r.nonJaldis}),{jaldis:0,nonJaldis:0});
+  $('kegiatanSummary').innerHTML=(rows.length?`<table><thead><tr><th>Kegiatan</th><th class="num">Entri</th><th class="num">Total</th><th class="num">Jaldis</th><th class="num">Non-Jaldis</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.name)}</td><td class="num">${r.count}</td><td class="num">${fmtFull(r.jaldis+r.nonJaldis)}</td><td class="num">${fmtFull(r.jaldis)}</td><td class="num">${fmtFull(r.nonJaldis)}</td></tr>`).join('')}</tbody><tfoot><tr><th colspan="2">Total ditag</th><td class="num">${fmtFull(sums.jaldis+sums.nonJaldis)}</td><td class="num">${fmtFull(sums.jaldis)}</td><td class="num">${fmtFull(sums.nonJaldis)}</td></tr></tfoot></table>`:'<div class="pj-empty">Belum ada entri bertag untuk filter ini.</div>')+`<div class="pj-summary-note">Nominal Pengajuan • mengikuti seluruh filter Tracker • semua status termasuk SPBY • entri Exclude tidak dihitung. ${untagged.length} entri belum ditag (${fmtFull(untagged.reduce((s,r)=>s+r.total,0))}). ${state.pj.unavailable?'Sumber PJ belum lengkap.':state.pj.cached?'Sebagian sumber PJ menggunakan cache.':''}</div>`;
+}
+function openAddKegiatan(recordId){
+  if(!planningReady())return;
+  const dialog=$('kegiatanDialog');dialog.dataset.recordId=recordId||'';$('newKegiatanName').value='';$('newKegiatanStatus').textContent='';dialog.showModal();$('newKegiatanName').focus();
+}
+function bindPlanning(){
+  $('planningYear').addEventListener('change',e=>{planningUi.year=e.target.value;planningUi.month='';renderPeriod()});
+  $('planningThrough').addEventListener('change',e=>{planningUi.month=e.target.value;renderPeriod()});
+  $('pjKegiatan').addEventListener('change',renderTracker);
+  $('addKegiatan').addEventListener('click',()=>openAddKegiatan());
+  $('cancelKegiatan').addEventListener('click',()=>$('kegiatanDialog').close());
+  $('kegiatanForm').addEventListener('submit',async e=>{
+    e.preventDefault();const button=$('saveKegiatan');if(button.disabled)return;button.disabled=true;$('newKegiatanName').disabled=true;$('cancelKegiatan').disabled=true;
+    try{
+      const result=await rpc('addKegiatan',{name:$('newKegiatanName').value});
+      if(!result.activity?.id)throw new Error('Kegiatan tidak tersimpan.');
+      if(!state.planning.activities.some(a=>a.id===result.activity.id))state.planning.activities.push(result.activity);
+      const record=state.pj.records.find(r=>r.id===$('kegiatanDialog').dataset.recordId);
+      $('kegiatanDialog').close();populateActivityFilter();renderTracker();
+      if(record)await savePjField(record,'activityId',result.activity.id);
+    }catch(err){$('newKegiatanStatus').textContent=err.message}
+    finally{button.disabled=false;$('newKegiatanName').disabled=false;$('cancelKegiatan').disabled=false}
+  });
+  $('kegiatanDialog').addEventListener('cancel',e=>{if($('saveKegiatan').disabled)e.preventDefault()});
+  $('importHistory').addEventListener('click',async()=>{
+    if(planningUi.historyBusy)return;planningUi.historyBusy=true;$('historyStatus').textContent='Membaca laporan FA tersimpan…';renderPeriod();
+    try{const r=await rpc('importRealizationHistory');state.planning.realizations=r.realizations;$('historyStatus').textContent=`${r.checked} file diperiksa, ${r.imported} pembaruan. ${r.more?'Masih ada file; klik lagi untuk melanjutkan.':'Riwayat selesai diperiksa.'}`;$('importHistory').textContent=r.more?'Lanjutkan muat riwayat':'Muat riwayat FA tersimpan'}
+    catch(err){$('historyStatus').textContent='Gagal: '+err.message}
+    finally{planningUi.historyBusy=false;renderPeriod()}
+  });
+  window.addEventListener('beforeunload',e=>{if(Object.keys(planningUi.drafts).length||planningUi.pjSaving.size||planningUi.timingSaving.size){e.preventDefault();e.returnValue=''}});
+}
+function manualTimingControl(unit,type){
+  if(type==='BBO')return '';
+  const key=unit+'|'+type,timing=state.planning.manualTiming[key]||{};
+  return `<label class="money-label">Bulan realisasi Outstanding manual<select class="manual-timing" data-unit="${esc(unit)}" data-type="${type}" ${!planningReady()||planningUi.timingSaving.has(key)?'disabled':''}>${expectedOptions(timing.expectedMonth||'')}</select></label>`;
+}
+function bindManualTiming(){document.querySelectorAll('.manual-timing').forEach(input=>input.addEventListener('change',async()=>{
+  const unit=input.dataset.unit,type=input.dataset.type,key=unit+'|'+type,expectedMonth=input.value;
+  if(planningUi.timingSaving.has(key))return;
+  planningUi.timingSaving.add(key);input.disabled=true;
+  try{const result=await rpc('saveManualTiming',{unit,type,expectedMonth,revision:state.planning.manualTiming[key]?.revision||0});if(result.timing?.expectedMonth!==expectedMonth)throw new Error('Konfirmasi bulan tidak sesuai.');state.planning.manualTiming[key]=result.timing}
+  catch(err){alert('Bulan realisasi gagal disimpan: '+err.message);input.value=state.planning.manualTiming[key]?.expectedMonth||''}
+  finally{planningUi.timingSaving.delete(key);document.querySelectorAll('.manual-timing').forEach(el=>{if(el.dataset.unit===unit&&el.dataset.type===type){el.disabled=!planningReady();el.value=state.planning.manualTiming[key]?.expectedMonth||''}});renderPeriod()}
+}))}
+
 
 ['fUnit','fProgram','fOutput','fSuboutput','fType'].forEach(id=>$(id).addEventListener('change',renderAll));
 ['aUnit','aProgram','aOutput','aSuboutput','aType'].forEach(id=>$(id).addEventListener('change',renderHierarchy));
@@ -446,7 +622,7 @@ function renderProyeksi(){const ready=state.loaded&&!state.pj.loading;$('copyPro
  $('proyeksiTable').innerHTML=ready?'<table><thead><tr><th>Unit</th><th>Sisa Akrual</th><th>Outstanding + PJ Submitted</th></tr></thead><tbody>'+proyeksiRows().map(row=>'<tr>'+row.map(v=>'<td>'+esc(v)+'</td>').join('')+'</tr>').join('')+'</tbody></table>':''}
 $('copyProyeksi').addEventListener('click',async()=>{const text=[['Unit','Sisa Akrual','Outstanding + PJ Submitted'],...proyeksiRows()].map(row=>row.join('\t')).join('\n');try{await navigator.clipboard.writeText(text);$('copyStatus').textContent=' Tersalin'}catch(err){const area=document.createElement('textarea');area.value=text;document.body.appendChild(area);area.select();const copied=document.execCommand('copy');area.remove();$('copyStatus').textContent=copied?' Tersalin':' Pilih tabel dan salin dengan Ctrl/Cmd+C'}});
 
-bindRpd();bindActivityProjection();populateFilters();populatePjFilters();loadLatest();loadTrackerPj();
+bindPlanning();populateFilters();populatePjFilters();populateActivityFilter();loadLatest();loadTrackerPj();
 </script>
 </body>
 </html>
