@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Monitoring Anggaran frontend v0.10.0; requires backend v0.10.0 -->
+<!-- Monitoring Anggaran frontend v0.10.1; requires backend v0.10.1 -->
 <html lang="id">
 <head>
 <meta charset="utf-8">
@@ -33,7 +33,7 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
 @media(max-width:1100px){.summary-grid{grid-template-columns:1.4fr 1fr 1fr}.metric-card:last-child{grid-column:auto}.units-grid{grid-template-columns:repeat(2,1fr)}.period-top{grid-template-columns:1fr}.filters{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:760px){.container{padding:18px 14px 40px}header{display:block}.admin-link{margin-top:10px}.main-tabs{width:100%;margin-top:12px}.main-tab{flex:1}.summary-grid,.units-grid,.filters,.period-metrics{grid-template-columns:1fr}.metric-card:last-child{grid-column:auto}.metric-kv-grid,.primary .metric-kv-grid{grid-template-columns:1fr 1fr}.period-top{grid-template-columns:1fr}h1{font-size:25px}td,th{padding:9px 8px}.pj-filter,.pj-filter select,.pj-filter input,.pj-filter.search input{width:100%;min-width:0}}
 
-.planning-toolbar{display:flex;align-items:end;gap:12px;flex-wrap:wrap}.planning-toolbar label{font-size:11px;font-weight:700;min-width:130px}.planning-toolbar label select{display:block;margin-top:5px}.planning-toolbar a{display:inline-flex;align-items:center;padding:10px 13px;border-radius:9px;text-decoration:none;font-size:11px}.planning-toolbar button{font-size:11px}.planning-help{font-size:12px;line-height:1.6;color:#4d687a}.planning-progress-grid{display:grid;grid-template-columns:1fr 2fr;gap:12px}.annual-scroll{border:1px solid var(--line);border-radius:12px;margin-top:14px}.annual-table{min-width:1160px}.annual-table input[type=text]{min-width:112px;text-align:right}.annual-table th[scope=row]{position:static;background:white}.annual-table tfoot{background:var(--soft);font-weight:700}.annual-table tfoot td{white-space:normal}.annual-table button:disabled{opacity:.45;cursor:default}.annual-table .saving{max-width:130px;min-width:82px;margin-top:6px;line-height:1.4}.complete-label{white-space:nowrap;font-size:10px}.month-completed td,.month-completed th[scope=row]{background:#f3f6f7}.month-completed input[type=text]{background:#edf1f3;color:#738594}.pj-planning-cell{min-width:190px}.pj-planning-cell select{font-size:11px}.pj-planning-toolbar{padding:9px 16px;border-bottom:1px solid var(--line)}#planningWarnings .status{margin-top:8px}.legacy-panel{margin-top:14px}.kegiatan-dialog{border:1px solid var(--line);border-radius:16px;max-width:470px;width:calc(100% - 32px);padding:24px;color:var(--ink)}.kegiatan-dialog::backdrop{background:rgba(13,35,48,.45)}.kegiatan-dialog label{display:block;font-size:12px;margin-bottom:8px}.kegiatan-dialog h2{margin-top:0}.manual-timing{margin-top:4px;font-size:11px}#kegiatanSummary tfoot{background:var(--soft);font-weight:700}#realizationSource{line-height:1.5}
+.planning-toolbar{display:flex;align-items:end;gap:12px;flex-wrap:wrap}.planning-toolbar label{font-size:11px;font-weight:700;min-width:130px}.planning-toolbar label select{display:block;margin-top:5px}.planning-toolbar a{display:inline-flex;align-items:center;padding:10px 13px;border-radius:9px;text-decoration:none;font-size:11px}.planning-toolbar button{font-size:11px}.planning-help{font-size:12px;line-height:1.6;color:#4d687a}.planning-progress-grid{display:grid;grid-template-columns:1fr 2fr;gap:12px}.annual-scroll{border:1px solid var(--line);border-radius:12px;margin-top:14px}.annual-table{min-width:1160px}.annual-table input[type=text]{min-width:112px;text-align:right}.annual-table th[scope=row]{position:static;background:white}.annual-table tfoot{background:var(--soft);font-weight:700}.annual-table tfoot td{white-space:normal}.annual-table button:disabled{opacity:.45;cursor:default}.annual-table .saving{max-width:130px;min-width:82px;margin-top:6px;line-height:1.4}.complete-label{white-space:nowrap;font-size:10px}.month-completed td,.month-completed th[scope=row]{background:#f3f6f7}.month-completed input[type=text]{background:#edf1f3;color:#738594}.pj-planning-cell{min-width:190px}.pj-planning-cell select{font-size:11px}.pj-planning-toolbar{padding:9px 16px;border-bottom:1px solid var(--line)}#planningWarnings .status{margin-top:8px}.legacy-panel{margin-top:14px}.kegiatan-dialog{border:1px solid var(--line);border-radius:16px;max-width:470px;width:calc(100% - 32px);padding:24px;color:var(--ink)}.kegiatan-dialog::backdrop{background:rgba(13,35,48,.45)}#editKegiatanPicker{margin-bottom:14px}.kegiatan-dialog label{display:block;font-size:12px;margin-bottom:8px}.kegiatan-dialog h2{margin-top:0}.manual-timing{margin-top:4px;font-size:11px}#kegiatanSummary tfoot{background:var(--soft);font-weight:700}#realizationSource{line-height:1.5}
 @media(max-width:760px){.planning-progress-grid{grid-template-columns:1fr}.planning-toolbar{align-items:stretch}.planning-toolbar label{flex:1}.planning-toolbar a{width:100%;text-align:center}.main-tab{padding:8px 6px;font-size:10px}}
 </style>
 </head>
@@ -163,7 +163,7 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
       <div class="pj-filter search"><label>Cari</label><input type="text" id="pjSearch" placeholder="Cari uraian, penerima, atau No. SPBY..."></div>
     </div>
     <div class="pj-totals" id="pjTotals"></div>
-    <div class="planning-toolbar pj-planning-toolbar"><button class="btn secondary" id="addKegiatan" disabled>+ Add Kegiatan</button><span id="pjPlanningStatus" class="small-muted" role="status"></span></div>
+    <div class="planning-toolbar pj-planning-toolbar"><button class="btn secondary" id="addKegiatan" disabled>+ Add Kegiatan</button><button class="btn ghost" id="editKegiatan" disabled>Edit Kegiatan</button><span class="small-muted">Bulan realisasi otomatis mengikuti Tanggal, kecuali dipilih bulan lain.</span><span id="pjPlanningStatus" class="small-muted" role="status"></span></div>
     <div class="pj-table" id="pjTable"></div>
     <div class="pj-legend">
       <span><span class="pj-badge jaldis">J</span> Jaldis</span>
@@ -180,7 +180,7 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
 </main>
 
 <dialog id="kegiatanDialog" class="kegiatan-dialog">
-  <form id="kegiatanForm"><h2>Add Kegiatan</h2><label for="newKegiatanName">Nama Kegiatan bersama</label><input type="text" id="newKegiatanName" maxlength="150" required autocomplete="off"><p class="small-muted">Tersedia untuk seluruh pengguna. Satu entri PJ dapat ditag ke satu Kegiatan.</p><p id="newKegiatanStatus" role="status"></p><div class="planning-toolbar"><button type="submit" class="btn" id="saveKegiatan">Simpan</button><button type="button" class="btn secondary" id="cancelKegiatan">Batal</button></div></form>
+  <form id="kegiatanForm"><h2 id="kegiatanDialogTitle">Add Kegiatan</h2><div id="editKegiatanPicker" hidden><label for="editKegiatanSelect">Kegiatan tersimpan</label><select id="editKegiatanSelect"></select></div><label for="newKegiatanName">Nama Kegiatan bersama</label><input type="text" id="newKegiatanName" maxlength="150" required autocomplete="off"><p class="small-muted" id="kegiatanDialogHelp">Tersedia untuk seluruh pengguna. Satu entri PJ dapat ditag ke satu Kegiatan.</p><p id="newKegiatanStatus" role="status"></p><div class="planning-toolbar"><button type="submit" class="btn" id="saveKegiatan">Simpan</button><button type="button" class="btn secondary" id="cancelKegiatan">Batal</button></div></form>
 </dialog>
 <div id="pjModal"></div>
 
@@ -358,6 +358,7 @@ function pjStatusBadge(status){const cls=status==='PJ Submitted'?'submitted':sta
 function pjSortTh(key,label,numeric){const active=state.pj.sortKey===key,arrow=active?(state.pj.sortDir===1?'↑':'↓'):'↕';return `<th class="${numeric?'num':''}" data-pj-sort="${esc(key)}" style="cursor:pointer">${esc(label)} ${arrow}</th>`}
 function renderTracker(){
   $('addKegiatan').disabled=!planningReady();
+  $('editKegiatan').disabled=!planningReady()||!state.planning.activities.length;
   renderKegiatanSummary(state.pj.loading?[]:filteredPjRecords());
   if(state.pj.loading){$('pjRecordCount').textContent='Memuat tujuh sumber...';$('pjTotals').textContent='Menunggu data Tracker PJ.';$('pjTable').innerHTML='<div class="pj-empty">Memuat data Tracker PJ...</div>';return}
   const rows=filteredPjRecords();state.pj.filtered=rows;const shown=rows.slice(0,500);
@@ -407,16 +408,26 @@ async function loadLatest(){renderAll();try{const resp=await jsonp('latest');if(
 const MONTH_NAMES=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 const planningUi={year:'',month:'',drafts:{},messages:{},saving:new Set(),pjSaving:new Set(),timingSaving:new Set(),historyBusy:false};
 function emptyPlanning(){return {months:{},activities:[],pj:{},manualTiming:{},realizations:{},legacy:[]}}
-function planningReady(){return state.loaded && state.backendVersion==='0.10.0'}
+function planningReady(){return state.loaded && state.backendVersion==='0.10.1'}
 function planningYear(){return planningUi.year || String(state.current.meta.fiscalYear || (state.current.meta.period||'').match(/\b20\d{2}\b/)?.[0] || new Date().getFullYear())}
 function yearMonths(year=planningYear()){return MONTH_NAMES.map((_,i)=>year+'-'+String(i+1).padStart(2,'0'))}
 function monthPlan(month){return state.planning.months[month] || {month,rpd:0,jaldis:0,nonJaldis:0,completed:false,revision:0}}
-function pjPlanning(record){return state.planning.pj[pjExclusionKey(record)] || {activityId:'',expectedMonth:'',revision:0}}
-function expectedOptions(value){
+function defaultPjMonth(record){
+  // dateIso is produced by the existing Tanggal parser. Never assume today's month.
+  const date=String(record.dateIso||''),match=date.match(/^(20\d{2})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/);
+  if(!match)return '';
+  const check=new Date(Number(match[1]),Number(match[2])-1,Number(match[3]));
+  return check.getFullYear()===Number(match[1])&&check.getMonth()+1===Number(match[2])&&check.getDate()===Number(match[3])?date.slice(0,7):'';
+}
+function pjPlanning(record){
+  const stored=state.planning.pj[pjExclusionKey(record)] || {activityId:'',expectedMonth:'',revision:0};
+  return {...stored,expectedMonth:stored.expectedMonth||defaultPjMonth(record),automaticMonth:!stored.expectedMonth};
+}
+function expectedOptions(value,emptyLabel='Belum ditentukan'){
   const year=Number(planningYear()),items=[];
   for(let y=year-1;y<=year+1;y++)yearMonths(String(y)).forEach(m=>items.push(m));
   if(value&&!items.includes(value))items.push(value);
-  return '<option value="">Belum ditentukan</option>'+items.sort().map(m=>`<option value="${m}" ${m===value?'selected':''}>${esc(pjMonthLabel(m))}</option>`).join('');
+  return '<option value="">'+esc(emptyLabel)+'</option>'+items.sort().map(m=>`<option value="${m}" ${m===value?'selected':''}>${esc(pjMonthLabel(m))}</option>`).join('');
 }
 function pjPendingValue(r){return isPjExcluded(r)?0:r.status==='PJ Submitted'?Number(r.total||0):r.status==='Outstanding'?Number(r.nmo||0):0}
 function monthlyOutstanding(){
@@ -458,7 +469,7 @@ function renderPeriod(){
     planningUi.month=actuals.at(-1)||year+'-12';
   }
   $('planningThrough').innerHTML=yearMonths(year).map((m,i)=>`<option value="${m}" ${m===planningUi.month?'selected':''}>Januari–${MONTH_NAMES[i]}</option>`).join('');
-  $('planningCompatibility').textContent=!state.loaded?'Menunggu data FA dan rencana tersimpan…':!planningReady()?'Perbarui backend ke v0.10.0 untuk mengaktifkan rencana bulanan dan tag Kegiatan.':'';
+  $('planningCompatibility').textContent=!state.loaded?'Menunggu data FA dan rencana tersimpan…':!planningReady()?'Perbarui backend ke v0.10.1 untuk mengaktifkan rencana bulanan dan tag Kegiatan.':'';
   const month=planningUi.month,actual=state.planning.realizations[month],totals=planningTotals(month),out=monthlyOutstanding();
   $('periodSectionTitle').textContent='Realisasi & Rencana Bulanan';
   $('periodMetrics').innerHTML=[['Realisasi kumulatif · Total',actual?actual.jaldis+actual.nonJaldis:null],['Jaldis',actual?.jaldis],['Non-Jaldis',actual?.nonJaldis]].map(([label,value])=>`<div class="period-metric"><span>${label}</span><strong>${value==null?'—':fmtFull(value)}</strong></div>`).join('');
@@ -514,7 +525,7 @@ async function saveMonth(month){
 function activityOptions(value){return '<option value="">Belum ditag</option>'+[...state.planning.activities].sort((a,b)=>a.name.localeCompare(b.name,'id')).map(a=>`<option value="${esc(a.id)}" ${a.id===value?'selected':''}>${esc(a.name)}</option>`).join('')+'<option value="__ADD__">+ Add Kegiatan…</option>'}
 function pjPlanningCells(r){
   const p=pjPlanning(r),disabled=!planningReady()||planningUi.pjSaving.has(pjExclusionKey(r));
-  return `<td class="pj-planning-cell"><select data-pj-activity="${esc(r.id)}" aria-label="Kegiatan ${esc(r.desc)}" ${disabled?'disabled':''}>${activityOptions(p.activityId)}</select></td><td class="pj-planning-cell"><select data-pj-expected="${esc(r.id)}" aria-label="Bulan realisasi ${esc(r.desc)}" ${disabled?'disabled':''}>${expectedOptions(p.expectedMonth)}</select></td>`;
+  return `<td class="pj-planning-cell"><select data-pj-activity="${esc(r.id)}" aria-label="Kegiatan ${esc(r.desc)}" ${disabled?'disabled':''}>${activityOptions(p.activityId)}</select></td><td class="pj-planning-cell"><select data-pj-expected="${esc(r.id)}" aria-label="Bulan realisasi ${esc(r.desc)}" ${disabled?'disabled':''}>${expectedOptions(p.automaticMonth?'':p.expectedMonth,defaultPjMonth(r)?pjMonthLabel(defaultPjMonth(r))+' · otomatis':'Tanggal tidak valid · belum ditentukan')}</select></td>`;
 }
 function bindPjPlanning(){
   document.querySelectorAll('[data-pj-activity],[data-pj-expected]').forEach(input=>input.addEventListener('change',async()=>{
@@ -556,25 +567,49 @@ function renderKegiatanSummary(records){
 }
 function openAddKegiatan(recordId){
   if(!planningReady())return;
-  const dialog=$('kegiatanDialog');dialog.dataset.recordId=recordId||'';$('newKegiatanName').value='';$('newKegiatanStatus').textContent='';dialog.showModal();$('newKegiatanName').focus();
+  const dialog=$('kegiatanDialog');dialog.dataset.mode='add';dialog.dataset.recordId=recordId||'';
+  $('kegiatanDialogTitle').textContent='Add Kegiatan';$('editKegiatanPicker').hidden=true;
+  $('kegiatanDialogHelp').textContent='Tersedia untuk seluruh pengguna. Satu entri PJ dapat ditag ke satu Kegiatan.';
+  $('newKegiatanName').value='';$('newKegiatanStatus').textContent='';dialog.showModal();$('newKegiatanName').focus();
+}
+function chooseKegiatanToEdit(){
+  const activity=state.planning.activities.find(a=>a.id===$('editKegiatanSelect').value);
+  if(!activity)return;
+  $('kegiatanDialog').dataset.activityId=activity.id;$('kegiatanDialog').dataset.expectedName=activity.name;
+  $('newKegiatanName').value=activity.name;$('newKegiatanStatus').textContent='';
+}
+function openEditKegiatan(){
+  if(!planningReady()||!state.planning.activities.length)return;
+  const dialog=$('kegiatanDialog');dialog.dataset.mode='edit';dialog.dataset.recordId='';
+  $('kegiatanDialogTitle').textContent='Edit Kegiatan';$('editKegiatanPicker').hidden=false;
+  $('kegiatanDialogHelp').textContent='Perubahan nama berlaku untuk semua entri yang memakai tag ini. Tag dan nilai PJ tetap terhubung.';
+  const activities=[...state.planning.activities].sort((a,b)=>a.name.localeCompare(b.name,'id'));
+  $('editKegiatanSelect').innerHTML=activities.map(a=>`<option value="${esc(a.id)}">${esc(a.name)}</option>`).join('');
+  const selectedId=selected('pjKegiatan');
+  if(activities.some(a=>a.id===selectedId))$('editKegiatanSelect').value=selectedId;
+  chooseKegiatanToEdit();dialog.showModal();$('newKegiatanName').focus();$('newKegiatanName').select();
 }
 function bindPlanning(){
   $('planningYear').addEventListener('change',e=>{planningUi.year=e.target.value;planningUi.month='';renderPeriod()});
   $('planningThrough').addEventListener('change',e=>{planningUi.month=e.target.value;renderPeriod()});
   $('pjKegiatan').addEventListener('change',renderTracker);
   $('addKegiatan').addEventListener('click',()=>openAddKegiatan());
+  $('editKegiatan').addEventListener('click',openEditKegiatan);
+  $('editKegiatanSelect').addEventListener('change',chooseKegiatanToEdit);
   $('cancelKegiatan').addEventListener('click',()=>$('kegiatanDialog').close());
   $('kegiatanForm').addEventListener('submit',async e=>{
-    e.preventDefault();const button=$('saveKegiatan');if(button.disabled)return;button.disabled=true;$('newKegiatanName').disabled=true;$('cancelKegiatan').disabled=true;
+    e.preventDefault();const button=$('saveKegiatan');if(button.disabled)return;button.disabled=true;$('newKegiatanName').disabled=true;$('cancelKegiatan').disabled=true;$('editKegiatanSelect').disabled=true;
     try{
-      const result=await rpc('addKegiatan',{name:$('newKegiatanName').value});
+      const dialog=$('kegiatanDialog'),editing=dialog.dataset.mode==='edit';
+      const result=await rpc(editing?'renameKegiatan':'addKegiatan',editing?{id:dialog.dataset.activityId,name:$('newKegiatanName').value,expectedName:dialog.dataset.expectedName}:{name:$('newKegiatanName').value});
       if(!result.activity?.id)throw new Error('Kegiatan tidak tersimpan.');
-      if(!state.planning.activities.some(a=>a.id===result.activity.id))state.planning.activities.push(result.activity);
+      const index=state.planning.activities.findIndex(a=>a.id===result.activity.id);
+      if(index>=0)state.planning.activities[index]=result.activity;else state.planning.activities.push(result.activity);
       const record=state.pj.records.find(r=>r.id===$('kegiatanDialog').dataset.recordId);
-      $('kegiatanDialog').close();populateActivityFilter();renderTracker();
+      $('kegiatanDialog').close();populateActivityFilter();renderTracker();$('pjPlanningStatus').textContent=editing?'Nama Kegiatan diperbarui':'Kegiatan tersimpan';
       if(record)await savePjField(record,'activityId',result.activity.id);
     }catch(err){$('newKegiatanStatus').textContent=err.message}
-    finally{button.disabled=false;$('newKegiatanName').disabled=false;$('cancelKegiatan').disabled=false}
+    finally{button.disabled=false;$('newKegiatanName').disabled=false;$('cancelKegiatan').disabled=false;$('editKegiatanSelect').disabled=false}
   });
   $('kegiatanDialog').addEventListener('cancel',e=>{if($('saveKegiatan').disabled)e.preventDefault()});
   $('importHistory').addEventListener('click',async()=>{
@@ -583,7 +618,7 @@ function bindPlanning(){
     catch(err){$('historyStatus').textContent='Gagal: '+err.message}
     finally{planningUi.historyBusy=false;renderPeriod()}
   });
-  window.addEventListener('beforeunload',e=>{if(Object.keys(planningUi.drafts).length||planningUi.pjSaving.size||planningUi.timingSaving.size){e.preventDefault();e.returnValue=''}});
+  window.addEventListener('beforeunload',e=>{if(Object.keys(planningUi.drafts).length||planningUi.pjSaving.size||planningUi.timingSaving.size||$('saveKegiatan').disabled){e.preventDefault();e.returnValue=''}});
 }
 function manualTimingControl(unit,type){
   if(type==='BBO')return '';
