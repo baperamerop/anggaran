@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Monitoring Anggaran frontend v0.10.3; requires backend v0.10.3 -->
+<!-- Monitoring Anggaran frontend v0.10.4; requires backend v0.10.4 -->
 <html lang="id">
 <head>
 <meta charset="utf-8">
@@ -419,7 +419,7 @@ const MONTH_NAMES=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agu
 const kegiatanSort={key:'name',dir:1};
 const planningUi={year:'',month:'',drafts:{},messages:{},saving:new Set(),pjSaving:new Set(),timingSaving:new Set(),historyBusy:false,pastOpen:false};
 function emptyPlanning(){return {months:{},activities:[],pj:{},manualTiming:{},realizations:{},legacy:[]}}
-function planningReady(){return state.loaded && ['0.10.1','0.10.2','0.10.3'].includes(state.backendVersion)}
+function planningReady(){return state.loaded && ['0.10.1','0.10.2','0.10.4'].includes(state.backendVersion)}
 function planningYear(){return planningUi.year || String(state.current.meta.fiscalYear || (state.current.meta.period||'').match(/\b20\d{2}\b/)?.[0] || new Date().getFullYear())}
 function yearMonths(year=planningYear()){return MONTH_NAMES.map((_,i)=>year+'-'+String(i+1).padStart(2,'0'))}
 function monthPlan(month){return state.planning.months[month] || {month,rpd:0,jaldis:0,nonJaldis:0,completed:false,revision:0,realization:null,pjOverride:null}}
@@ -444,8 +444,8 @@ function pjDefaultType(r){return String(r.account||'').trim()?r.type:'Jaldis'}
 function pjType(r){return pjPlanning(r).typeOverride||pjDefaultType(r)}
 function pjAmount(r){const p=pjPlanning(r);if(r.status==='Data Anomaly'&&p.amountOverride!==''&&p.amountOverride!=null)return Number(p.amountOverride);return (r.nmoAvailable===true||(r.nmoAvailable===undefined&&r.nmo>0))?Number(r.nmo||0):Number(r.total||0)}
 function pjPendingValue(r){return isPjExcluded(r)||!['PJ Submitted','Outstanding'].includes(r.status)?0:pjAmount(r)}
-function pjOverrideCells(r){const p=pjPlanning(r),disabled=!['0.10.2','0.10.3'].includes(state.backendVersion)||planningUi.pjSaving.has(pjExclusionKey(r));return `<td class="pj-type-cell"><select data-pj-type="${esc(r.id)}" aria-label="Tipe ${esc(r.desc)}" ${disabled?'disabled':''}>${[['',pjDefaultType(r)+' (otomatis)'],['Jaldis','Jaldis'],['Non-Jaldis','Non-Jaldis']].map(([v,l])=>`<option value="${v}" ${v===(p.typeOverride||'')?'selected':''}>${esc(l)}</option>`).join('')}</select>${p.typeOverride?'<small>Diubah manual · pilih otomatis untuk kembali ke tipe default</small>':''}</td>`}
-function pjAmountCell(r){const p=pjPlanning(r),has=r.status==='Data Anomaly'&&p.amountOverride!==''&&p.amountOverride!=null;return `<td class="num">${fmtFull(r.nmo)}${r.status==='Data Anomaly'?`<div><input data-pj-amount="${esc(r.id)}" aria-label="Override nilai ${esc(r.desc)}" type="text" inputmode="numeric" placeholder="Nilai perhitungan (Rp)" value="${has?p.amountOverride:''}" ${!['0.10.2','0.10.3'].includes(state.backendVersion)||planningUi.pjSaving.has(pjExclusionKey(r))?'disabled':''}><button data-pj-save-amount="${esc(r.id)}" ${!['0.10.2','0.10.3'].includes(state.backendVersion)||planningUi.pjSaving.has(pjExclusionKey(r))?'disabled':''}>Simpan nilai</button><small>${has?'Overridden · ':''}Perhitungan: ${fmtFull(pjAmount(r))}</small>${has?`<button data-pj-reset="${esc(r.id)}">Reset to source</button>`:''}</div>`:''}</td>`}
+function pjOverrideCells(r){const p=pjPlanning(r),disabled=!['0.10.2','0.10.4'].includes(state.backendVersion)||planningUi.pjSaving.has(pjExclusionKey(r));return `<td class="pj-type-cell"><select data-pj-type="${esc(r.id)}" aria-label="Tipe ${esc(r.desc)}" ${disabled?'disabled':''}>${[['',pjDefaultType(r)+' (otomatis)'],['Jaldis','Jaldis'],['Non-Jaldis','Non-Jaldis']].map(([v,l])=>`<option value="${v}" ${v===(p.typeOverride||'')?'selected':''}>${esc(l)}</option>`).join('')}</select>${p.typeOverride?'<small>Diubah manual · pilih otomatis untuk kembali ke tipe default</small>':''}</td>`}
+function pjAmountCell(r){const p=pjPlanning(r),has=r.status==='Data Anomaly'&&p.amountOverride!==''&&p.amountOverride!=null;return `<td class="num">${fmtFull(r.nmo)}${r.status==='Data Anomaly'?`<div><input data-pj-amount="${esc(r.id)}" aria-label="Override nilai ${esc(r.desc)}" type="text" inputmode="numeric" placeholder="Nilai perhitungan (Rp)" value="${has?p.amountOverride:''}" ${!['0.10.2','0.10.4'].includes(state.backendVersion)||planningUi.pjSaving.has(pjExclusionKey(r))?'disabled':''}><button data-pj-save-amount="${esc(r.id)}" ${!['0.10.2','0.10.4'].includes(state.backendVersion)||planningUi.pjSaving.has(pjExclusionKey(r))?'disabled':''}>Simpan nilai</button><small>${has?'Overridden · ':''}Perhitungan: ${fmtFull(pjAmount(r))}</small>${has?`<button data-pj-reset="${esc(r.id)}">Reset to source</button>`:''}</div>`:''}</td>`}
 
 function monthlyOutstanding(){
   const amounts={},unscheduled={pj:0,manual:0},completed={pj:0,manual:0};
@@ -506,7 +506,7 @@ function renderPeriod(){
   const year=planningYear(),report=faReportMonth(),out=monthlyOutstanding();
   const availableYears=new Set([year,String(Number(year)-1),String(Number(year)+1),...Object.keys(state.planning.months).map(m=>m.slice(0,4))]);
   $('planningYear').innerHTML=[...availableYears].sort().map(y=>`<option value="${esc(y)}" ${y===year?'selected':''}>${esc(y)}</option>`).join('');
-  $('planningCompatibility').textContent=!state.loaded?'Menunggu data FA dan rencana tersimpan…':state.backendVersion!=='0.10.3'?'Perbarui backend ke v0.10.3 untuk menyimpan Realisasi manual dan override bulanan.':'';
+  $('planningCompatibility').textContent=!state.loaded?'Menunggu data FA dan rencana tersimpan…':state.backendVersion!=='0.10.4'?'Perbarui backend ke v0.10.4 untuk menyimpan Realisasi manual dan override bulanan.':'';
   const actual=report?monthlyRealization(report):null,types=state.current.periodCurrent?.types;
   $('periodMetrics').innerHTML=[['Realisasi bulan laporan · '+(report?pjMonthLabel(report):'—'),actual],['Jaldis',state.loaded?types?.Jaldis:null],['Non-Jaldis',state.loaded?types?.['Non-Jaldis']:null]].map(([label,value])=>`<div class="period-metric"><span>${esc(label)}</span><strong>${value==null?'—':fmtFull(value)}</strong></div>`).join('');
   $('realizationSource').textContent=report?`Periode FA: ${state.current.meta.period}. Realisasi bulan laporan menggunakan Periode Ini (Jaldis + Non-Jaldis). BBO tidak termasuk. Bulan sebelumnya diisi manual.`:'Periode FA belum tersedia. Realisasi tidak diasumsikan nol.';
@@ -518,7 +518,7 @@ function renderPeriod(){
   const unscheduled=out.unscheduled.pj+out.unscheduled.manual,closed=out.completed.pj+out.completed.manual;
   $('planningWarnings').innerHTML=`${unscheduled?`<div class="status warn">Belum memiliki bulan realisasi: PJ ${fmtFull(out.unscheduled.pj)} · Outstanding manual ${fmtFull(out.unscheduled.manual)}. Belum masuk proyeksi bulanan.</div>`:''}${closed?`<div class="status warn">PJ/Outstanding ${fmtFull(closed)} dijadwalkan pada bulan selesai tahun ${esc(year)}. Tidak dihitung dalam proyeksi aktif; ubah jadwal jika masih akan direalisasikan.</div>`:''}${state.pj.unavailable?'<div class="status warn">Sebagian sumber PJ gagal. Nilai otomatis belum tersedia; override tersimpan tetap digunakan.</div>':state.pj.cached?'<div class="status warn">Sebagian PJ menggunakan cache.</div>':''}`;
   const row=m=>{
-    const p=monthPlan(m),draft=planningUi.drafts[m],d=draft||planDraft(p),disabled=state.backendVersion!=='0.10.3'||!state.loaded||planningUi.saving.has(m),previous=report&&m<report;
+    const p=monthPlan(m),draft=planningUi.drafts[m],d=draft||planDraft(p),disabled=state.backendVersion!=='0.10.4'||!state.loaded||planningUi.saving.has(m),previous=report&&m<report;
     const input=(field,label,placeholder='')=>`<input type="text" class="money-input" inputmode="numeric" aria-label="${label} ${pjMonthLabel(m)}" data-plan-field="${field}" placeholder="${esc(placeholder)}" value="${esc(d[field])}" ${disabled||d.completed?'disabled':''}>`;
     const a=monthlyRealization(m),auto=state.pj.loading||state.pj.unavailable?null:out.amounts[m]||0,effective=monthlyPending(m,out);
     return `<tr data-plan-month="${m}" class="${d.completed?'month-completed ':''}${m===report?'month-current':''}"><th scope="row">${esc(pjMonthLabel(m))}${m===report?'<small>Bulan laporan aktif</small>':''}</th><td><label class="complete-label"><input type="checkbox" data-plan-field="completed" aria-label="Selesai ${pjMonthLabel(m)}" ${d.completed?'checked':''} ${disabled?'disabled':''}> Selesai</label><button class="btn secondary" data-save-month="${m}" ${disabled||!draft?'disabled':''}>Simpan</button><div class="saving" role="status">${esc(planningUi.messages[m]||'')}</div></td><td>${input('rpd','RPD')}</td><td>${previous?input('realization','Realisasi','Belum diisi'):`<span>${a==null?'—':fmtFull(a)}</span><small>${m===report?'Periode Ini · otomatis':'Belum berlangsung'}</small>`}</td><td>${input('jaldis','Proyeksi Jaldis')}</td><td>${input('nonJaldis','Proyeksi Non-Jaldis')}</td><td><strong>${effective==null?'—':fmtFull(effective)}</strong><small>Otomatis: ${auto==null?'belum tersedia':fmtFull(auto)}${p.pjOverride!=null?' · Override aktif':''}</small>${input('pjOverride','Override PJ+Outstanding','Otomatis')}<button type="button" class="btn ghost" data-reset-pending="${m}" ${disabled||d.completed||d.pjOverride===''?'disabled':''}>Reset to automatic</button><small>Override hanya untuk RPD; simpan untuk menerapkan.</small></td></tr>`;
@@ -548,16 +548,19 @@ function bindAnnualInputs(){
   document.querySelectorAll('[data-reset-pending]').forEach(button=>button.addEventListener('click',()=>{const m=button.dataset.resetPending;planningUi.drafts[m]||=planDraft(monthPlan(m));planningUi.drafts[m].pjOverride='';planningUi.messages[m]='Belum disimpan';renderPeriod()}));
   document.querySelectorAll('[data-save-month]').forEach(button=>button.addEventListener('click',()=>saveMonth(button.dataset.saveMonth)));
 }
+let monthSaveQueue=Promise.resolve();
 async function saveMonth(month){
   const draft=planningUi.drafts[month];if(!draft||!planningReady()||planningUi.saving.has(month))return;
   let payload;
   try{payload={month,rpd:strictRupiah(draft.rpd),jaldis:strictRupiah(draft.jaldis),nonJaldis:strictRupiah(draft.nonJaldis),completed:draft.completed,revision:draft.revision,realization:draft.realization.trim()===''?null:strictRupiah(draft.realization),pjOverride:draft.pjOverride.trim()===''?null:strictRupiah(draft.pjOverride)}}catch(err){planningUi.messages[month]=err.message;renderPeriod();return}
   planningUi.saving.add(month);planningUi.messages[month]='Menyimpan…';renderPeriod();
   try{
-    const response=await rpc('savePlanningMonth',payload),saved=response.month;
+    const request=monthSaveQueue.then(()=>rpc('savePlanningMonth',payload));
+    monthSaveQueue=request.catch(()=>{});
+    const response=await request,saved=response.month;
     if(!saved||saved.month!==month||['rpd','jaldis','nonJaldis','completed','realization','pjOverride'].some(k=>saved[k]!==payload[k]))throw new Error('Konfirmasi nilai tersimpan tidak sesuai.');
     state.planning.months[month]=saved;delete planningUi.drafts[month];planningUi.messages[month]='Tersimpan';
-  }catch(err){planningUi.messages[month]='Gagal: '+err.message}
+  }catch(err){planningUi.messages[month]=/lock timeout/i.test(err.message)?'Server sedang memproses pembaruan lain. Input tetap tersimpan di halaman; coba Simpan kembali.':'Gagal: '+err.message}
   finally{planningUi.saving.delete(month);renderAll()}
 }
 function activityOptions(value){return '<option value="">Belum ditag</option>'+[...state.planning.activities].sort((a,b)=>a.name.localeCompare(b.name,'id')).map(a=>`<option value="${esc(a.id)}" ${a.id===value?'selected':''}>${esc(a.name)}</option>`).join('')+'<option value="__ADD__">+ Add Kegiatan…</option>'}
