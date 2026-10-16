@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Monitoring Anggaran frontend v0.10.5; requires backend v0.10.5 -->
+<!-- Monitoring Anggaran frontend v0.10.6; requires backend v0.10.5 -->
 <html lang="id">
 <head>
 <meta charset="utf-8">
@@ -90,7 +90,7 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
 </section>
 
 <section class="section">
-  <div class="section-head"><h2>Monitoring per Unit</h2><div class="note">Klik unit untuk membuka Outstanding dan rincian Akun</div></div>
+  <div class="section-head"><h2>Monitoring per Unit</h2><div class="note">Klik unit untuk membuka rincian Akun</div></div>
   <div class="units-grid" id="unitCards"></div>
 </section>
 
@@ -102,7 +102,7 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
 </section>
 
 <section class="section">
-  <div class="section-head"><h2>Outstanding &amp; PJ Submitted</h2><div class="note">Nilai otomatis dari tujuh sumber Tracker PJ</div></div>
+  <div class="section-head"><div><h2>Estimasi Proses PJ</h2><p class="small-muted">Based on <a href="#trackerView" id="pjEstimateTrackerLink">Tracker PJ</a>.</p></div></div>
   <div class="panel table-panel"><div class="table-scroll" id="pjUnitSummary"></div></div>
 </section>
 
@@ -196,8 +196,12 @@ select,input[type=text]{width:100%;font-family:Arial,sans-serif;border:1px solid
 
 </div>
 
-<section id="proyeksiView" class="hidden"><button id="copyProyeksi" type="button">Copy table</button><span id="copyStatus" role="status"></span><p id="proyeksiHealth"></p><div class="table-scroll" id="proyeksiTable"></div></section>
-<style>#proyeksiTable table{width:auto;color:#000;background:#fff;font:12px Arial,sans-serif}#proyeksiTable th,#proyeksiTable td{position:static;background:#fff;color:#000;border:1px solid #ddd;padding:2px 5px;font-size:12px;font-weight:normal}#proyeksiTable th{font-weight:bold}#proyeksiTable td:not(:first-child){text-align:right}.pj-excluded td{opacity:.65}#trackerView .pj-amount-cell{width:125px;min-width:125px;max-width:125px;white-space:normal}#trackerView .pj-amount-cell input{box-sizing:border-box;width:110px;min-width:0;max-width:110px}#trackerView .pj-amount-cell small{display:block;overflow-wrap:anywhere}#trackerView .pj-amount-cell button{display:block;margin-top:4px}
+<section id="proyeksiView" class="hidden container">
+  <section class="section"><h2>Ringkasan per Unit</h2><button id="copyProyeksi" type="button">Copy table</button><span id="copyStatus" role="status"></span><div class="table-scroll summary-table" id="proyeksiTable"></div></section>
+  <section class="section"><h2>Ringkasan Amerop</h2><button id="copyAmerop" type="button">Copy table</button><span id="copyAmeropStatus" role="status"></span><div class="table-scroll summary-table" id="ameropTable"></div></section>
+  <section class="section"><h2>Estimasi Proses PJ</h2><button id="copySummaryPj" type="button">Copy table</button><span id="copySummaryPjStatus" role="status"></span><p id="proyeksiHealth" class="small-muted"></p><div class="table-scroll summary-table" id="summaryPjTable"></div></section>
+</section>
+<style>.summary-table table{width:auto;color:#000;background:#fff;font:12px Arial,sans-serif}.summary-table th,.summary-table td{position:static;background:#fff;color:#000;border:1px solid #ddd;padding:2px 5px;font-size:12px;font-weight:normal}.summary-table th{font-weight:bold}.summary-table td:not(:first-child){text-align:right}.pj-excluded td{opacity:.65}#trackerView .pj-amount-cell{width:125px;min-width:125px;max-width:125px;white-space:normal}#trackerView .pj-amount-cell input{box-sizing:border-box;width:110px;min-width:0;max-width:110px}#trackerView .pj-amount-cell small{display:block;overflow-wrap:anywhere}#trackerView .pj-amount-cell button{display:block;margin-top:4px}
 </style>
 <script>
 const APP_CONFIG=window.MONITORING_ANGGARAN_CONFIG||{};
@@ -270,7 +274,7 @@ function outstandingForType(type){const u=selected('fUnit');if(u!=='ALL')return 
 function totalOutstanding(){const t=selected('fType');if(t!=='ALL')return outstandingForType(t);return TYPES.reduce((sum,type)=>sum+outstandingForType(type),0)}
 function allEffectiveOutstanding(){return UNITS.reduce((unitSum,unit)=>unitSum+TYPES.reduce((typeSum,type)=>typeSum+effectiveOutstandingValue(unit,type),0),0)}
 
-function metricCard(title,raw,primary,type){const am=withEffective(raw),out=primary?totalOutstanding():(type?outstandingForType(type):0),projection=Number(am.sisa||0)-out,r=pct(am.realisasi,am.paguEfektif),width=Math.max(0,Math.min(100,r*100));const common=`<div class="kv"><span>Pagu Revisi</span><strong>${fmtFull(am.pagu)}</strong></div><div class="kv"><span>Lock Pagu</span><strong>${fmtFull(am.lockPagu)}</strong></div><div class="kv"><span>Realisasi</span><strong>${fmtFull(am.realisasi)}</strong></div><div class="kv"><span>Sisa Resmi</span><strong>${fmtFull(am.sisa)}</strong></div>`;const extra=primary?`<div class="kv"><span>PJ Submitted + Outstanding</span><strong>${fmtFull(out)}</strong></div><div class="kv"><span>Proyeksi Sisa</span><strong>${fmtFull(projection)}</strong></div>`:`<div class="kv"><span>Proyeksi Sisa</span><strong>${fmtFull(projection)}</strong></div>`;return `<div class="metric-card ${primary?'primary':''}"><h3>${esc(title)}</h3><div class="small-muted">Pagu Efektif</div><div class="metric-big">${fmtFull(am.paguEfektif)}</div><div class="metric-kv-grid">${common}${extra}</div><div class="progress-wrap"><div class="progress-label"><span>Realisasi terhadap Pagu Efektif ${fmtPct(r)}</span><span>Sisa ${fmtPct(pct(am.sisa,am.paguEfektif))}</span></div><div class="progress"><div style="width:${width}%"></div></div></div></div>`}
+function metricCard(title,raw,primary,type){const am=withEffective(raw),r=pct(am.realisasi,am.paguEfektif),width=Math.max(0,Math.min(100,r*100));const common=`<div class="kv"><span>Pagu Revisi</span><strong>${fmtFull(am.pagu)}</strong></div><div class="kv"><span>Lock Pagu</span><strong>${fmtFull(am.lockPagu)}</strong></div><div class="kv"><span>Realisasi</span><strong>${fmtFull(am.realisasi)}</strong></div><div class="kv"><span>Sisa Resmi</span><strong>${fmtFull(am.sisa)}</strong></div>`;;return `<div class="metric-card ${primary?'primary':''}"><h3>${esc(title)}</h3><div class="small-muted">Pagu Efektif</div><div class="metric-big">${fmtFull(am.paguEfektif)}</div><div class="metric-kv-grid">${common}</div><div class="progress-wrap"><div class="progress-label"><span>Realisasi terhadap Pagu Efektif ${fmtPct(r)}</span><span>Sisa ${fmtPct(pct(am.sisa,am.paguEfektif))}</span></div><div class="progress"><div style="width:${width}%"></div></div></div></div>`}
 function renderSummary(){const rows=filterRows(state.current);const official=exactOfficialScope();const total=official||plus(rows);const typeData=Object.fromEntries(TYPES.map(t=>[t,plus(rows.filter(r=>r.type===t))]));const chosen=selected('fUnit'),chosenType=selected('fType');const visibleTypes=TYPES.filter(t=>(chosen==='ALL'||chosen==='SDJ'||t!=='BBO')&&(chosenType==='ALL'||chosenType===t));$('summaryCards').innerHTML=metricCard('Total Anggaran',total,true)+visibleTypes.map(t=>metricCard(t,typeData[t],false,t)).join('')}
 
 function renderUnits(){
@@ -281,12 +285,11 @@ function renderUnits(){
     if(isBaseFilters()){const off=unitOfficial(unit);if(off)am=off}
     am=withEffective(am);const r=pct(am.realisasi,am.paguEfektif),jaldis=plus(rows.filter(a=>a.type==='Jaldis')),nonJaldis=plus(rows.filter(a=>a.type==='Non-Jaldis'));
     const relevantTypes=TYPES.filter(t=>(unit==='SDJ'||t!=='BBO')&&(chosenType==='ALL'||chosenType===t));
-    const unitOut=relevantTypes.reduce((sum,t)=>sum+effectiveOutstandingValue(unit,t),0),unitProj=Number(am.sisa||0)-unitOut;
     let details='';
     if(active===unit){details=`<div class="unit-detail">${relevantTypes.map(t=>{
-      const x=plus(rows.filter(a=>a.type===t)),auto=pjAutoBreakdown(unit,t),effective=auto.total;
-      return `<div class="type-detail"><div class="type-detail-title">${esc(t)}</div><div class="detail-grid"><div class="detail-kv"><span>Pagu</span><strong>${fmtFull(x.pagu)}</strong></div><div class="detail-kv"><span>Realisasi</span><strong>${fmtFull(x.realisasi)}</strong></div><div class="detail-kv"><span>Sisa</span><strong>${fmtFull(x.sisa)}</strong></div><div class="detail-kv"><span>Proyeksi Sisa</span><strong>${fmtFull(x.sisa-effective)}</strong></div></div><div class="small-muted">PJ Submitted ${fmtFull(auto.submitted)} · Outstanding PJ ${fmtFull(auto.outstanding)}</div></div>`
-    }).join('')}<div class="unit-projection">PJ Submitted + Outstanding <strong>${fmtFull(unitOut)}</strong> · Proyeksi Sisa <strong>${fmtFull(unitProj)}</strong></div></div>`}
+      const x=plus(rows.filter(a=>a.type===t));
+      return `<div class="type-detail"><div class="type-detail-title">${esc(t)}</div><div class="detail-grid"><div class="detail-kv"><span>Pagu</span><strong>${fmtFull(x.pagu)}</strong></div><div class="detail-kv"><span>Realisasi</span><strong>${fmtFull(x.realisasi)}</strong></div><div class="detail-kv"><span>Sisa</span><strong>${fmtFull(x.sisa)}</strong></div></div></div>`
+    }).join('')}</div>`}
     return `<article class="unit-card ${active===unit?'active':''}" data-unit="${esc(unit)}" tabindex="0"><div class="unit-title"><h3>${esc(unit)}</h3><div class="pct">${fmtPct(r)}</div></div><div class="unit-total">Pagu Revisi ${fmtFull(am.pagu)} · Lock Pagu ${fmtFull(am.lockPagu)} · Pagu Efektif ${fmtFull(am.paguEfektif)}<br>Realisasi ${fmtFull(am.realisasi)} · Sisa ${fmtFull(am.sisa)}</div><div class="unit-sisa-split"><span class="unit-sisa-item">Sisa Jaldis <strong>${fmtFull(jaldis.sisa)}</strong></span><span class="unit-sisa-item">Sisa Non-Jaldis <strong>${fmtFull(nonJaldis.sisa)}</strong></span></div>${details}</article>`
   }).join('');
   bindUnitEvents()
@@ -295,13 +298,13 @@ function renderPjUnitSummary(){
   if(state.pj.loading){$('pjUnitSummary').innerHTML='<div class="pj-empty">Memuat data Tracker PJ...</div>';return}
   const rows=UNITS.map(unit=>{const x=pjAutoBreakdown(unit);return `<tr><td>${esc(unit)}</td><td class="num">${fmtFull(x.submitted)}</td><td class="num">${fmtFull(x.outstanding)}</td><td class="num"><strong>${fmtFull(x.total)}</strong></td></tr>`}).join('');
   const total=pjAutoBreakdown();
-  $('pjUnitSummary').innerHTML=`<table><thead><tr><th>Unit</th><th class="num">PJ Submitted</th><th class="num">Outstanding</th><th class="num">Total</th></tr></thead><tbody>${rows}<tr><td><strong>Total</strong></td><td class="num"><strong>${fmtFull(total.submitted)}</strong></td><td class="num"><strong>${fmtFull(total.outstanding)}</strong></td><td class="num"><strong>${fmtFull(total.total)}</strong></td></tr></tbody></table><div class="pj-summary-note">Nilai otomatis ini digunakan untuk menghitung Proyeksi Sisa. SPBY tidak dihitung karena telah tercermin dalam Laporan FA Detail.</div>`
+  $('pjUnitSummary').innerHTML=`<table><thead><tr><th>Unit</th><th class="num">PJ Submitted</th><th class="num">Outstanding</th><th class="num">Total</th></tr></thead><tbody>${rows}<tr><td><strong>Total</strong></td><td class="num"><strong>${fmtFull(total.submitted)}</strong></td><td class="num"><strong>${fmtFull(total.outstanding)}</strong></td><td class="num"><strong>${fmtFull(total.total)}</strong></td></tr></tbody></table><div class="pj-summary-note">Estimasi berdasarkan entri PJ Submitted dan Outstanding pada Tracker PJ. SPBY tidak dihitung karena telah tercermin dalam Laporan FA Detail.</div>`
 }
 function bindUnitEvents(){document.querySelectorAll('.unit-card').forEach(card=>{const choose=()=>{const unit=card.dataset.unit;$('fUnit').value=selected('fUnit')===unit?'ALL':unit;renderAll()};card.addEventListener('click',e=>{if(e.target.closest('input')||e.target.closest('.unit-detail'))return;choose()});card.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.target.closest('input,select,button')){e.preventDefault();choose()}})})}
 function bindOutstandingInputs(){document.querySelectorAll('.outstanding-input').forEach(input=>{input.addEventListener('focus',()=>input.select());input.addEventListener('change',async()=>{const unit=input.dataset.unit,type=input.dataset.type,value=moneyFromInput(input.value),old=outstandingValue(unit,type);input.value=fmtFull(value);state.manual.outstanding[unit][type]=value;renderSummary();renderAccount();const status=document.querySelector(`[data-status="${CSS.escape(unit+'|'+type)}"]`);if(status)status.textContent='Menyimpan...';try{const resp=await rpc('saveOutstanding',{unit,type,value,period:state.current.meta.period||''});if(resp.manual)state.manual.outstanding[unit][type]=Number(resp.manual.outstanding?.[unit]?.[type]||0);renderAll()}catch(err){state.manual.outstanding[unit][type]=old;alert(err.message);renderAll()}})})}
 
 function domesticTravelSubtotal(rows){return plus(rows.filter(r=>/^524\d{3}$/.test(String(r.account||''))&&String(r.account)!=='524219'))}
-function renderAccount(){const unit=selected('fUnit');if(unit==='ALL'){$('accountTitle').textContent='Rincian Akun';$('accountSubtitle').textContent='';$('accountTable').innerHTML='';return}const rows=filterRows(state.current),domestic=domesticTravelSubtotal(rows);$('accountTitle').textContent='Rincian Akun — '+unit;$('accountSubtitle').textContent=rows.length+' baris Akun teragregasi setelah filter aktif.';if(!rows.length){$('accountTable').innerHTML='<div style="padding:16px" class="small-muted">Tidak ada data untuk filter ini.</div>';return}$('accountTable').innerHTML=`<table><thead><tr><th>Sub-Output</th><th>Akun</th><th>Jenis</th><th>Uraian Akun</th><th class="num">Pagu</th><th class="num">Realisasi</th><th class="num">Sisa Anggaran</th><th class="num">Realisasi</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.suboutput)}</td><td>${esc(r.account)}</td><td>${esc(r.type)}</td><td>${esc(r.name)}</td><td class="num">${fmtFull(r.pagu)}</td><td class="num">${fmtFull(r.realisasi)}</td><td class="num">${fmtFull(r.sisa)}</td><td class="num">${fmtPct(pct(r.realisasi,r.pagu))}</td></tr>`).join('')}<tr class="account-subtotal"><th colspan="4" scope="row">Jaldis Dalam Negeri</th><td class="num">${fmtFull(domestic.pagu)}</td><td class="num">${fmtFull(domestic.realisasi)}</td><td class="num">${fmtFull(domestic.sisa)}</td><td class="num">${domestic.pagu?fmtPct(pct(domestic.realisasi,domestic.pagu)):'—'}</td></tr></tbody></table>`}
+function renderAccount(){const unit=selected('fUnit');if(unit==='ALL'){$('accountTitle').textContent='Rincian Akun — Amerop';$('accountSubtitle').textContent='Ringkasan seluruh unit mengikuti filter aktif.';$('accountTable').innerHTML=budgetTable(budgetCategoryRows(filterRows(state.current)),false);return}const rows=filterRows(state.current),domestic=domesticTravelSubtotal(rows);$('accountTitle').textContent='Rincian Akun — '+unit;$('accountSubtitle').textContent=rows.length+' baris Akun teragregasi setelah filter aktif.';if(!rows.length){$('accountTable').innerHTML='<div style="padding:16px" class="small-muted">Tidak ada data untuk filter ini.</div>';return}$('accountTable').innerHTML=`<table><thead><tr><th>Sub-Output</th><th>Akun</th><th>Jenis</th><th>Uraian Akun</th><th class="num">Pagu</th><th class="num">Realisasi</th><th class="num">Sisa Anggaran</th><th class="num">Realisasi</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.suboutput)}</td><td>${esc(r.account)}</td><td>${esc(r.type)}</td><td>${esc(r.name)}</td><td class="num">${fmtFull(r.pagu)}</td><td class="num">${fmtFull(r.realisasi)}</td><td class="num">${fmtFull(r.sisa)}</td><td class="num">${fmtPct(pct(r.realisasi,r.pagu))}</td></tr>`).join('')}<tr class="account-subtotal"><th colspan="4" scope="row">Jaldis Dalam Negeri</th><td class="num">${fmtFull(domestic.pagu)}</td><td class="num">${fmtFull(domestic.realisasi)}</td><td class="num">${fmtFull(domestic.sisa)}</td><td class="num">${domestic.pagu?fmtPct(pct(domestic.realisasi,domestic.pagu)):'—'}</td></tr></tbody></table>`}
 
 function hierarchyKey(level,program,output,code){if(level==='program')return code;if(level==='output')return program+'|'+code;if(level==='suboutput')return program+'|'+output+'|'+code;return ''}
 function initializeHierarchyState(){state.hierarchy.programs=new Set((state.current.programs||[]).map(p=>p.code));state.hierarchy.outputs=new Set();state.hierarchy.suboutputs=new Set();state.hierarchy.initialized=true}
@@ -712,20 +715,39 @@ async function clearSpbyExclusions(){
   catch(err){$('pjPlanningStatus').textContent='Excl SPBY belum tersimpan: '+err.message+' · Muat ulang untuk mencoba kembali.'}
   finally{spbyCleanupBusy=false}
 }
-const SUMMARY_HEADERS=['Unit','Pagu','Realisasi','% Realisasi','Sisa Akrual','Outstanding + PJ Submitted'];
-function proyeksiRows(){
+const SUMMARY_HEADERS=['Unit','Pagu','Realisasi','% Realisasi','Sisa Akrual'];
+const CATEGORY_HEADERS=['Jenis Anggaran','Pagu','Realisasi','%','Sisa'];
+const SUMMARY_PJ_HEADERS=['Unit','Outstanding','PJ Submitted','Total'];
+function fmtSummaryPct(v){return (Number(v||0)*100).toFixed(2)+'%'}
+function summaryScopes(){
   const labels={'Amerika I':'A1','Amerika II':'A2','Eropa I':'E1','Eropa II':'E2','KSIA':'KSIA','SDJ':'SDJ'};
-  function row(label,accounts,outstanding){const x=plus(accounts);return [label,Math.round(x.pagu),Math.round(x.realisasi),x.pagu?fmtPct(pct(x.realisasi,x.pagu)):'—',Math.round(x.sisa),Math.round(outstanding)]}
-  const rows=UNITS.flatMap(unit=>{
-    const accounts=state.current.accounts.filter(r=>r.unit===unit&&r.type!=='BBO');
-    return [row(labels[unit],accounts,['Jaldis','Non-Jaldis'].reduce((sum,t)=>sum+effectiveOutstandingValue(unit,t),0)),...['Jaldis','Non-Jaldis'].map(type=>row(type,accounts.filter(r=>r.type===type),effectiveOutstandingValue(unit,type)))];
-  });
-  rows.push(row('BBO',state.current.accounts.filter(r=>r.type==='BBO'),UNITS.reduce((sum,u)=>sum+effectiveOutstandingValue(u,'BBO'),0)));
-  return rows;
+  return [...UNITS.flatMap(unit=>[
+    {label:labels[unit],unit,types:['Jaldis','Non-Jaldis']},
+    ...['Jaldis','Non-Jaldis'].map(type=>({label:type,unit,types:[type]}))
+  ]),{label:'BBO',unit:null,types:['BBO']}];
 }
-function renderProyeksi(){const ready=state.loaded&&!state.pj.loading;$('copyProyeksi').disabled=!ready;$('proyeksiHealth').textContent=!ready?'Memuat data...':state.pj.unavailable?'Data PJ tidak lengkap.':state.pj.cached?'Sebagian data PJ menggunakan cache.':'';
- $('proyeksiTable').innerHTML=ready?'<table><thead><tr>'+SUMMARY_HEADERS.map(v=>'<th>'+esc(v)+'</th>').join('')+'</tr></thead><tbody>'+proyeksiRows().map(row=>'<tr>'+row.map(v=>'<td>'+esc(v)+'</td>').join('')+'</tr>').join('')+'</tbody></table>':''}
-$('copyProyeksi').addEventListener('click',async()=>{const text=[SUMMARY_HEADERS,...proyeksiRows()].map(row=>row.join('\t')).join('\n');try{await navigator.clipboard.writeText(text);$('copyStatus').textContent=' Tersalin'}catch(err){const area=document.createElement('textarea');area.value=text;document.body.appendChild(area);area.select();const copied=document.execCommand('copy');area.remove();$('copyStatus').textContent=copied?' Tersalin':' Pilih tabel dan salin dengan Ctrl/Cmd+C'}});
+function budgetValues(label,accounts,summary=true){const x=plus(accounts);return [label,Math.round(x.pagu),Math.round(x.realisasi),x.pagu?(summary?fmtSummaryPct:fmtPct)(pct(x.realisasi,x.pagu)):'—',Math.round(x.sisa)]}
+function proyeksiRows(){return summaryScopes().map(scope=>budgetValues(scope.label,state.current.accounts.filter(r=>(!scope.unit||r.unit===scope.unit)&&scope.types.includes(r.type))))}
+function summaryPjRows(){return summaryScopes().map(scope=>{const x=scope.types.reduce((sum,type)=>{const b=pjAutoBreakdown(scope.unit,type);sum.outstanding+=b.outstanding;sum.submitted+=b.submitted;return sum},{outstanding:0,submitted:0});return [scope.label,Math.round(x.outstanding),Math.round(x.submitted),Math.round(x.outstanding+x.submitted)]})}
+function budgetCategoryRows(accounts,summary=false){
+  const groups=[['Jaldis LN (524219)',r=>r.type!=='BBO'&&String(r.account)==='524219'],['Jaldis DN (other 524xxx)',r=>r.type!=='BBO'&&/^524\d{3}$/.test(String(r.account||''))&&String(r.account)!=='524219'],['Non-jaldis',r=>r.type!=='BBO'&&!/^524\d{3}$/.test(String(r.account||''))],['BBO',r=>r.type==='BBO']];
+  return groups.map(([label,test])=>budgetValues(label,accounts.filter(test),summary));
+}
+function plainTable(headers,rows){return '<table><thead><tr>'+headers.map(v=>'<th>'+esc(v)+'</th>').join('')+'</tr></thead><tbody>'+rows.map(row=>'<tr>'+row.map(v=>'<td>'+esc(v)+'</td>').join('')+'</tr>').join('')+'</tbody></table>'}
+function budgetTable(rows,summary=true){return plainTable(CATEGORY_HEADERS,summary?rows:rows.map(row=>row.map((v,i)=>[1,2,4].includes(i)?fmtFull(v):v)))}
+function renderProyeksi(){
+ const ready=state.loaded,pjReady=ready&&!state.pj.loading;
+ $('copyProyeksi').disabled=!ready;$('copyAmerop').disabled=!ready;$('copySummaryPj').disabled=!pjReady;
+ $('proyeksiHealth').textContent=!pjReady?'Memuat data PJ...':state.pj.unavailable?'Data PJ tidak lengkap.':state.pj.cached?'Sebagian data PJ menggunakan cache.':'';
+ $('proyeksiTable').innerHTML=ready?plainTable(SUMMARY_HEADERS,proyeksiRows()):'';
+ $('ameropTable').innerHTML=ready?budgetTable(budgetCategoryRows(state.current.accounts,true)):'';
+ $('summaryPjTable').innerHTML=pjReady?plainTable(SUMMARY_PJ_HEADERS,summaryPjRows()):'';
+}
+async function copySummaryTable(headers,rows,statusId){const text=[headers,...rows].map(row=>row.join('\t')).join('\n');try{await navigator.clipboard.writeText(text);$(statusId).textContent=' Tersalin'}catch(err){const area=document.createElement('textarea');area.value=text;document.body.appendChild(area);area.select();const copied=document.execCommand('copy');area.remove();$(statusId).textContent=copied?' Tersalin':' Pilih tabel dan salin dengan Ctrl/Cmd+C'}}
+$('copyProyeksi').addEventListener('click',()=>copySummaryTable(SUMMARY_HEADERS,proyeksiRows(),'copyStatus'));
+$('copyAmerop').addEventListener('click',()=>copySummaryTable(CATEGORY_HEADERS,budgetCategoryRows(state.current.accounts,true),'copyAmeropStatus'));
+$('copySummaryPj').addEventListener('click',()=>copySummaryTable(SUMMARY_PJ_HEADERS,summaryPjRows(),'copySummaryPjStatus'));
+$('pjEstimateTrackerLink').addEventListener('click',e=>{e.preventDefault();state.view='tracker';renderView();renderTracker();document.querySelector('.main-tab[data-view="tracker"]').focus()});
 
 bindPlanning();populateFilters();populatePjFilters();populateActivityFilter();loadLatest();loadTrackerPj();
 </script>
